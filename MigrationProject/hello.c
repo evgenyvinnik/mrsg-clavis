@@ -45,7 +45,6 @@ int main (int argc, char* argv[])
     /* Run the simulation. */
     //MRSG_main ("g5k.xml", "msg_platform.xml", "hello.conf");
     MRSG_main ("g5k.xml", "hello.deploy.xml", "hello.conf");
-
     return 0;
 }
 

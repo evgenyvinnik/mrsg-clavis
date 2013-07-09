@@ -34,7 +34,7 @@ int scheduler(int argc, char *argv[]);
 static void check_config(void);
 static msg_error_t run_simulation(const char* platform_file,
         const char* deploy_file, const char* mr_config_file);
-static void init_mr_config(const char* mr_config_file);
+static void init_mr_config();
 static void read_mr_config_file(const char* file_name);
 static void init_config(void);
 static void init_job(void);
@@ -128,7 +128,7 @@ static msg_error_t run_simulation(const char* platform_file,
 	MSG_function_register("worker", worker);
 	MSG_launch_application(deploy_file);
 
-	init_mr_config(mr_config_file);
+	init_mr_config();
 
 	res = MSG_main();
 
@@ -141,7 +141,7 @@ static msg_error_t run_simulation(const char* platform_file,
  * @brief  Initialize the MapReduce configuration.
  * @param  mr_config_file  The path/name of the configuration file.
  */
-static void init_mr_config(const char* mr_config_file)
+static void init_mr_config()
 {
 	srand(12345);
 	init_config();
@@ -232,7 +232,7 @@ static void init_config(void)
 	const char* process_name = NULL;
 	msg_host_t host;
 	msg_process_t process;
-	size_t wid;
+	int wid;
 	unsigned int cursor;
 	xbt_dynar_t process_list;
 
@@ -264,7 +264,7 @@ static void init_config(void)
 		{
 			worker_hosts[wid] = host;
 			/* Set the worker ID as its data. */
-			MSG_host_set_data(host, (void*) wid);
+			MSG_process_set_data(process, (void*) wid);
 			/* Add the worker's cpu power to the grid total. */
 			config.grid_cpu_power += MSG_get_host_speed(host);
 			wid++;
@@ -341,7 +341,7 @@ static void init_stats(void)
  */
 static void free_global_mem(void)
 {
-	size_t i;
+	int i;
 
 	for (i = 0; i < config.chunk_count; i++)
 		xbt_free_ref(&chunk_owner[i]);

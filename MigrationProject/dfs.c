@@ -21,11 +21,11 @@
 
 XBT_LOG_EXTERNAL_DEFAULT_CATEGORY(msg_test);
 
-static void send_data(msg_task_t msg);
+static void send_data(msg_process_t worker, msg_task_t msg);
 
 void distribute_data(void)
 {
-	size_t chunk;
+	int chunk;
 
 	/* Allocate memory for the mapping matrix. */
 	chunk_owner = xbt_new (char*, config.chunk_count);
@@ -43,8 +43,8 @@ void default_dfs_f(char** dfs_matrix, size_t chunks, size_t workers,
         int replicas)
 {
 	int r;
-	size_t chunk;
-	size_t owner;
+	int chunk;
+	int owner;
 
 	if (config.chunk_replicas >= config.number_of_workers)
 	{
@@ -77,8 +77,8 @@ void default_dfs_f(char** dfs_matrix, size_t chunks, size_t workers,
 size_t find_random_chunk_owner(int cid)
 {
 	int replica;
-	size_t owner = NONE;
-	size_t wid;
+	int owner = NONE;
+	int wid;
 
 	replica = rand() % config.chunk_replicas;
 
@@ -104,8 +104,13 @@ int data_node(int argc, char* argv[])
 {
 	char mailbox[MAILBOX_ALIAS_SIZE];
 	msg_task_t msg = NULL;
+	int parent_id;
+	msg_process_t parent_process;
 
-	sprintf(mailbox, DATANODE_MAILBOX, get_worker_id(MSG_host_self()));
+	parent_id = MSG_process_self_PPID();
+	parent_process = MSG_process_from_PID(parent_id);
+
+	sprintf(mailbox, DATANODE_MAILBOX, get_worker_id(parent_process));
 
 	while (!job.finished)
 	{
@@ -118,23 +123,27 @@ int data_node(int argc, char* argv[])
 		}
 		else
 		{
-			send_data(msg);
+			send_data(parent_process, msg);
 		}
 	}
 
 	return 0;
 }
 
-static void send_data(msg_task_t msg)
+static void send_data(msg_process_t worker, msg_task_t msg)
 {
 	char mailbox[MAILBOX_ALIAS_SIZE];
 	double data_size;
 	size_t my_id;
 	task_info_t ti;
+	msg_process_t original_worker;
 
-	my_id = get_worker_id(MSG_host_self());
+	my_id = get_worker_id(worker);
 
-	sprintf(mailbox, TASK_MAILBOX, get_worker_id(MSG_task_get_source(msg)),
+	ti = (task_info_t) MSG_task_get_data(msg);
+	original_worker = ti->worker_process;
+
+	sprintf(mailbox, TASK_MAILBOX, get_worker_id(original_worker),
 	        MSG_process_get_PID(MSG_task_get_sender(msg)));
 
 	if (message_is(msg, SMS_GET_CHUNK))
@@ -144,7 +153,6 @@ static void send_data(msg_task_t msg)
 	}
 	else if (message_is(msg, SMS_GET_INTER_PAIRS))
 	{
-		ti = (task_info_t) MSG_task_get_data(msg);
 		data_size = job.map_output[my_id][ti->id]
 		        - ti->map_output_copied[my_id];
 		MSG_task_dsend(MSG_task_create("DATA-IP", 0.0, data_size, NULL ),
