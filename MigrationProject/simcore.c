@@ -29,6 +29,7 @@ XBT_LOG_NEW_DEFAULT_CATEGORY(msg_test, "MRSG");
 
 int master(int argc, char *argv[]);
 int worker(int argc, char *argv[]);
+int scheduler(int argc, char *argv[]);
 
 static void check_config(void);
 static msg_error_t run_simulation(const char* platform_file,
@@ -83,15 +84,46 @@ static msg_error_t run_simulation(const char* platform_file,
         const char* deploy_file, const char* mr_config_file)
 {
 	msg_error_t res = MSG_OK;
+	/*xbt_dynar_t hosts_dynar;
+	msg_host_t* hosts = xbt_new(msg_host_t,10);
+	char** hostnames = xbt_new(char*,10);
+	char** schedulerargv = xbt_new(char*,12);
+	int i;*/
 
 	read_mr_config_file(mr_config_file);
 
+	//Evgeny: get hosts from file whatever we have there.
 	MSG_create_environment(platform_file);
 
 	// for tracing purposes..
 	TRACE_category_with_color("MAP", "1 0 0");
 	TRACE_category_with_color("REDUCE", "0 0 1");
 
+	//TODO: what we want is to make scheduler process to control everything
+
+	//get the hosts
+
+	/* Retrieve the 10 first hosts of the platform file */
+	/*hosts_dynar = MSG_hosts_as_dynar();
+	xbt_assert(xbt_dynar_length(hosts_dynar) > 10,
+	        "I need at least 10 hosts in the platform file, but %s contains only %ld hosts_dynar.",
+	        platform_file, xbt_dynar_length(hosts_dynar));
+
+	for (i = 0; i < 10; i++)
+	{
+		hosts[i] = xbt_dynar_get_as(hosts_dynar,i,msg_host_t);
+		hostnames[i] = xbt_strdup(MSG_host_get_name(hosts[i]));
+	}
+
+	schedulerargv[0] = xbt_strdup("scheduler");
+	for (i = 1; i < 11; i++)
+	{
+		schedulerargv[i] = xbt_strdup(MSG_host_get_name(hosts[i - 1]));
+	}
+
+	schedulerargv[11] = NULL;
+	MSG_process_create_with_arguments("scheduler", scheduler, NULL, hosts[0],
+	        11, schedulerargv);*/
 	MSG_function_register("master", master);
 	MSG_function_register("worker", worker);
 	MSG_launch_application(deploy_file);
