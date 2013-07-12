@@ -27,8 +27,6 @@ XBT_LOG_NEW_DEFAULT_CATEGORY(msg_test, "MRSG");
 
 #define MAX_LINE_SIZE 256
 
-int master(int argc, char *argv[]);
-int worker(int argc, char *argv[]);
 int scheduler(int argc, char *argv[]);
 
 static void check_config(void);
@@ -84,11 +82,11 @@ static msg_error_t run_simulation(const char* platform_file,
         const char* deploy_file, const char* mr_config_file)
 {
 	msg_error_t res = MSG_OK;
-	/*xbt_dynar_t hosts_dynar;
-	msg_host_t* hosts = xbt_new(msg_host_t,10);
-	char** hostnames = xbt_new(char*,10);
-	char** schedulerargv = xbt_new(char*,12);
-	int i;*/
+	xbt_dynar_t hosts_dynar;
+	msg_host_t* system_hosts = xbt_new(msg_host_t,WORKERS_NUMBER+1);
+	char** system_hosts_names = xbt_new(char*,WORKERS_NUMBER+1);
+	char** scheduler_argv = xbt_new(char*,WORKERS_NUMBER+2);
+	int i;
 
 	read_mr_config_file(mr_config_file);
 
@@ -99,40 +97,39 @@ static msg_error_t run_simulation(const char* platform_file,
 	TRACE_category_with_color("MAP", "1 0 0");
 	TRACE_category_with_color("REDUCE", "0 0 1");
 
-	//TODO: what we want is to make scheduler process to control everything
-
-	//get the hosts
-
-	/* Retrieve the 10 first hosts of the platform file */
-	/*hosts_dynar = MSG_hosts_as_dynar();
-	xbt_assert(xbt_dynar_length(hosts_dynar) > 10,
-	        "I need at least 10 hosts in the platform file, but %s contains only %ld hosts_dynar.",
+	/* Retrieve the 11 first hosts of the platform file */
+	hosts_dynar = MSG_hosts_as_dynar();
+	xbt_assert(xbt_dynar_length(hosts_dynar) >= WORKERS_NUMBER+1,
+	        "I need at least %d hosts in the platform file, but %s contains only %ld hosts_dynar.", WORKERS_NUMBER+1,
 	        platform_file, xbt_dynar_length(hosts_dynar));
 
-	for (i = 0; i < 10; i++)
+	for (i = 0; i < WORKERS_NUMBER + 1; i++)
 	{
-		hosts[i] = xbt_dynar_get_as(hosts_dynar,i,msg_host_t);
-		hostnames[i] = xbt_strdup(MSG_host_get_name(hosts[i]));
+		system_hosts[i] = xbt_dynar_get_as(hosts_dynar,i,msg_host_t);
+		system_hosts_names[i] = xbt_strdup(MSG_host_get_name(system_hosts[i]));
+		scheduler_argv[i] = xbt_strdup(MSG_host_get_name(system_hosts[i]));
 	}
 
-	schedulerargv[0] = xbt_strdup("scheduler");
-	for (i = 1; i < 11; i++)
-	{
-		schedulerargv[i] = xbt_strdup(MSG_host_get_name(hosts[i - 1]));
-	}
+	scheduler_argv[WORKERS_NUMBER+1] = NULL;
 
-	schedulerargv[11] = NULL;
-	MSG_process_create_with_arguments("scheduler", scheduler, NULL, hosts[0],
-	        11, schedulerargv);*/
-	MSG_function_register("master", master);
-	MSG_function_register("worker", worker);
-	MSG_launch_application(deploy_file);
+	srand(12345);
+	MSG_process_create_with_arguments("scheduler", scheduler, NULL,
+	        system_hosts[0], WORKERS_NUMBER + 1, scheduler_argv); //we start scheduler and master on host 0
 
-	init_mr_config();
+	/*MSG_function_register("master", master);
+	 MSG_function_register("worker", worker);
+	 MSG_launch_application(deploy_file);*/
 
+	//init_mr_config();
 	res = MSG_main();
 
 	free_global_mem();
+
+	free(system_hosts);
+	for (i=0;i<WORKERS_NUMBER+1;i++)
+	     free(system_hosts_names[i]);
+	free(system_hosts_names);
+	xbt_dynar_free(&hosts_dynar);
 
 	return res;
 }
@@ -252,7 +249,7 @@ static void init_config(void)
 	}
 
 	xbt_assert(master_host, "UNABLE TO IDENTIFY THE MASTER NODE");
-	worker_hosts = xbt_new (msg_host_t, config.number_of_workers);
+	//worker_hosts = xbt_new (msg_host_t, config.number_of_workers);
 
 	wid = 0;
 	config.grid_cpu_power = 0.0;
@@ -262,7 +259,7 @@ static void init_config(void)
 		host = MSG_process_get_host(process);
 		if (strcmp(process_name, "worker") == 0)
 		{
-			worker_hosts[wid] = host;
+			//worker_hosts[wid] = host;
 			/* Set the worker ID as its data. */
 			MSG_process_set_data(process, (void*) wid);
 			/* Add the worker's cpu power to the grid total. */
@@ -349,7 +346,7 @@ static void free_global_mem(void)
 
 	xbt_free_ref(&stats.maps_processed);
 
-	xbt_free_ref(&worker_hosts);
+	//xbt_free_ref(&worker_hosts);
 	xbt_free_ref(&job.task_status[MAP]);
 	xbt_free_ref(&job.task_has_spec_copy[MAP]);
 	xbt_free_ref(&job.task_status[REDUCE]);

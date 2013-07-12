@@ -209,7 +209,8 @@ static int task_time_elapsed(msg_task_t task)
 
 	return (MSG_task_get_compute_duration(task)
 	        - MSG_task_get_remaining_computation(task))
-	        / MSG_get_host_speed(worker_hosts[ti->wid]);
+	        / MSG_get_host_speed(MSG_process_get_host(ti->worker_process));
+
 }
 
 /**
@@ -351,7 +352,7 @@ static void send_map_to_worker(msg_process_t dest)
 		return;
 	}
 
-	XBT_INFO("map %zu assigned to %s %s", tid, MSG_host_get_name(dest_host), flags);
+	XBT_INFO("\tmap %zu assigned to task tracker\t wid %d\t on %s %s", tid, wid, MSG_host_get_name(dest_host), flags);
 
 	send_task(MAP, tid, sid, dest);
 }
@@ -367,8 +368,10 @@ static void send_reduce_to_worker(msg_process_t dest)
 	int t;
 	size_t tid = NONE;
 	msg_host_t dest_host;
+	int wid;
 
 	dest_host = MSG_process_get_host(dest);
+	wid = get_worker_id(dest);
 
 	if (job.tasks_pending[REDUCE] <= 0
 	        || (float) job.tasks_pending[MAP] / config.number_of_maps > 0.9)
@@ -413,8 +416,7 @@ static void send_reduce_to_worker(msg_process_t dest)
 		return;
 	}
 
-	XBT_INFO("reduce %zu assigned to %s %s", tid, MSG_host_get_name(dest_host),
-	        flags);
+	XBT_INFO("\treduce %zu assigned to task tracker\t wid %d\t on %s %s", tid, wid, MSG_host_get_name(dest_host), flags);
 
 	send_task(REDUCE, tid, NONE, dest);
 }
@@ -434,9 +436,11 @@ static void send_task(enum phase_e phase, size_t tid, size_t data_src,
 	double cpu_required = 0.0;
 	msg_task_t task = NULL;
 	task_info_t task_info;
+	msg_host_t dest_host;
 	size_t wid;
 
 	wid = get_worker_id(dest);
+	dest_host = MSG_process_get_host(dest);
 
 	cpu_required = user.task_cost_f(phase, tid, wid);
 
@@ -471,7 +475,7 @@ static void send_task(enum phase_e phase, size_t tid, size_t data_src,
 	        (phase == MAP ? "MAP" : "REDUCE"), wid, MSG_get_clock());
 
 #ifdef VERBOSE
-	XBT_INFO ("TX: %s > %s", SMS_TASK, MSG_host_get_name (dest));
+	XBT_INFO ("TX: %s > %s", SMS_TASK, MSG_host_get_name (dest_host));
 #endif
 
 	sprintf(mailbox, TASKTRACKER_MAILBOX, wid);

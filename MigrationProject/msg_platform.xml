@@ -3,19 +3,19 @@
  <platform version="3">
  <AS  id="AS0"  routing="Full">
    <host id="Jacquelin" power="137333000"/>
-   <host id="Boivin" power="98095000"/>
-   <host id="Jean_Yves" power="98095000"/>
-   <host id="TeX" power="68667000"/>
-   <host id="Geoff" power="42917000"/>
-   <host id="Disney" power="114444000"/>
-   <host id="iRMX" power="68667000"/>
-   <host id="McGee" power="42917000"/>
-   <host id="Gatien" power="114444000"/>
-   <host id="Laroche" power="98095000"/>
-   <host id="Tanguay" power="68667000"/>
-   <host id="Morin" power="85833000"/>
-   <host id="Ethernet" power="98095000"/>
-   <host id="Bellemarre" power="34333000"/>
+   <host id="Boivin" power="137333000"/>
+   <host id="Jean_Yves" power="137333000"/>
+   <host id="TeX" power="137333000"/>
+   <host id="Geoff" power="137333000"/>
+   <host id="Disney" power="137333000"/>
+   <host id="iRMX" power="137333000"/>
+   <host id="McGee" power="137333000"/>
+   <host id="Gatien" power="137333000"/>
+   <host id="Laroche" power="137333000"/>
+   <host id="Tanguay" power="137333000"/>
+   <host id="Morin" power="137333000"/>
+   <host id="Ethernet" power="137333000"/>
+   <host id="Bellemarre" power="137333000"/>
    <host id="Kuenning" power="85833000"/>
    <host id="Gaston" power="98095000"/>
    <host id="Harry" power="42917000"/>

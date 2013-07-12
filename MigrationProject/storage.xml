@@ -14,9 +14,9 @@
 
 		<storage_type id="crucial" model="SSD" content="storage_content.txt"
 			size="500">
-			<prop id="Bwrite" value="30000000" />
-			<prop id="Bread" value="100000000" />
-			<prop id="Bconnection" value="150000000" />
+			<prop id="Bwrite" value="300000" />
+			<prop id="Bread" value="300000" />
+			<prop id="Bconnection" value="300000" />
 		</storage_type>
 
 		<storage_type id="wdigital" model="RAID0" content="storage_content.txt"
@@ -25,26 +25,42 @@
 			<prop id="Bread" value="100000000" />
 			<prop id="Bconnection" value="150000000" />
 		</storage_type>
+		
+		<storage_type id="ram" model="RAM" content="memory_content.txt"
+			size="500">
+			<prop id="Bwrite" value="30000000" />
+			<prop id="Bread" value="30000000" />
+			<prop id="Bconnection" value="30000000" />
+		</storage_type>
 
 		<storage id="Disk1" typeId="crucial" />
-		<storage id="Disk2" typeId="samsung" />
-		<storage id="Disk3" typeId="wdigital" />
-		<storage id="Disk4" typeId="wdigital" />
+		<storage id="Disk2" typeId="crucial" />
+		<storage id="Disk3" typeId="crucial" />
+		<storage id="Disk4" typeId="crucial" />
+		
+		<storage id="Ram1" typeId="ram" />
+		<storage id="Ram2" typeId="ram" />
+		<storage id="Ram3" typeId="ram" />
+		<storage id="Ram4" typeId="ram" />
 
 		<host id="AS_2_host0" power="1000000000">
 			<mount id="Disk1" name="/home" />
+			<mount id="Ram1" name="/slot" />
 		</host>
 
 		<host id="AS_2_host1" power="1000000000">
 			<mount id="Disk2" name="/home" />
+			<mount id="Ram2" name="/slot" />
 		</host>
 
 		<host id="AS_2_host2" power="1000000000">
 			<mount id="Disk3" name="/home" />
+			<mount id="Ram3" name="/slot" />
 		</host>
 
 		<host id="AS_2_host3" power="1000000000">
 			<mount id="Disk4" name="/home" />
+			<mount id="Ram4" name="/slot" />
 		</host>
 
 		<link id="AS_2_link0" bandwidth="1250000000" latency="5E-4" />

@@ -1,0 +1,50 @@
+<?xml version='1.0'?>
+<!DOCTYPE platform SYSTEM "http://simgrid.gforge.inria.fr/simgrid.dtd">
+<platform version="3">
+	<AS id="AS_rennes" routing="RuleBased">
+		<cluster id="AS_paradent" prefix="paradent-" suffix=".rennes.grid5000.fr"
+			radical="1-64" power="21.496E9" bw="1.25E8" lat="1.0E-4" bb_bw="1.25E9"
+			bb_lat="1.0E-4"></cluster>
+		<link id="link_paradent" bandwidth="1.25E9" latency="1.0E-4" />
+
+		<cluster id="AS_paramount" prefix="paramount-" suffix=".rennes.grid5000.fr"
+			radical="1-33" power="12.910E9" bw="1.25E8" lat="1.0E-4" bb_bw="1.25E9"
+			bb_lat="1.0E-4"></cluster>
+		<link id="link_paramount" bandwidth="1.25E9" latency="1.0E-4" />
+
+		<cluster id="AS_parapide" prefix="parapide-" suffix=".rennes.grid5000.fr"
+			radical="1-25" power="30.130E9" bw="1.25E8" lat="1.0E-4" bb_bw="1.25E9"
+			bb_lat="1.0E-4"></cluster>
+		<link id="link_parapide" bandwidth="1.25E9" latency="1.0E-4" />
+
+		<cluster id="AS_parapluie" prefix="parapluie-" suffix=".rennes.grid5000.fr"
+			radical="1-40" power="27.391E9" bw="1.25E8" lat="1.0E-4" bb_bw="1.25E9"
+			bb_lat="1.0E-4"></cluster>
+		<link id="link_parapluie" bandwidth="1.25E9" latency="1.0E-4" />
+
+		<AS id="gw_AS_rennes" routing="Full">
+			<router id="gw_rennes" />
+		</AS>
+		<link id="link_gw_rennes" bandwidth="1.25E9" latency="1.0E-4" />
+
+		<ASroute src="^AS_(.*)$" dst="^AS_(.*)$"
+			gw_src="$1src-AS_$1src_router.rennes.grid5000.fr" gw_dst="$1dst-AS_$1dst_router.rennes.grid5000.fr"
+			symmetrical="YES">
+			<link_ctn id="link_$1src" />
+			<link_ctn id="link_$1dst" />
+		</ASroute>
+
+		<ASroute src="^AS_(.*)$" dst="^gw_AS_(.*)$"
+			gw_src="$1src-AS_$1src_router.rennes.grid5000.fr" gw_dst="gw_$1dst"
+			symmetrical="NO">
+			<link_ctn id="link_$1src" />
+		</ASroute>
+
+		<ASroute src="^gw_AS_(.*)$" dst="^AS_(.*)$" gw_src="gw_$1src"
+			gw_dst="$1dst-AS_$1dst_router.rennes.grid5000.fr" symmetrical="NO">
+			<link_ctn id="link_$1dst" />
+		</ASroute>
+
+	</AS>
+
+</platform>

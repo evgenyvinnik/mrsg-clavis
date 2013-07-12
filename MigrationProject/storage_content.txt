@@ -1,0 +1,1 @@
+-rw-r--r-- 1 user user 0 2011-10-05 16:04 ./doc/simgrid/examples/platforms/g5k.xml

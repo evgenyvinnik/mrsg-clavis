@@ -24,6 +24,11 @@
 #include <xbt/asserts.h>
 #include "mrsg.h"
 
+#define WORKERS_NUMBER 1
+
+
+//#define VERBOSE 1
+
 /* Short message names. */
 #define SMS_GET_CHUNK "SMS-GC"
 #define SMS_GET_INTER_PAIRS "SMS-GIP"
@@ -126,7 +131,7 @@ struct user_s
 } user;
 
 msg_host_t master_host;
-msg_host_t* worker_hosts;
+//msg_host_t* worker_hosts;
 heartbeat_t w_heartbeat;
 
 /**
