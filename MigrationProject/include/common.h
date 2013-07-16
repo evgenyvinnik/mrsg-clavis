@@ -24,9 +24,6 @@
 #include <xbt/asserts.h>
 #include "mrsg.h"
 
-#define WORKERS_NUMBER 1
-
-
 //#define VERBOSE 1
 
 /* Short message names. */
@@ -65,21 +62,23 @@ struct config_s
 	double chunk_size;
 	double grid_average_speed;
 	double grid_cpu_power;
-	int chunk_count;
-	int chunk_replicas;
-	int heartbeat_interval;
-	int map_slots;
-	int number_of_maps;
-	int number_of_reduces;
-	int number_of_workers;
-	int reduce_slots;
+	unsigned int chunk_count;
+	unsigned int chunk_replicas;
+	unsigned int heartbeat_interval;
+	unsigned int map_slots;
+	unsigned int number_of_maps;
+	unsigned int number_of_reduces;
+	unsigned int number_of_workers;
+	unsigned int reduce_slots;
 	int initialized;
+	unsigned long int worker_hosts_number;
+	unsigned long int vm_per_host;
 } config;
 
 struct job_s
 {
 	int finished;
-	int tasks_pending[2];
+	unsigned int tasks_pending[2];
 	int* task_has_spec_copy[2];
 	int* task_status[2];
 	msg_task_t** task_list[2];
@@ -105,7 +104,7 @@ typedef struct task_info_s* task_info_t;
 /** @brief  Information sent by the workers with every heartbeat. */
 struct heartbeat_s
 {
-	int slots_av[2];
+	unsigned int slots_av[2];
 };
 
 typedef struct heartbeat_s* heartbeat_t;
@@ -126,8 +125,8 @@ struct user_s
 {
 	double (*task_cost_f)(enum phase_e phase, size_t tid, size_t wid);
 	void (*dfs_f)(char** dfs_matrix, size_t chunks, size_t workers,
-	        int replicas);
-	int (*map_output_f)(size_t mid, size_t rid);
+	        unsigned int replicas);
+	size_t (*map_output_f)(size_t mid, size_t rid);
 } user;
 
 msg_host_t master_host;
@@ -178,6 +177,6 @@ int message_is(msg_task_t msg, const char* str);
 /**
  * @brief  Return the maximum of two values.
  */
-int maxval(int a, int b);
+unsigned maxval(unsigned int a, unsigned int b);
 
 #endif /* !MRSG_COMMON_H */
