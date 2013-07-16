@@ -28,12 +28,11 @@ static FILE* tasks_log;
 static void print_config(void);
 static void print_stats(void);
 static int is_straggler(msg_process_t worker);
-static int task_time_elapsed(msg_task_t task);
+static double task_time_elapsed(msg_task_t task);
 static void set_speculative_tasks(msg_process_t worker);
 static void send_map_to_worker(msg_process_t dest);
 static void send_reduce_to_worker(msg_process_t dest);
-static void send_task(enum phase_e phase, size_t tid, size_t data_src,
-		msg_process_t dest);
+static void send_task(enum phase_e phase, size_t tid, size_t data_src, msg_process_t dest);
 static void finish_all_task_copies(task_info_t ti);
 
 /** @brief  Main master function. */
@@ -56,7 +55,7 @@ int master(int argc, char* argv[])
 		msg = NULL;
 		receive(&msg, MASTER_MAILBOX);
 		ti = (task_info_t) MSG_task_get_data(msg);
-		if(ti == NULL)
+		if (ti == NULL )
 		{
 			worker = MSG_task_get_sender(msg);
 		}
@@ -85,7 +84,6 @@ int master(int argc, char* argv[])
 		}
 		else if (message_is(msg, SMS_TASK_DONE))
 		{
-
 
 			switch (ti->phase)
 			{
@@ -141,18 +139,17 @@ int master(int argc, char* argv[])
 static void print_config(void)
 {
 	XBT_INFO("JOB CONFIGURATION:");
-	XBT_INFO("slots: %d map, %d reduce", config.map_slots, config.reduce_slots);
-	XBT_INFO("chunk replicas: %d", config.chunk_replicas);
+	XBT_INFO("slots: %u map, %u reduce", config.map_slots, config.reduce_slots);
+	XBT_INFO("chunk replicas: %u", config.chunk_replicas);
 	XBT_INFO("chunk size: %.0f MB", config.chunk_size / 1024 / 1024);
-	XBT_INFO("input chunks: %d", config.chunk_count);
-	XBT_INFO("input size: %d MB",
-	        config.chunk_count * (int )(config.chunk_size / 1024 / 1024));
-	XBT_INFO("maps: %d", config.number_of_maps);
-	XBT_INFO("reduces: %d", config.number_of_reduces);
-	XBT_INFO("workers: %d", config.number_of_workers);
+	XBT_INFO("input chunks: %u", config.chunk_count);
+	XBT_INFO("input size: %g MB", config.chunk_count * (config.chunk_size / 1024 / 1024));
+	XBT_INFO("maps: %u", config.number_of_maps);
+	XBT_INFO("reduces: %u", config.number_of_reduces);
+	XBT_INFO("workers: %u", config.number_of_workers);
 	XBT_INFO("grid power: %g flops", config.grid_cpu_power);
 	XBT_INFO("average power: %g flops/s", config.grid_average_speed);
-	XBT_INFO("heartbeat interval: %ds", config.heartbeat_interval);
+	XBT_INFO("heartbeat interval: %u", config.heartbeat_interval);
 	XBT_INFO(" ");
 }
 
@@ -178,19 +175,16 @@ static void print_stats(void)
  */
 static int is_straggler(msg_process_t worker)
 {
-	int task_count;
+	size_t task_count;
 	size_t wid;
 	msg_host_t worker_host;
 
 	wid = get_worker_id(worker);
 	worker_host = MSG_process_get_host(worker);
 
-	task_count = (config.map_slots + config.reduce_slots)
-	        - (w_heartbeat[wid].slots_av[MAP]
-	                + w_heartbeat[wid].slots_av[REDUCE]);
+	task_count = (config.map_slots + config.reduce_slots) - (w_heartbeat[wid].slots_av[MAP] + w_heartbeat[wid].slots_av[REDUCE]);
 
-	if (MSG_get_host_speed(worker_host) < config.grid_average_speed
-	        && task_count > 0)
+	if (MSG_get_host_speed(worker_host) < config.grid_average_speed && task_count > 0)
 		return 1;
 
 	return 0;
@@ -201,15 +195,13 @@ static int is_straggler(msg_process_t worker)
  * @param  task  The task to be probed.
  * @return The amount of seconds since the beginning of the computation.
  */
-static int task_time_elapsed(msg_task_t task)
+static double task_time_elapsed(msg_task_t task)
 {
 	task_info_t ti;
 
 	ti = (task_info_t) MSG_task_get_data(task);
 
-	return (MSG_task_get_compute_duration(task)
-	        - MSG_task_get_remaining_computation(task))
-	        / MSG_get_host_speed(MSG_process_get_host(ti->worker_process));
+	return (MSG_task_get_compute_duration(task) - MSG_task_get_remaining_computation(task)) / MSG_get_host_speed(MSG_process_get_host(ti->worker_process));
 
 }
 
@@ -219,7 +211,7 @@ static int task_time_elapsed(msg_task_t task)
  */
 static void set_speculative_tasks(msg_process_t worker)
 {
-	int tid;
+	size_t tid;
 	size_t wid;
 	task_info_t ti;
 
@@ -231,10 +223,8 @@ static void set_speculative_tasks(msg_process_t worker)
 		{
 			if (job.task_list[MAP][0][tid] != NULL )
 			{
-				ti = (task_info_t) MSG_task_get_data(
-				        job.task_list[MAP][0][tid]);
-				if (ti->wid == wid
-				        && task_time_elapsed(job.task_list[MAP][0][tid]) > 60)
+				ti = (task_info_t) MSG_task_get_data(job.task_list[MAP][0][tid]);
+				if (ti->wid == wid && task_time_elapsed(job.task_list[MAP][0][tid]) > 60.0)
 				{
 					job.task_status[MAP][tid] = T_STATUS_TIP_SLOW;
 				}
@@ -248,11 +238,8 @@ static void set_speculative_tasks(msg_process_t worker)
 		{
 			if (job.task_list[REDUCE][0][tid] != NULL )
 			{
-				ti = (task_info_t) MSG_task_get_data(
-				        job.task_list[REDUCE][0][tid]);
-				if (ti->wid == wid
-				        && task_time_elapsed(job.task_list[REDUCE][0][tid])
-				                > 60)
+				ti = (task_info_t) MSG_task_get_data(job.task_list[REDUCE][0][tid]);
+				if (ti->wid == wid && task_time_elapsed(job.task_list[REDUCE][0][tid]) > 60.0)
 				{
 					job.task_status[REDUCE][tid] = T_STATUS_TIP_SLOW;
 				}
@@ -269,9 +256,9 @@ static void send_map_to_worker(msg_process_t dest)
 {
 	char* flags;
 	int task_type;
-	int chunk;
-	size_t sid = NONE;
-	size_t tid = NONE;
+	size_t chunk;
+	size_t sid = (size_t) NONE;
+	size_t tid = (size_t) NONE;
 	size_t wid;
 	msg_host_t dest_host;
 
@@ -304,8 +291,7 @@ static void send_map_to_worker(msg_process_t dest)
 				tid = chunk;
 			}
 		}
-		else if (job.task_status[MAP][chunk] == T_STATUS_TIP_SLOW
-		        && task_type > REMOTE && !job.task_has_spec_copy[MAP][chunk])
+		else if (job.task_status[MAP][chunk] == T_STATUS_TIP_SLOW && task_type > REMOTE && !job.task_has_spec_copy[MAP][chunk])
 		{
 			if (chunk_owner[chunk][wid])
 			{
@@ -365,16 +351,15 @@ static void send_reduce_to_worker(msg_process_t dest)
 {
 	char* flags;
 	int task_type;
-	int t;
-	size_t tid = NONE;
+	size_t t;
+	size_t tid = (size_t)NONE;
 	msg_host_t dest_host;
-	int wid;
+	size_t wid;
 
 	dest_host = MSG_process_get_host(dest);
 	wid = get_worker_id(dest);
 
-	if (job.tasks_pending[REDUCE] <= 0
-	        || (float) job.tasks_pending[MAP] / config.number_of_maps > 0.9)
+	if (job.tasks_pending[REDUCE] <= 0 || ((float) job.tasks_pending[MAP] / (float) config.number_of_maps) > 0.9)
 		return;
 
 	enum
@@ -391,8 +376,7 @@ static void send_reduce_to_worker(msg_process_t dest)
 			tid = t;
 			break;
 		}
-		else if (job.task_status[REDUCE][t] == T_STATUS_TIP_SLOW
-		        && !job.task_has_spec_copy[REDUCE][t])
+		else if (job.task_status[REDUCE][t] == T_STATUS_TIP_SLOW && !job.task_has_spec_copy[REDUCE][t])
 		{
 			task_type = SPECULATIVE;
 			tid = t;
@@ -418,7 +402,7 @@ static void send_reduce_to_worker(msg_process_t dest)
 
 	XBT_INFO("\treduce %zu assigned to task tracker\t wid %d\t on %s %s", tid, wid, MSG_host_get_name(dest_host), flags);
 
-	send_task(REDUCE, tid, NONE, dest);
+	send_task(REDUCE, tid, (size_t)NONE, dest);
 }
 
 /**
@@ -428,19 +412,16 @@ static void send_reduce_to_worker(msg_process_t dest)
  * @param  data_src  The ID of the DataNode that owns the task data.
  * @param  dest      The destination worker.
  */
-static void send_task(enum phase_e phase, size_t tid, size_t data_src,
-		msg_process_t dest)
+static void send_task(enum phase_e phase, size_t tid, size_t data_src, msg_process_t dest)
 {
 	char mailbox[MAILBOX_ALIAS_SIZE];
 	int i;
 	double cpu_required = 0.0;
 	msg_task_t task = NULL;
 	task_info_t task_info;
-	msg_host_t dest_host;
 	size_t wid;
 
 	wid = get_worker_id(dest);
-	dest_host = MSG_process_get_host(dest);
 
 	cpu_required = user.task_cost_f(phase, tid, wid);
 
@@ -471,11 +452,10 @@ static void send_task(enum phase_e phase, size_t tid, size_t data_src,
 		}
 	}
 
-	fprintf(tasks_log, "%d_%zu_%d\t%s\t%zu\t%.3f\tSTART\n", phase, tid, i,
-	        (phase == MAP ? "MAP" : "REDUCE"), wid, MSG_get_clock());
+	fprintf(tasks_log, "%d_%zu_%d\t%s\t%zu\t%.3f\tSTART\n", phase, tid, i, (phase == MAP ? "MAP" : "REDUCE"), wid, MSG_get_clock());
 
 #ifdef VERBOSE
-	XBT_INFO ("TX: %s > %s", SMS_TASK, MSG_host_get_name (dest_host));
+	XBT_INFO ("TX: %s > %s", SMS_TASK, MSG_host_get_name (MSG_process_get_host(dest)));
 #endif
 
 	sprintf(mailbox, TASKTRACKER_MAILBOX, wid);
@@ -499,8 +479,7 @@ static void finish_all_task_copies(task_info_t ti)
 			MSG_task_cancel(job.task_list[phase][i][tid]);
 			//FIXME: MSG_task_destroy (job.task_list[phase][i][tid]);
 			job.task_list[phase][i][tid] = NULL;
-			fprintf(tasks_log, "%d_%zu_%d\t-\t-\t%.3f\tEND\t%.3f\n", ti->phase,
-			        tid, i, MSG_get_clock(), ti->shuffle_end);
+			fprintf(tasks_log, "%d_%zu_%d\t-\t-\t%.3f\tEND\t%.3f\n", ti->phase, tid, i, MSG_get_clock(), ti->shuffle_end);
 		}
 	}
 }
