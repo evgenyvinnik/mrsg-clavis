@@ -70,6 +70,16 @@ static void check_config(void)
 	xbt_assert(user.map_output_f != NULL, "Map output function not specified.");
 }
 
+int ordering_function (const void* a, const void* b)
+{
+	msg_host_t* system_host1 = (msg_host_t*) a;
+	msg_host_t* system_host2 = (msg_host_t*) b;
+	const char* name1 = MSG_host_get_name(*system_host1);
+	const char* name2 = MSG_host_get_name(*system_host2);
+
+	return strcmp(name1, name2);
+}
+
 /**
  * @param  platform_file   The path/name of the platform file.
  * @param  deploy_file     The path/name of the deploy file.
@@ -89,8 +99,9 @@ static msg_error_t run_simulation(const char* platform_file)
 	TRACE_category_with_color("MAP", "1 0 0");
 	TRACE_category_with_color("REDUCE", "0 0 1");
 
-	/* Retrieve the 11 first hosts of the platform file */
+	/* Retrieve the first hosts of the platform file */
 	hosts_dynar = MSG_hosts_as_dynar();
+	xbt_dynar_sort(hosts_dynar, ordering_function);
 	XBT_INFO("Number of available hosts %lu", xbt_dynar_length(hosts_dynar));
 	xbt_assert(xbt_dynar_length(hosts_dynar) >= config.worker_hosts_number + 1, "I need at least %lu hosts in the platform file, but %s contains only %ld hosts_dynar.",
 			config.worker_hosts_number + 1, platform_file, xbt_dynar_length(hosts_dynar));
@@ -100,9 +111,9 @@ static msg_error_t run_simulation(const char* platform_file)
 		system_hosts[i] = xbt_dynar_get_as(hosts_dynar,i,msg_host_t);
 		system_hosts_names[i] = xbt_strdup(MSG_host_get_name(system_hosts[i]));
 		scheduler_argv[i] = xbt_strdup(MSG_host_get_name(system_hosts[i]));
-#ifdef VERBOSE
+//#ifdef VERBOSE
 		XBT_INFO("added %lu host %s", i, MSG_host_get_name(system_hosts[i]));
-#endif
+//#endif
 	}
 
 	scheduler_argv[config.worker_hosts_number + 1] = NULL;
