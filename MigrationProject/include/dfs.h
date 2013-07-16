@@ -29,14 +29,14 @@ void distribute_data (void);
 /**
  * @brief  Default data distribution algorithm.
  */
-void default_dfs_f (char** dfs_matrix, size_t chunks, size_t workers, int replicas);
+void default_dfs_f (char** dfs_matrix, size_t chunks, size_t workers, unsigned int replicas);
 
 /**
  * @brief  Choose a random DataNode that owns a specific chunk.
  * @param  cid  The chunk ID.
  * @return The ID of the DataNode.
  */
-size_t find_random_chunk_owner (int cid);
+unsigned int find_random_chunk_owner (size_t cid);
 
 /**
  * @brief  DataNode main function.
