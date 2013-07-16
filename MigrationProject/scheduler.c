@@ -17,57 +17,56 @@ int master(int argc, char *argv[]);
 int worker(int argc, char *argv[]);
 static void init_job(void);
 static void init_stats(void);
-
-#define VM_PER_HOST 1
+static void free_global_mem(void);
 
 int scheduler(int argc, char *argv[])
 {
-	int worker_hosts_count = WORKERS_NUMBER; //TODO: temporary, 1 master + 6 slaves in the future it would be dynamic
-	msg_host_t * worker_hosts = xbt_new(msg_host_t, 10);
-	int i, j;
+	srand(12345);
+	msg_host_t * worker_hosts = xbt_new(msg_host_t, config.worker_hosts_number);
 	msg_vm_t vm;
 	xbt_dynar_t vms;
 	msg_process_t process;
 	int wid;
 	char vmName[64];
+	unsigned long i, j, id;
+	unsigned int cursor;
+	int arg;
 
-	srand(12345);
 
 	master_host = MSG_get_host_by_name(argv[0]);
 	xbt_assert(master_host, "UNABLE TO IDENTIFY THE MASTER NODE");
 
 	/* Retrive the hostnames constituting our playground today */
-	for (i = 1; i < argc; i++)
+	for (arg = 1; arg < argc; arg++)
 	{
-		worker_hosts[i - 1] = MSG_get_host_by_name(argv[i]);
-		xbt_assert(worker_hosts[i - 1] != NULL, "Cannot use inexistent host %s",
-		        argv[i]);
+		worker_hosts[arg - 1] = MSG_get_host_by_name(argv[arg]);
+		xbt_assert(worker_hosts[arg - 1] != NULL, "Cannot use inexistent host %s", argv[arg]);
 	}
 
 	config.grid_cpu_power = 0.0;
 	wid = 0;
 	//Launch 10 virtual machines: one VM per host
 	//Launch the sub processes: two processes inside each virtual machine
-	for (i = 0; i < worker_hosts_count; i++)
+	for (i = 0; i < config.worker_hosts_number; i++)
 	{
 
-		for (j = 0; j < VM_PER_HOST; j++)
+		for (j = 0; j < config.vm_per_host; j++)
 		{
-			snprintf(vmName, 64, "vm_%d", i);
+			snprintf(vmName, 64, "vm_%lu", (i*config.worker_hosts_number)+ j);
 
 			vm = MSG_vm_start(worker_hosts[i], vmName, 2);
 
-			char**argv = xbt_new(char*,2);
-			argv[0] = bprintf("%d", wid);
-			argv[1] = NULL;
+			char**argv_process = xbt_new(char*,2);
+			argv_process[0] = bprintf("%d", wid);
+			argv_process[1] = NULL;
 			process = MSG_process_create_with_arguments("worker", worker, vm,
-			        worker_hosts[i], 1, argv);
+			        worker_hosts[i], 1, argv_process);
 			MSG_vm_bind(vm, process);
 			//
 			wid++;
 			config.number_of_workers++;
-			config.grid_cpu_power += MSG_get_host_speed(worker_hosts[i]);
 		}
+		config.grid_cpu_power += MSG_get_host_speed(worker_hosts[i]);
 	}
 
 	//init config
@@ -78,10 +77,10 @@ int scheduler(int argc, char *argv[])
 	config.initialized = 1;
 
 	w_heartbeat = xbt_new (struct heartbeat_s, config.number_of_workers);
-	for (wid = 0; wid < config.number_of_workers; wid++)
+	for (id = 0; id < config.number_of_workers; id++)
 	{
-		w_heartbeat[wid].slots_av[MAP] = config.map_slots;
-		w_heartbeat[wid].slots_av[REDUCE] = config.reduce_slots;
+		w_heartbeat[id].slots_av[MAP] = config.map_slots;
+		w_heartbeat[id].slots_av[REDUCE] = config.reduce_slots;
 	}
 
 	init_stats();
@@ -127,15 +126,16 @@ int scheduler(int argc, char *argv[])
 		MSG_process_sleep(config.heartbeat_interval);
 	}
 
-	xbt_dynar_foreach(vms,i,vm)
+	xbt_dynar_foreach(vms,cursor,vm)
 	{
 		MSG_vm_shutdown(vm);
 		MSG_vm_destroy(vm);
 	}
 
 	XBT_INFO("Goodbye now!");
-	free(worker_hosts);
+	xbt_free(worker_hosts);
 	xbt_dynar_free(&vms);
+	free_global_mem();
 
 	return 0;
 }
@@ -145,7 +145,7 @@ int scheduler(int argc, char *argv[])
  */
 static void init_job(void)
 {
-	int i;
+	unsigned int i;
 
 	xbt_assert(config.initialized,
 	        "init_config has to be called before init_job");
@@ -190,4 +190,32 @@ static void init_stats(void)
 	stats.reduce_spec = 0;
 	stats.maps_processed = xbt_new0 (int, config.number_of_workers);
 	stats.reduces_processed = xbt_new0 (int, config.number_of_workers);
+}
+
+/**
+ * @brief  Free allocated memory for global variables.
+ */
+static void free_global_mem(void)
+{
+	unsigned int i;
+
+	for (i = 0; i < config.chunk_count; i++)
+		xbt_free_ref(&chunk_owner[i]);
+	xbt_free_ref(&chunk_owner);
+
+	xbt_free_ref(&stats.maps_processed);
+
+	//xbt_free_ref(&worker_hosts);
+	xbt_free_ref(&job.task_status[MAP]);
+	xbt_free_ref(&job.task_has_spec_copy[MAP]);
+	xbt_free_ref(&job.task_status[REDUCE]);
+	xbt_free_ref(&job.task_has_spec_copy[REDUCE]);
+	xbt_free_ref(&w_heartbeat);
+	for (i = 0; i < MAX_SPECULATIVE_COPIES; i++)
+		xbt_free_ref(&job.task_list[MAP][i]);
+	xbt_free_ref(&job.task_list[MAP]);
+	for (i = 0; i < MAX_SPECULATIVE_COPIES; i++)
+		xbt_free_ref(&job.task_list[REDUCE][i]);
+	xbt_free_ref(&job.task_list[REDUCE]);
+	xbt_free_ref(&stats.reduces_processed);
 }
