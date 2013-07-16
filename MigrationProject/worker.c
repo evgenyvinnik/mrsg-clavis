@@ -44,6 +44,7 @@ int worker(int argc, char* argv[])
 
 	my_host = MSG_host_self();
 	my_process = MSG_process_self();
+	xbt_assert(argc >= 1, "worker function requires at least one argument - its ID");
 	sscanf(argv[0], "%d", &my_id);
 	MSG_process_set_data(my_process, (void*) my_id);
 	//my_id = MSG_process_self_PID();
@@ -106,8 +107,7 @@ static int listen(int argc, char* argv[])
 
 		if (message_is(msg, SMS_TASK))
 		{
-			process_compute = MSG_process_create("compute", compute, msg,
-			        my_host);
+			process_compute = MSG_process_create("compute", compute, msg, my_host);
 			MSG_vm_bind(vm, process_compute);
 		}
 		else if (message_is(msg, SMS_FINISH))
@@ -119,8 +119,7 @@ static int listen(int argc, char* argv[])
 
 	return 0;
 }
-#define FILENAME1 "./doc/simgrid/examples/platforms/g5k.xml"
-#define FILENAME2 "./memory/mem.mem"
+
 /**
  * @brief  Process that computes a task.
  */
@@ -153,15 +152,13 @@ static int compute(int argc, char* argv[])
 	{
 	case MAP:
 		get_chunk(grand_parent_process_worker, ti);
-		XBT_INFO("\t\tmap %zu received by task tracker\t wid %d\t on %s", ti->id, wid,
-		        MSG_host_get_name(dest_host));
+		XBT_INFO("\t\tmap %zu received by task tracker\t wid %d\t on %s", ti->id, wid, MSG_host_get_name(dest_host));
 
 		break;
 
 	case REDUCE:
 		get_map_output(grand_parent_process_worker, ti);
-		XBT_INFO("\t\treduce %zu received by task tracker\t wid %d\t on %s", ti->id,
-		        wid, MSG_host_get_name(dest_host));
+		XBT_INFO("\t\treduce %zu received by task tracker\t wid %d\t on %s", ti->id, wid, MSG_host_get_name(dest_host));
 		break;
 	}
 
@@ -177,85 +174,52 @@ static int compute(int argc, char* argv[])
 					//perform memory operations
 					{
 						msg_file_t file = NULL;
-						s_msg_stat_t stat;
 						void *ptr = NULL;
-						char* mount = bprintf("/slot");
-						double read, write;
+						double read;
 						int j;
 
 						for (j = 0; j < times; j++)
 						{
-							file = MSG_file_open(mount, FILENAME2, "rw");
-							//XBT_INFO("\tOpen file '%s'", file->name);
+							file = MSG_file_open("/slot", "./memory/mem.mem", "rw");
+							read = MSG_file_read(ptr, 100000000, sizeof(char*), file);     // Read for 10Mo
 
-							read = MSG_file_read(ptr, 100000000, sizeof(char*),
-							        file);     // Read for 10Mo
-							//XBT_INFO("\tHave read    %8.1f on %s", read,
-							//        file->name);
-
-							//for(j = 0; j < 5;j++)
-
-							//write = MSG_file_write(ptr, 60000000,
-							//        sizeof(char*), file);  // Write for 10Mo
-							//XBT_INFO("\tHave written %8.1f on %s", write,
-							//        file->name);
-
-							//read = MSG_file_read(ptr, 1000000000, sizeof(char*),
-							//        file);     // Read for 10Mo
-							//XBT_INFO("\tHave read    %8.1f on %s", read,
-							//        file->name);
-
+#ifdef VERBOSE
+							XBT_INFO("\tHave read    %8.1f on %s", read, file->name);
+							s_msg_stat_t stat;
 							MSG_file_stat(file, &stat);
-							//XBT_INFO("\tFile stat %s Size %.1f", file->name,
-							//        stat.size);
+							XBT_INFO("\tFile stat %s Size %.1f", file->name, stat.size);
 							MSG_file_free_stat(&stat);
+#endif
 
-							//XBT_INFO("\tClose file '%s'", file->name);
 							MSG_file_close(file);
 						}
 
-						free(mount);
 					}
 					//perform IO operations
 
 					{
 						msg_file_t file = NULL;
-						s_msg_stat_t stat;
 						void *ptr = NULL;
-						char* mount = bprintf("/home");
-						double read, write;
+						double read;
 						int j;
 
 						for (j = 0; j < times; j++)
 						{
-							file = MSG_file_open(mount, FILENAME1, "rw");
-							//XBT_INFO("\tOpen file '%s'", file->name);
+							file = MSG_file_open("/home", "./disk/disk.disk", "rw");
 
-							read = MSG_file_read(ptr, 10000000, sizeof(char*),
-							        file);     // Read for 10Mo
-							//XBT_INFO("\tHave read    %8.1f on %s", read,
-							//        file->name);
+							read = MSG_file_read(ptr, 10000000, sizeof(char*), file);     // Read for 10Mo
 
-							//write = MSG_file_write(ptr, 10000000, sizeof(char*),
-							//       file);  // Write for 10Mo
-							//XBT_INFO("\tHave written %8.1f on %s", write,
-							//        file->name);
-
-							//read = MSG_file_read(ptr, 10000000, sizeof(char*),
-							//        file);      // Read for 10Mo
-							//XBT_INFO("\tHave read    %8.1f on %s", read,
-							//        file->name);
-
+#ifdef VERBOSE
+							XBT_INFO("\tHave read    %8.1f on %s", read, file->name);
+							s_msg_stat_t stat;
 							MSG_file_stat(file, &stat);
-							//XBT_INFO("\tFile stat %s Size %.1f", file->name,
-							//        stat.size);
+							XBT_INFO("\tFile stat %s Size %.1f", file->name, stat.size);
 							MSG_file_free_stat(&stat);
-
-							//XBT_INFO("\tClose file '%s'", file->name);
+#endif
 							MSG_file_close(file);
 						}
-						free(mount);
 					}
+
 					//Perform memory operations (treated as very fast harddrive);
 					//perform execution (CPU)
 					error = MSG_task_execute(task);
@@ -278,14 +242,12 @@ static int compute(int argc, char* argv[])
 	switch (ti->phase)
 	{
 	case MAP:
-		XBT_INFO("\t\tmap %zu complete by task tracker\t wid %d\t on %s", ti->id, wid,
-		        MSG_host_get_name(dest_host));
+		XBT_INFO("\t\tmap %zu complete by task tracker\t wid %d\t on %s", ti->id, wid, MSG_host_get_name(dest_host));
 
 		break;
 
 	case REDUCE:
-		XBT_INFO("\t\treduce %zu complete by task tracker\t wid %d\t on %s", ti->id,
-		        wid, MSG_host_get_name(dest_host));
+		XBT_INFO("\t\treduce %zu complete by task tracker\t wid %d\t on %s", ti->id, wid, MSG_host_get_name(dest_host));
 		break;
 	}
 
@@ -299,7 +261,7 @@ static int compute(int argc, char* argv[])
  */
 static void update_map_output(msg_process_t worker, size_t mid)
 {
-	int rid;
+	size_t rid;
 	size_t wid;
 
 	wid = get_worker_id(worker);
@@ -342,14 +304,14 @@ static void get_map_output(msg_process_t worker, task_info_t ti)
 	char mailbox[MAILBOX_ALIAS_SIZE];
 	msg_task_t data = NULL;
 	size_t total_copied, must_copy;
-	int mid;
-	size_t my_id,wid_wk;
-	int wid;
+	size_t mid;
+	size_t my_id;
+	size_t wid;
 	size_t* data_copied;
-	msg_host_t dest_host;
-	dest_host = MSG_process_get_host(worker);
 
-	wid_wk = get_worker_id(worker);
+#ifdef VERBOSE
+	msg_host_t dest_host = MSG_process_get_host(worker);
+#endif
 
 	my_id = get_worker_id(worker);
 	data_copied = xbt_new0 (size_t, config.number_of_workers);
@@ -359,10 +321,9 @@ static void get_map_output(msg_process_t worker, task_info_t ti)
 	for (mid = 0; mid < config.number_of_maps; mid++)
 		must_copy += user.map_output_f(mid, ti->id);
 
-//#ifdef VERBOSE
-	XBT_INFO("INFO: start copy must_copy %d, reduce %zu, task tracker\t wid %d\t on %s", must_copy, ti->id,
-			wid_wk, MSG_host_get_name(dest_host)) ;
-//#endif
+#ifdef VERBOSE
+	XBT_INFO("INFO: start copy must_copy %d, reduce %zu, task tracker\t wid %zu\t on %s", must_copy, ti->id, my_id, MSG_host_get_name(dest_host));
+#endif
 
 	while (total_copied < must_copy)
 	{
@@ -382,8 +343,8 @@ static void get_map_output(msg_process_t worker, task_info_t ti)
 				sprintf(mailbox, TASK_MAILBOX, my_id, MSG_process_self_PID());
 				data = NULL;
 				receive(&data, mailbox);
-				data_copied[wid] += MSG_task_get_data_size(data);
-				total_copied += MSG_task_get_data_size(data);
+				data_copied[wid] += (size_t) MSG_task_get_data_size(data);
+				total_copied += (size_t) MSG_task_get_data_size(data);
 				MSG_task_destroy(data);
 			}
 		}
@@ -391,10 +352,9 @@ static void get_map_output(msg_process_t worker, task_info_t ti)
 		MSG_process_sleep(5);
 	}
 
-//#ifdef VERBOSE
-	XBT_INFO("INFO: copy finished. received %d, reduce %zu, task tracker\t wid %d\t on %s", total_copied, ti->id,
-			wid_wk, MSG_host_get_name(dest_host)) ;
-//#endif
+#ifdef VERBOSE
+	XBT_INFO("INFO: copy finished. received %d, reduce %zu, task tracker\t wid %zu\t on %s", total_copied, ti->id, my_id, MSG_host_get_name(dest_host));
+#endif
 	ti->shuffle_end = MSG_get_clock();
 
 	xbt_free_ref(&data_copied);
