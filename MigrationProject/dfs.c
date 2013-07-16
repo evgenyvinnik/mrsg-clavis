@@ -25,7 +25,7 @@ static void send_data(msg_process_t worker, msg_task_t msg);
 
 void distribute_data(void)
 {
-	int chunk;
+	unsigned int chunk;
 
 	/* Allocate memory for the mapping matrix. */
 	chunk_owner = xbt_new (char*, config.chunk_count);
@@ -35,16 +35,14 @@ void distribute_data(void)
 	}
 
 	/* Call the distribution function. */
-	user.dfs_f(chunk_owner, config.chunk_count, config.number_of_workers,
-	        config.chunk_replicas);
+	user.dfs_f(chunk_owner, config.chunk_count, config.number_of_workers, config.chunk_replicas);
 }
 
-void default_dfs_f(char** dfs_matrix, size_t chunks, size_t workers,
-        int replicas)
+void default_dfs_f(char** dfs_matrix, size_t chunks, size_t workers, unsigned int replicas)
 {
-	int r;
-	int chunk;
-	int owner;
+	unsigned int r;
+	unsigned int chunk;
+	unsigned int owner;
 
 	if (config.chunk_replicas >= config.number_of_workers)
 	{
@@ -64,9 +62,7 @@ void default_dfs_f(char** dfs_matrix, size_t chunks, size_t workers,
 		{
 			for (r = 0; r < config.chunk_replicas; r++)
 			{
-				owner = ((chunk % config.number_of_workers)
-				        + ((config.number_of_workers / config.chunk_replicas)
-				                * r)) % config.number_of_workers;
+				owner = ((chunk % config.number_of_workers) + ((config.number_of_workers / config.chunk_replicas) * r)) % config.number_of_workers;
 
 				chunk_owner[chunk][owner] = 1;
 			}
@@ -74,13 +70,13 @@ void default_dfs_f(char** dfs_matrix, size_t chunks, size_t workers,
 	}
 }
 
-size_t find_random_chunk_owner(int cid)
+unsigned int find_random_chunk_owner(size_t cid)
 {
-	int replica;
-	int owner = NONE;
-	int wid;
+	size_t replica;
+	size_t owner = (size_t)NONE;
+	size_t wid;
 
-	replica = rand() % config.chunk_replicas;
+	replica = (size_t) rand() % config.chunk_replicas;
 
 	for (wid = 0; wid < config.number_of_workers; wid++)
 	{
@@ -95,7 +91,7 @@ size_t find_random_chunk_owner(int cid)
 		}
 	}
 
-	xbt_assert(owner != NONE, "Aborted: chunk %d is missing.", cid);
+	xbt_assert(owner != (size_t)NONE, "Aborted: chunk %zu is missing.", cid);
 
 	return owner;
 }
@@ -143,20 +139,16 @@ static void send_data(msg_process_t worker, msg_task_t msg)
 	ti = (task_info_t) MSG_task_get_data(msg);
 	original_worker = ti->worker_process;
 
-	sprintf(mailbox, TASK_MAILBOX, get_worker_id(original_worker),
-	        MSG_process_get_PID(MSG_task_get_sender(msg)));
+	sprintf(mailbox, TASK_MAILBOX, get_worker_id(original_worker), MSG_process_get_PID(MSG_task_get_sender(msg)));
 
 	if (message_is(msg, SMS_GET_CHUNK))
 	{
-		MSG_task_dsend(MSG_task_create("DATA-C", 0.0, config.chunk_size, NULL ),
-		        mailbox, NULL );
+		MSG_task_dsend(MSG_task_create("DATA-C", 0.0, config.chunk_size, NULL ), mailbox, NULL );
 	}
 	else if (message_is(msg, SMS_GET_INTER_PAIRS))
 	{
-		data_size = job.map_output[my_id][ti->id]
-		        - ti->map_output_copied[my_id];
-		MSG_task_dsend(MSG_task_create("DATA-IP", 0.0, data_size, NULL ),
-		        mailbox, NULL );
+		data_size = job.map_output[my_id][ti->id] - ti->map_output_copied[my_id];
+		MSG_task_dsend(MSG_task_create("DATA-IP", 0.0, data_size, NULL ), mailbox, NULL );
 	}
 
 	MSG_task_destroy(msg);
