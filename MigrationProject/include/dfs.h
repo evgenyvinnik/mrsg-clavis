@@ -19,24 +19,24 @@ along with MRSG.  If not, see <http://www.gnu.org/licenses/>. */
 #define DFS_H
 
 /** @brief  Matrix that maps chunks to workers. */
-char**  chunk_owner;
+char***  chunk_owners;
 
 /**
  * @brief  Distribute chunks (and replicas) to DataNodes.
  */
-void distribute_data (void);
+void distribute_data (int configuration_id);
 
 /**
  * @brief  Default data distribution algorithm.
  */
-void default_dfs_f (char** dfs_matrix, size_t chunks, size_t workers, unsigned int replicas);
+void default_dfs_f (char** dfs_matrix, size_t chunks, size_t workers, unsigned int replicas, int configuration_id);
 
 /**
  * @brief  Choose a random DataNode that owns a specific chunk.
  * @param  cid  The chunk ID.
  * @return The ID of the DataNode.
  */
-unsigned int find_random_chunk_owner (size_t cid);
+unsigned int find_random_chunk_owner (size_t cid, int configuration_id);
 
 /**
  * @brief  DataNode main function.

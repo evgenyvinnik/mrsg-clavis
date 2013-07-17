@@ -27,22 +27,22 @@
 //#define VERBOSE 1
 
 /* Short message names. */
-#define SMS_GET_CHUNK "SMS-GC"
-#define SMS_GET_INTER_PAIRS "SMS-GIP"
-#define SMS_HEARTBEAT "SMS-HB"
-#define SMS_TASK "SMS-T"
-#define SMS_TASK_DONE "SMS-TD"
-#define SMS_FINISH "SMS-F"
+#define SMS_GET_CHUNK "%d:SMS-GC"
+#define SMS_GET_INTER_PAIRS "%d:SMS-GIP"
+#define SMS_HEARTBEAT "SMS-HB%d"
+#define SMS_TASK "SMS-T%d"
+#define SMS_TASK_DONE "SMS-TD%d"
+#define SMS_FINISH "%d:SMS-F"
 
 #define NONE (-1)
 #define MAX_SPECULATIVE_COPIES 3
 
 /* Mailbox related. */
 #define MAILBOX_ALIAS_SIZE 256
-#define MASTER_MAILBOX "MASTER"
-#define DATANODE_MAILBOX "%zu:DN"
-#define TASKTRACKER_MAILBOX "%zu:TT"
-#define TASK_MAILBOX "%zu:%d"
+#define MASTER_MAILBOX "MASTER%d"
+#define DATANODE_MAILBOX "%d:%zu:DN"
+#define TASKTRACKER_MAILBOX "%d:%zu:TT"
+#define TASK_MAILBOX "%d:%zu:%d"
 
 /** @brief  Communication ports. */
 enum port_e
@@ -73,7 +73,9 @@ struct config_s
 	int initialized;
 	unsigned long int worker_hosts_number;
 	unsigned long int vm_per_host;
-} config;
+};
+
+typedef struct config_s* config_t;
 
 struct job_s
 {
@@ -83,7 +85,9 @@ struct job_s
 	int* task_status[2];
 	msg_task_t** task_list[2];
 	size_t** map_output;
-} job;
+};
+
+typedef struct job_s* job_t;
 
 /** @brief  Information sent as the task data. */
 struct task_info_s
@@ -119,19 +123,24 @@ struct stats_s
 	int reduce_spec;
 	int* maps_processed;
 	int* reduces_processed;
-} stats;
+};
+typedef struct stats_s* stats_t;
 
 struct user_s
 {
 	double (*task_cost_f)(enum phase_e phase, size_t tid, size_t wid);
 	void (*dfs_f)(char** dfs_matrix, size_t chunks, size_t workers,
-	        unsigned int replicas);
+	        unsigned int replicas, int configuration_id);
 	size_t (*map_output_f)(size_t mid, size_t rid);
 } user;
 
 msg_host_t master_host;
-//msg_host_t* worker_hosts;
-heartbeat_t w_heartbeat;
+heartbeat_t* w_heartbeats;
+config_t configs;
+job_t jobs;
+stats_t statistics;
+int configs_count;
+int hosts_required;
 
 /**
  * @brief  Get the ID of a worker.

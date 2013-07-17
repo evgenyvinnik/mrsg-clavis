@@ -21,66 +21,69 @@
 
 XBT_LOG_EXTERNAL_DEFAULT_CATEGORY(msg_test);
 
-static void send_data(msg_process_t worker, msg_task_t msg);
+static void send_data(msg_process_t worker, msg_task_t msg, int configuration_id);
 
-void distribute_data(void)
+void distribute_data(int configuration_id)
 {
 	unsigned int chunk;
 
 	/* Allocate memory for the mapping matrix. */
-	chunk_owner = xbt_new (char*, config.chunk_count);
-	for (chunk = 0; chunk < config.chunk_count; chunk++)
+	chunk_owners[configuration_id] = xbt_new (char*, configs[configuration_id].chunk_count);
+	for (chunk = 0; chunk < configs[configuration_id].chunk_count; chunk++)
 	{
-		chunk_owner[chunk] = xbt_new0 (char, config.number_of_workers);
+		chunk_owners[configuration_id][chunk] = xbt_new0 (char, configs[configuration_id].number_of_workers);
 	}
 
 	/* Call the distribution function. */
-	user.dfs_f(chunk_owner, config.chunk_count, config.number_of_workers, config.chunk_replicas);
+	user.dfs_f(chunk_owners[configuration_id], configs[configuration_id].chunk_count, configs[configuration_id].number_of_workers,
+	        configs[configuration_id].chunk_replicas, configuration_id);
 }
 
-void default_dfs_f(char** dfs_matrix, size_t chunks, size_t workers, unsigned int replicas)
+void default_dfs_f(char** dfs_matrix, size_t chunks, size_t workers, unsigned int replicas, int configuration_id)
 {
 	unsigned int r;
 	unsigned int chunk;
 	unsigned int owner;
 
-	if (config.chunk_replicas >= config.number_of_workers)
+	if (configs[configuration_id].chunk_replicas >= configs[configuration_id].number_of_workers)
 	{
 		/* All workers own every chunk. */
-		for (chunk = 0; chunk < config.chunk_count; chunk++)
+		for (chunk = 0; chunk < configs[configuration_id].chunk_count; chunk++)
 		{
-			for (owner = 0; owner < config.number_of_workers; owner++)
+			for (owner = 0; owner < configs[configuration_id].number_of_workers; owner++)
 			{
-				chunk_owner[chunk][owner] = 1;
+				chunk_owners[configuration_id][chunk][owner] = 1;
 			}
 		}
 	}
 	else
 	{
 		/* Ok, it's a typical distribution. */
-		for (chunk = 0; chunk < config.chunk_count; chunk++)
+		for (chunk = 0; chunk < configs[configuration_id].chunk_count; chunk++)
 		{
-			for (r = 0; r < config.chunk_replicas; r++)
+			for (r = 0; r < configs[configuration_id].chunk_replicas; r++)
 			{
-				owner = ((chunk % config.number_of_workers) + ((config.number_of_workers / config.chunk_replicas) * r)) % config.number_of_workers;
+				owner = ((chunk % configs[configuration_id].number_of_workers)
+				        + ((configs[configuration_id].number_of_workers / configs[configuration_id].chunk_replicas) * r))
+				        % configs[configuration_id].number_of_workers;
 
-				chunk_owner[chunk][owner] = 1;
+				chunk_owners[configuration_id][chunk][owner] = 1;
 			}
 		}
 	}
 }
 
-unsigned int find_random_chunk_owner(size_t cid)
+unsigned int find_random_chunk_owner(size_t cid, int configuration_id)
 {
 	size_t replica;
-	size_t owner = (size_t)NONE;
+	size_t owner = (size_t) NONE;
 	size_t wid;
 
-	replica = (size_t) rand() % config.chunk_replicas;
+	replica = (size_t) rand() % configs[configuration_id].chunk_replicas;
 
-	for (wid = 0; wid < config.number_of_workers; wid++)
+	for (wid = 0; wid < configs[configuration_id].number_of_workers; wid++)
 	{
-		if (chunk_owner[cid][wid])
+		if (chunk_owners[configuration_id][cid][wid])
 		{
 			owner = wid;
 
@@ -99,36 +102,44 @@ unsigned int find_random_chunk_owner(size_t cid)
 int data_node(int argc, char* argv[])
 {
 	char mailbox[MAILBOX_ALIAS_SIZE];
+	char message_finish[MAILBOX_ALIAS_SIZE];
 	msg_task_t msg = NULL;
 	int parent_id;
 	msg_process_t parent_process;
+	int config_id;
+
+	xbt_assert(argc >= 1, "data_node function requires at least 1 argument - its config ID");
+	sscanf(argv[0], "%d", &config_id);
 
 	parent_id = MSG_process_self_PPID();
 	parent_process = MSG_process_from_PID(parent_id);
 
-	sprintf(mailbox, DATANODE_MAILBOX, get_worker_id(parent_process));
+	sprintf(mailbox, DATANODE_MAILBOX, config_id, get_worker_id(parent_process));
+	sprintf(message_finish, SMS_FINISH, config_id);
 
-	while (!job.finished)
+	while (!jobs[config_id].finished)
 	{
 		msg = NULL;
 		receive(&msg, mailbox);
-		if (message_is(msg, SMS_FINISH))
+		if (message_is(msg, message_finish))
 		{
 			MSG_task_destroy(msg);
 			break;
 		}
 		else
 		{
-			send_data(parent_process, msg);
+			send_data(parent_process, msg, config_id);
 		}
 	}
 
 	return 0;
 }
 
-static void send_data(msg_process_t worker, msg_task_t msg)
+static void send_data(msg_process_t worker, msg_task_t msg, int configuration_id)
 {
 	char mailbox[MAILBOX_ALIAS_SIZE];
+	char message_get_chunk[MAILBOX_ALIAS_SIZE];
+	char message_get_inter_pairs[MAILBOX_ALIAS_SIZE];
 	double data_size;
 	size_t my_id;
 	task_info_t ti;
@@ -139,15 +150,17 @@ static void send_data(msg_process_t worker, msg_task_t msg)
 	ti = (task_info_t) MSG_task_get_data(msg);
 	original_worker = ti->worker_process;
 
-	sprintf(mailbox, TASK_MAILBOX, get_worker_id(original_worker), MSG_process_get_PID(MSG_task_get_sender(msg)));
+	sprintf(mailbox, TASK_MAILBOX, configuration_id, get_worker_id(original_worker), MSG_process_get_PID(MSG_task_get_sender(msg)));
+	sprintf(message_get_chunk, SMS_GET_CHUNK, configuration_id);
+	sprintf(message_get_inter_pairs, SMS_GET_INTER_PAIRS, configuration_id);
 
-	if (message_is(msg, SMS_GET_CHUNK))
+	if (message_is(msg, message_get_chunk))
 	{
-		MSG_task_dsend(MSG_task_create("DATA-C", 0.0, config.chunk_size, NULL ), mailbox, NULL );
+		MSG_task_dsend(MSG_task_create("DATA-C", 0.0, configs[configuration_id].chunk_size, NULL ), mailbox, NULL );
 	}
-	else if (message_is(msg, SMS_GET_INTER_PAIRS))
+	else if (message_is(msg, message_get_inter_pairs))
 	{
-		data_size = job.map_output[my_id][ti->id] - ti->map_output_copied[my_id];
+		data_size = jobs[configuration_id].map_output[my_id][ti->id] - ti->map_output_copied[my_id];
 		MSG_task_dsend(MSG_task_create("DATA-IP", 0.0, data_size, NULL ), mailbox, NULL );
 	}
 

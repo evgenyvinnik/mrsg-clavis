@@ -23,37 +23,52 @@
 
 XBT_LOG_EXTERNAL_DEFAULT_CATEGORY(msg_test);
 
-static FILE* tasks_log;
 
-static void print_config(void);
-static void print_stats(void);
-static int is_straggler(msg_process_t worker);
+
+static void print_config(int configuration_id);
+static void print_stats(int configuration_id);
+static int is_straggler(msg_process_t worker, int configuration_id);
 static double task_time_elapsed(msg_task_t task);
-static void set_speculative_tasks(msg_process_t worker);
-static void send_map_to_worker(msg_process_t dest);
-static void send_reduce_to_worker(msg_process_t dest);
-static void send_task(enum phase_e phase, size_t tid, size_t data_src, msg_process_t dest);
-static void finish_all_task_copies(task_info_t ti);
+static void set_speculative_tasks(msg_process_t worker, int configuration_id);
+static void send_map_to_worker(msg_process_t dest, int configuration_id, FILE* tasks_log);
+static void send_reduce_to_worker(msg_process_t dest, int configuration_id, FILE* tasks_log);
+static void send_task(enum phase_e phase, size_t tid, size_t data_src, msg_process_t dest, int configuration_id, FILE* tasks_log);
+static void finish_all_task_copies(task_info_t ti, int configuration_id, FILE* tasks_log);
 
 /** @brief  Main master function. */
 int master(int argc, char* argv[])
 {
+	char master_mailbox[MAILBOX_ALIAS_SIZE];
+	char sms_heartbeat[MAILBOX_ALIAS_SIZE];
+	char sms_task_done[MAILBOX_ALIAS_SIZE];
+	char tasks_log_name[MAILBOX_ALIAS_SIZE];
+	FILE* tasks_log;
+
 	heartbeat_t heartbeat;
 	msg_process_t worker;
 	msg_task_t msg = NULL;
 	size_t wid;
 	task_info_t ti;
+	int config_id;
 
-	print_config();
-	XBT_INFO("JOB BEGIN");
+	xbt_assert(argc >= 1, "master function requires at least 1 argument - its config ID");
+	sscanf(argv[0], "%d", &config_id);
+
+	sprintf(master_mailbox, MASTER_MAILBOX, config_id);
+	sprintf(sms_heartbeat, SMS_HEARTBEAT, config_id);
+	sprintf(sms_task_done, SMS_TASK_DONE, config_id);
+	sprintf(tasks_log_name, "tasks%d.log", config_id);
+
+	print_config(config_id);
+	XBT_INFO("JOB BEGIN master config %d", config_id);
 	XBT_INFO(" ");
 
-	tasks_log = fopen("tasks.log", "w");
+	tasks_log = fopen(tasks_log_name, "w");
 
-	while (job.tasks_pending[MAP] + job.tasks_pending[REDUCE] > 0)
+	while (jobs[config_id].tasks_pending[MAP] + jobs[config_id].tasks_pending[REDUCE] > 0)
 	{
 		msg = NULL;
-		receive(&msg, MASTER_MAILBOX);
+		receive(&msg, master_mailbox);
 		ti = (task_info_t) MSG_task_get_data(msg);
 		if (ti == NULL )
 		{
@@ -65,55 +80,55 @@ int master(int argc, char* argv[])
 		}
 		wid = get_worker_id(worker);
 
-		if (message_is(msg, SMS_HEARTBEAT))
+		if (message_is(msg, sms_heartbeat))
 		{
-			heartbeat = &w_heartbeat[wid];
+			heartbeat = &w_heartbeats[config_id][wid];
 
-			if (is_straggler(worker))
+			if (is_straggler(worker, config_id))
 			{
-				set_speculative_tasks(worker);
+				set_speculative_tasks(worker, config_id);
 			}
 			else
 			{
 				if (heartbeat->slots_av[MAP] > 0)
-					send_map_to_worker(worker);
+					send_map_to_worker(worker, config_id, tasks_log);
 
 				if (heartbeat->slots_av[REDUCE] > 0)
-					send_reduce_to_worker(worker);
+					send_reduce_to_worker(worker, config_id, tasks_log);
 			}
 		}
-		else if (message_is(msg, SMS_TASK_DONE))
+		else if (message_is(msg, sms_task_done))
 		{
 
 			switch (ti->phase)
 			{
 			case MAP:
-				if (job.task_status[MAP][ti->id] != T_STATUS_DONE)
+				if (jobs[config_id].task_status[MAP][ti->id] != T_STATUS_DONE)
 				{
-					job.task_status[MAP][ti->id] = T_STATUS_DONE;
-					finish_all_task_copies(ti);
-					stats.maps_processed[wid]++;
-					job.tasks_pending[MAP]--;
-					if (job.tasks_pending[MAP] <= 0)
+					jobs[config_id].task_status[MAP][ti->id] = T_STATUS_DONE;
+					finish_all_task_copies(ti, config_id, tasks_log);
+					statistics[config_id].maps_processed[wid]++;
+					jobs[config_id].tasks_pending[MAP]--;
+					if (jobs[config_id].tasks_pending[MAP] <= 0)
 					{
 						XBT_INFO(" ");
-						XBT_INFO("MAP PHASE DONE");
+						XBT_INFO("MAP PHASE DONE config %d", config_id);
 						XBT_INFO(" ");
 					}
 				}
 				break;
 
 			case REDUCE:
-				if (job.task_status[REDUCE][ti->id] != T_STATUS_DONE)
+				if (jobs[config_id].task_status[REDUCE][ti->id] != T_STATUS_DONE)
 				{
-					job.task_status[REDUCE][ti->id] = T_STATUS_DONE;
-					finish_all_task_copies(ti);
-					stats.reduces_processed[wid]++;
-					job.tasks_pending[REDUCE]--;
-					if (job.tasks_pending[REDUCE] <= 0)
+					jobs[config_id].task_status[REDUCE][ti->id] = T_STATUS_DONE;
+					finish_all_task_copies(ti, config_id, tasks_log);
+					statistics[config_id].reduces_processed[wid]++;
+					jobs[config_id].tasks_pending[REDUCE]--;
+					if (jobs[config_id].tasks_pending[REDUCE] <= 0)
 					{
 						XBT_INFO(" ");
-						XBT_INFO("REDUCE PHASE DONE");
+						XBT_INFO("REDUCE PHASE DONE config %d", config_id);
 						XBT_INFO(" ");
 					}
 				}
@@ -126,45 +141,45 @@ int master(int argc, char* argv[])
 
 	fclose(tasks_log);
 
-	job.finished = 1;
+	jobs[config_id].finished = 1;
 
-	print_config();
-	print_stats();
-	XBT_INFO("JOB END");
+	print_config(config_id);
+	print_stats(config_id);
+	XBT_INFO("JOB END config %d", config_id);
 
 	return 0;
 }
 
 /** @brief  Print the job configuration. */
-static void print_config(void)
+static void print_config(int configuration_id)
 {
-	XBT_INFO("JOB CONFIGURATION:");
-	XBT_INFO("slots: %u map, %u reduce", config.map_slots, config.reduce_slots);
-	XBT_INFO("chunk replicas: %u", config.chunk_replicas);
-	XBT_INFO("chunk size: %.0f MB", config.chunk_size / 1024 / 1024);
-	XBT_INFO("input chunks: %u", config.chunk_count);
-	XBT_INFO("input size: %g MB", config.chunk_count * (config.chunk_size / 1024 / 1024));
-	XBT_INFO("maps: %u", config.number_of_maps);
-	XBT_INFO("reduces: %u", config.number_of_reduces);
-	XBT_INFO("workers: %u", config.number_of_workers);
-	XBT_INFO("grid power: %g flops", config.grid_cpu_power);
-	XBT_INFO("average power: %g flops/s", config.grid_average_speed);
-	XBT_INFO("heartbeat interval: %u", config.heartbeat_interval);
+	XBT_INFO("JOB CONFIGURATION %d:", configuration_id);
+	XBT_INFO("slots: %u map, %u reduce", configs[configuration_id].map_slots, configs[configuration_id].reduce_slots);
+	XBT_INFO("chunk replicas: %u", configs[configuration_id].chunk_replicas);
+	XBT_INFO("chunk size: %.0f MB", configs[configuration_id].chunk_size / 1024 / 1024);
+	XBT_INFO("input chunks: %u", configs[configuration_id].chunk_count);
+	XBT_INFO("input size: %g MB", configs[configuration_id].chunk_count * (configs[configuration_id].chunk_size / 1024 / 1024));
+	XBT_INFO("maps: %u", configs[configuration_id].number_of_maps);
+	XBT_INFO("reduces: %u", configs[configuration_id].number_of_reduces);
+	XBT_INFO("workers: %u", configs[configuration_id].number_of_workers);
+	XBT_INFO("grid power: %g flops", configs[configuration_id].grid_cpu_power);
+	XBT_INFO("average power: %g flops/s", configs[configuration_id].grid_average_speed);
+	XBT_INFO("heartbeat interval: %u", configs[configuration_id].heartbeat_interval);
 	XBT_INFO(" ");
 }
 
 /** @brief  Print job statistics. */
-static void print_stats(void)
+static void print_stats(int configuration_id)
 {
-	XBT_INFO("JOB STATISTICS:");
-	XBT_INFO("local maps: %d", stats.map_local);
-	XBT_INFO("non-local maps: %d", stats.map_remote);
-	XBT_INFO("speculative maps (local): %d", stats.map_spec_l);
-	XBT_INFO("speculative maps (remote): %d", stats.map_spec_r);
-	XBT_INFO("total non-local maps: %d", stats.map_remote + stats.map_spec_r);
-	XBT_INFO("total speculative maps: %d", stats.map_spec_l + stats.map_spec_r);
-	XBT_INFO("normal reduces: %d", stats.reduce_normal);
-	XBT_INFO("speculative reduces: %d", stats.reduce_spec);
+	XBT_INFO("JOB STATISTICS %d:", configuration_id);
+	XBT_INFO("local maps: %d", statistics[configuration_id].map_local);
+	XBT_INFO("non-local maps: %d", statistics[configuration_id].map_remote);
+	XBT_INFO("speculative maps (local): %d", statistics[configuration_id].map_spec_l);
+	XBT_INFO("speculative maps (remote): %d", statistics[configuration_id].map_spec_r);
+	XBT_INFO("total non-local maps: %d", statistics[configuration_id].map_remote + statistics[configuration_id].map_spec_r);
+	XBT_INFO("total speculative maps: %d", statistics[configuration_id].map_spec_l + statistics[configuration_id].map_spec_r);
+	XBT_INFO("normal reduces: %d", statistics[configuration_id].reduce_normal);
+	XBT_INFO("speculative reduces: %d", statistics[configuration_id].reduce_spec);
 	XBT_INFO(" ");
 }
 
@@ -173,7 +188,7 @@ static void print_stats(void)
  * @param  worker  The worker to be probed.
  * @return 1 if true, 0 if false.
  */
-static int is_straggler(msg_process_t worker)
+static int is_straggler(msg_process_t worker, int configuration_id)
 {
 	size_t task_count;
 	size_t wid;
@@ -182,9 +197,10 @@ static int is_straggler(msg_process_t worker)
 	wid = get_worker_id(worker);
 	worker_host = MSG_process_get_host(worker);
 
-	task_count = (config.map_slots + config.reduce_slots) - (w_heartbeat[wid].slots_av[MAP] + w_heartbeat[wid].slots_av[REDUCE]);
+	task_count = (configs[configuration_id].map_slots + configs[configuration_id].reduce_slots)
+	        - (w_heartbeats[configuration_id][wid].slots_av[MAP] + w_heartbeats[configuration_id][wid].slots_av[REDUCE]);
 
-	if (MSG_get_host_speed(worker_host) < config.grid_average_speed && task_count > 0)
+	if (MSG_get_host_speed(worker_host) < configs[configuration_id].grid_average_speed && task_count > 0)
 		return 1;
 
 	return 0;
@@ -209,7 +225,7 @@ static double task_time_elapsed(msg_task_t task)
  * @brief  Mark the tasks of a straggler as possible speculative tasks.
  * @param  worker  The straggler worker.
  */
-static void set_speculative_tasks(msg_process_t worker)
+static void set_speculative_tasks(msg_process_t worker, int configuration_id)
 {
 	size_t tid;
 	size_t wid;
@@ -217,31 +233,31 @@ static void set_speculative_tasks(msg_process_t worker)
 
 	wid = get_worker_id(worker);
 
-	if (w_heartbeat[wid].slots_av[MAP] < config.map_slots)
+	if (w_heartbeats[configuration_id][wid].slots_av[MAP] < configs[configuration_id].map_slots)
 	{
-		for (tid = 0; tid < config.number_of_maps; tid++)
+		for (tid = 0; tid < configs[configuration_id].number_of_maps; tid++)
 		{
-			if (job.task_list[MAP][0][tid] != NULL )
+			if (jobs[configuration_id].task_list[MAP][0][tid] != NULL )
 			{
-				ti = (task_info_t) MSG_task_get_data(job.task_list[MAP][0][tid]);
-				if (ti->wid == wid && task_time_elapsed(job.task_list[MAP][0][tid]) > 60.0)
+				ti = (task_info_t) MSG_task_get_data(jobs[configuration_id].task_list[MAP][0][tid]);
+				if (ti->wid == wid && task_time_elapsed(jobs[configuration_id].task_list[MAP][0][tid]) > 60.0)
 				{
-					job.task_status[MAP][tid] = T_STATUS_TIP_SLOW;
+					jobs[configuration_id].task_status[MAP][tid] = T_STATUS_TIP_SLOW;
 				}
 			}
 		}
 	}
 
-	if (w_heartbeat[wid].slots_av[REDUCE] < config.reduce_slots)
+	if (w_heartbeats[configuration_id][wid].slots_av[REDUCE] < configs[configuration_id].reduce_slots)
 	{
-		for (tid = 0; tid < config.number_of_reduces; tid++)
+		for (tid = 0; tid < configs[configuration_id].number_of_reduces; tid++)
 		{
-			if (job.task_list[REDUCE][0][tid] != NULL )
+			if (jobs[configuration_id].task_list[REDUCE][0][tid] != NULL )
 			{
-				ti = (task_info_t) MSG_task_get_data(job.task_list[REDUCE][0][tid]);
-				if (ti->wid == wid && task_time_elapsed(job.task_list[REDUCE][0][tid]) > 60.0)
+				ti = (task_info_t) MSG_task_get_data(jobs[configuration_id].task_list[REDUCE][0][tid]);
+				if (ti->wid == wid && task_time_elapsed(jobs[configuration_id].task_list[REDUCE][0][tid]) > 60.0)
 				{
-					job.task_status[REDUCE][tid] = T_STATUS_TIP_SLOW;
+					jobs[configuration_id].task_status[REDUCE][tid] = T_STATUS_TIP_SLOW;
 				}
 			}
 		}
@@ -252,7 +268,7 @@ static void set_speculative_tasks(msg_process_t worker)
  * @brief  Choose a map task, and send it to a worker.
  * @param  dest  The destination worker.
  */
-static void send_map_to_worker(msg_process_t dest)
+static void send_map_to_worker(msg_process_t dest, int configuration_id, FILE* tasks_log)
 {
 	char* flags;
 	int task_type;
@@ -262,7 +278,7 @@ static void send_map_to_worker(msg_process_t dest)
 	size_t wid;
 	msg_host_t dest_host;
 
-	if (job.tasks_pending[MAP] <= 0)
+	if (jobs[configuration_id].tasks_pending[MAP] <= 0)
 		return;
 
 	enum
@@ -275,11 +291,11 @@ static void send_map_to_worker(msg_process_t dest)
 	dest_host = MSG_process_get_host(dest);
 
 	/* Look for a task for the worker. */
-	for (chunk = 0; chunk < config.chunk_count; chunk++)
+	for (chunk = 0; chunk < configs[configuration_id].chunk_count; chunk++)
 	{
-		if (job.task_status[MAP][chunk] == T_STATUS_PENDING)
+		if (jobs[configuration_id].task_status[MAP][chunk] == T_STATUS_PENDING)
 		{
-			if (chunk_owner[chunk][wid])
+			if (chunk_owners[configuration_id][chunk][wid])
 			{
 				task_type = LOCAL;
 				tid = chunk;
@@ -291,9 +307,9 @@ static void send_map_to_worker(msg_process_t dest)
 				tid = chunk;
 			}
 		}
-		else if (job.task_status[MAP][chunk] == T_STATUS_TIP_SLOW && task_type > REMOTE && !job.task_has_spec_copy[MAP][chunk])
+		else if (jobs[configuration_id].task_status[MAP][chunk] == T_STATUS_TIP_SLOW && task_type > REMOTE && !jobs[configuration_id].task_has_spec_copy[MAP][chunk])
 		{
-			if (chunk_owner[chunk][wid])
+			if (chunk_owners[configuration_id][chunk][wid])
 			{
 				task_type = LOCAL_SPEC;
 				tid = chunk;
@@ -311,55 +327,55 @@ static void send_map_to_worker(msg_process_t dest)
 	case LOCAL:
 		flags = "";
 		sid = wid;
-		stats.map_local++;
+		statistics[configuration_id].map_local++;
 		break;
 
 	case REMOTE:
 		flags = "(non-local)";
-		sid = find_random_chunk_owner(tid);
-		stats.map_remote++;
+		sid = find_random_chunk_owner(tid,configuration_id);
+		statistics[configuration_id].map_remote++;
 		break;
 
 	case LOCAL_SPEC:
 		flags = "(speculative)";
 		sid = wid;
-		job.task_has_spec_copy[MAP][tid] = 1;
-		stats.map_spec_l++;
+		jobs[configuration_id].task_has_spec_copy[MAP][tid] = 1;
+		statistics[configuration_id].map_spec_l++;
 		break;
 
 	case REMOTE_SPEC:
 		flags = "(non-local, speculative)";
-		sid = find_random_chunk_owner(tid);
-		job.task_has_spec_copy[MAP][tid] = 1;
-		stats.map_spec_r++;
+		sid = find_random_chunk_owner(tid,configuration_id);
+		jobs[configuration_id].task_has_spec_copy[MAP][tid] = 1;
+		statistics[configuration_id].map_spec_r++;
 		break;
 
 	default:
 		return;
 	}
 
-	XBT_INFO("\tmap %zu assigned to task tracker\t wid %d\t on %s %s", tid, wid, MSG_host_get_name(dest_host), flags);
+	XBT_INFO("\tconfig %d map %zu assigned to task tracker\t wid %d\t on %s %s", configuration_id, tid, wid, MSG_host_get_name(dest_host), flags);
 
-	send_task(MAP, tid, sid, dest);
+	send_task(MAP, tid, sid, dest,configuration_id, tasks_log);
 }
 
 /**
  * @brief  Choose a reduce task, and send it to a worker.
  * @param  dest  The destination worker.
  */
-static void send_reduce_to_worker(msg_process_t dest)
+static void send_reduce_to_worker(msg_process_t dest, int configuration_id, FILE* tasks_log)
 {
 	char* flags;
 	int task_type;
 	size_t t;
-	size_t tid = (size_t)NONE;
+	size_t tid = (size_t) NONE;
 	msg_host_t dest_host;
 	size_t wid;
 
 	dest_host = MSG_process_get_host(dest);
 	wid = get_worker_id(dest);
 
-	if (job.tasks_pending[REDUCE] <= 0 || ((float) job.tasks_pending[MAP] / (float) config.number_of_maps) > 0.9)
+	if (jobs[configuration_id].tasks_pending[REDUCE] <= 0 || ((float) jobs[configuration_id].tasks_pending[MAP] / (float) configs[configuration_id].number_of_maps) > 0.9)
 		return;
 
 	enum
@@ -368,15 +384,15 @@ static void send_reduce_to_worker(msg_process_t dest)
 	};
 	task_type = NO_TASK;
 
-	for (t = 0; t < config.number_of_reduces; t++)
+	for (t = 0; t < configs[configuration_id].number_of_reduces; t++)
 	{
-		if (job.task_status[REDUCE][t] == T_STATUS_PENDING)
+		if (jobs[configuration_id].task_status[REDUCE][t] == T_STATUS_PENDING)
 		{
 			task_type = NORMAL;
 			tid = t;
 			break;
 		}
-		else if (job.task_status[REDUCE][t] == T_STATUS_TIP_SLOW && !job.task_has_spec_copy[REDUCE][t])
+		else if (jobs[configuration_id].task_status[REDUCE][t] == T_STATUS_TIP_SLOW && !jobs[configuration_id].task_has_spec_copy[REDUCE][t])
 		{
 			task_type = SPECULATIVE;
 			tid = t;
@@ -387,22 +403,22 @@ static void send_reduce_to_worker(msg_process_t dest)
 	{
 	case NORMAL:
 		flags = "";
-		stats.reduce_normal++;
+		statistics[configuration_id].reduce_normal++;
 		break;
 
 	case SPECULATIVE:
 		flags = "(speculative)";
-		job.task_has_spec_copy[REDUCE][tid] = 1;
-		stats.reduce_spec++;
+		jobs[configuration_id].task_has_spec_copy[REDUCE][tid] = 1;
+		statistics[configuration_id].reduce_spec++;
 		break;
 
 	default:
 		return;
 	}
 
-	XBT_INFO("\treduce %zu assigned to task tracker\t wid %d\t on %s %s", tid, wid, MSG_host_get_name(dest_host), flags);
+	XBT_INFO("\tconfig %d reduce %zu assigned to task tracker\t wid %d\t on %s %s", configuration_id, tid, wid, MSG_host_get_name(dest_host), flags);
 
-	send_task(REDUCE, tid, (size_t)NONE, dest);
+	send_task(REDUCE, tid, (size_t) NONE, dest, configuration_id, tasks_log);
 }
 
 /**
@@ -412,9 +428,10 @@ static void send_reduce_to_worker(msg_process_t dest)
  * @param  data_src  The ID of the DataNode that owns the task data.
  * @param  dest      The destination worker.
  */
-static void send_task(enum phase_e phase, size_t tid, size_t data_src, msg_process_t dest)
+static void send_task(enum phase_e phase, size_t tid, size_t data_src, msg_process_t dest, int configuration_id,FILE* tasks_log)
 {
 	char mailbox[MAILBOX_ALIAS_SIZE];
+	char sms_task[MAILBOX_ALIAS_SIZE];
 	int i;
 	double cpu_required = 0.0;
 	msg_task_t task = NULL;
@@ -424,9 +441,10 @@ static void send_task(enum phase_e phase, size_t tid, size_t data_src, msg_proce
 	wid = get_worker_id(dest);
 
 	cpu_required = user.task_cost_f(phase, tid, wid);
+	sprintf(sms_task, SMS_TASK, configuration_id);
 
 	task_info = xbt_new (struct task_info_s, 1);
-	task = MSG_task_create(SMS_TASK, cpu_required, 0.0, (void*) task_info);
+	task = MSG_task_create(sms_task, cpu_required, 0.0, (void*) task_info);
 
 	task_info->phase = phase;
 	task_info->id = tid;
@@ -438,27 +456,27 @@ static void send_task(enum phase_e phase, size_t tid, size_t data_src, msg_proce
 	// for tracing purposes...
 	MSG_task_set_category(task, (phase == MAP ? "MAP" : "REDUCE"));
 
-	if (job.task_status[phase][tid] != T_STATUS_TIP_SLOW)
-		job.task_status[phase][tid] = T_STATUS_TIP;
+	if (jobs[configuration_id].task_status[phase][tid] != T_STATUS_TIP_SLOW)
+		jobs[configuration_id].task_status[phase][tid] = T_STATUS_TIP;
 
-	w_heartbeat[wid].slots_av[phase]--;
+	w_heartbeats[configuration_id][wid].slots_av[phase]--;
 
 	for (i = 0; i < MAX_SPECULATIVE_COPIES; i++)
 	{
-		if (job.task_list[phase][i][tid] == NULL )
+		if (jobs[configuration_id].task_list[phase][i][tid] == NULL )
 		{
-			job.task_list[phase][i][tid] = task;
+			jobs[configuration_id].task_list[phase][i][tid] = task;
 			break;
 		}
 	}
 
-	fprintf(tasks_log, "%d_%zu_%d\t%s\t%zu\t%.3f\tSTART\n", phase, tid, i, (phase == MAP ? "MAP" : "REDUCE"), wid, MSG_get_clock());
+	fprintf(tasks_log, "config%d %d_%zu_%d\t%s\t%zu\t%.3f\tSTART\n",configuration_id, phase, tid, i, (phase == MAP ? "MAP" : "REDUCE"), wid, MSG_get_clock());
 
 #ifdef VERBOSE
 	XBT_INFO ("TX: %s > %s", SMS_TASK, MSG_host_get_name (MSG_process_get_host(dest)));
 #endif
 
-	sprintf(mailbox, TASKTRACKER_MAILBOX, wid);
+	sprintf(mailbox, TASKTRACKER_MAILBOX, configuration_id, wid);
 	xbt_assert(MSG_task_send(task, mailbox) == MSG_OK, "ERROR SENDING MESSAGE");
 }
 
@@ -466,7 +484,7 @@ static void send_task(enum phase_e phase, size_t tid, size_t data_src, msg_proce
  * @brief  Kill all copies of a task.
  * @param  ti  The task information of any task instance.
  */
-static void finish_all_task_copies(task_info_t ti)
+static void finish_all_task_copies(task_info_t ti, int configuration_id, FILE* tasks_log)
 {
 	int i;
 	int phase = ti->phase;
@@ -474,12 +492,12 @@ static void finish_all_task_copies(task_info_t ti)
 
 	for (i = 0; i < MAX_SPECULATIVE_COPIES; i++)
 	{
-		if (job.task_list[phase][i][tid] != NULL )
+		if (jobs[configuration_id].task_list[phase][i][tid] != NULL )
 		{
-			MSG_task_cancel(job.task_list[phase][i][tid]);
+			MSG_task_cancel(jobs[configuration_id].task_list[phase][i][tid]);
 			//FIXME: MSG_task_destroy (job.task_list[phase][i][tid]);
-			job.task_list[phase][i][tid] = NULL;
-			fprintf(tasks_log, "%d_%zu_%d\t-\t-\t%.3f\tEND\t%.3f\n", ti->phase, tid, i, MSG_get_clock(), ti->shuffle_end);
+			jobs[configuration_id].task_list[phase][i][tid] = NULL;
+			fprintf(tasks_log, "config%d %d_%zu_%d\t-\t-\t%.3f\tEND\t%.3f\n", configuration_id, ti->phase, tid, i, MSG_get_clock(), ti->shuffle_end);
 		}
 	}
 }

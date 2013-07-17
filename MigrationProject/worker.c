@@ -20,12 +20,12 @@
 
 XBT_LOG_EXTERNAL_DEFAULT_CATEGORY(msg_test);
 
-static void heartbeat(void);
+static void heartbeat(int configuration_id);
 static int listen(int argc, char* argv[]);
 static int compute(int argc, char* argv[]);
-static void update_map_output(msg_process_t worker, size_t mid);
-static void get_chunk(msg_process_t worker, task_info_t ti);
-static void get_map_output(msg_process_t worker, task_info_t ti);
+static void update_map_output(msg_process_t worker, size_t mid, int configuration_id);
+static void get_chunk(msg_process_t worker, task_info_t ti, int configuration_id);
+static void get_map_output(msg_process_t worker, task_info_t ti, int configuration_id);
 
 /**
  * @brief  Main worker function.
@@ -36,31 +36,43 @@ static void get_map_output(msg_process_t worker, task_info_t ti);
 int worker(int argc, char* argv[])
 {
 	char mailbox[MAILBOX_ALIAS_SIZE];
+	char sms_finish[MAILBOX_ALIAS_SIZE];
+
 	msg_process_t my_process, process_create, process_data_node;
 	msg_host_t my_host;
 	msg_vm_t vm;
-	int my_id;
+	int my_id, config_id;
 	vm = (msg_vm_t) MSG_process_get_data(MSG_process_self());
 
 	my_host = MSG_host_self();
 	my_process = MSG_process_self();
-	xbt_assert(argc >= 1, "worker function requires at least one argument - its ID");
+	xbt_assert(argc >= 2, "worker function requires at least 2 arguments - its ID and config ID");
 	sscanf(argv[0], "%d", &my_id);
+	sscanf(argv[1], "%d", &config_id);
+
 	MSG_process_set_data(my_process, (void*) my_id);
 	//my_id = MSG_process_self_PID();
 	/* Spawn a process that listens for tasks. */
-	process_create = MSG_process_create("listen", listen, vm, my_host);
+	char**argv_create = xbt_new(char*,2);
+	argv_create[0] = bprintf("%d", config_id);
+	argv_create[1] = NULL;
+	process_create = MSG_process_create_with_arguments("listen", listen, vm, my_host, 1, argv_create);
 	MSG_vm_bind(vm, process_create);
+
 	/* Spawn a process to exchange data with other workers. */
-	process_data_node = MSG_process_create("data-node", data_node, vm, my_host);
+	char**argv_data_node = xbt_new(char*,2);
+	argv_data_node[0] = bprintf("%d", config_id);
+	argv_data_node[1] = NULL;
+	process_data_node = MSG_process_create_with_arguments("data-node", data_node, vm, my_host, 1, argv_data_node);
 	MSG_vm_bind(vm, process_data_node);
 	/* Start sending heartbeat signals to the master node. */
-	heartbeat();
+	heartbeat(config_id);
 
-	sprintf(mailbox, DATANODE_MAILBOX, get_worker_id(my_process));
-	send_sms(SMS_FINISH, mailbox); //TODO might be dangerous
-	sprintf(mailbox, TASKTRACKER_MAILBOX, get_worker_id(my_process));
-	send_sms(SMS_FINISH, mailbox); //TODO might be dangerous
+	sprintf(sms_finish, SMS_FINISH, config_id);
+	sprintf(mailbox, DATANODE_MAILBOX, config_id, get_worker_id(my_process));
+	send_sms(sms_finish, mailbox); //TODO might be dangerous
+	sprintf(mailbox, TASKTRACKER_MAILBOX, config_id, get_worker_id(my_process));
+	send_sms(sms_finish, mailbox); //TODO might be dangerous
 
 	return 0;
 }
@@ -68,12 +80,18 @@ int worker(int argc, char* argv[])
 /**
  * @brief  The heartbeat loop.
  */
-static void heartbeat(void)
+static void heartbeat(int configuration_id)
 {
-	while (!job.finished)
+	char master_mailbox[MAILBOX_ALIAS_SIZE];
+	char sms_heartbeat[MAILBOX_ALIAS_SIZE];
+
+	sprintf(master_mailbox, MASTER_MAILBOX, configuration_id);
+	sprintf(sms_heartbeat, SMS_HEARTBEAT, configuration_id);
+
+	while (!jobs[configuration_id].finished)
 	{
-		send_sms(SMS_HEARTBEAT, MASTER_MAILBOX);
-		MSG_process_sleep(config.heartbeat_interval);
+		send_sms(sms_heartbeat, master_mailbox);
+		MSG_process_sleep(configs[configuration_id].heartbeat_interval);
 	}
 }
 
@@ -83,11 +101,17 @@ static void heartbeat(void)
 static int listen(int argc, char* argv[])
 {
 	char mailbox[MAILBOX_ALIAS_SIZE];
+	char sms_task[MAILBOX_ALIAS_SIZE];
+	char sms_finish[MAILBOX_ALIAS_SIZE];
 	int parent_id;
 	msg_process_t parent_process, process_compute;
 	msg_host_t my_host;
 	msg_task_t msg = NULL;
 	msg_vm_t vm;
+	int config_id;
+
+	xbt_assert(argc >= 1, "listen function requires at least 1 argument - the config ID");
+	sscanf(argv[0], "%d", &config_id);
 
 	vm = (msg_vm_t) MSG_process_get_data(MSG_process_self());
 	//const char* process_name = NULL;
@@ -98,19 +122,24 @@ static int listen(int argc, char* argv[])
 	parent_process = MSG_process_from_PID(parent_id);
 	//process_name = MSG_process_get_name(parent_process);
 
-	sprintf(mailbox, TASKTRACKER_MAILBOX, get_worker_id(parent_process));
+	sprintf(mailbox, TASKTRACKER_MAILBOX, config_id, get_worker_id(parent_process));
+	sprintf(sms_task, SMS_TASK, config_id);
+	sprintf(sms_finish, SMS_FINISH, config_id);
 
-	while (!job.finished)
+	while (!jobs[config_id].finished)
 	{
 		msg = NULL;
 		receive(&msg, mailbox);
 
-		if (message_is(msg, SMS_TASK))
+		if (message_is(msg, sms_task))
 		{
-			process_compute = MSG_process_create("compute", compute, msg, my_host);
+			char**argv_compute = xbt_new(char*,2);
+			argv_compute[0] = bprintf("%d", config_id);
+			argv_compute[1] = NULL;
+			process_compute = MSG_process_create_with_arguments("compute", compute, msg, my_host, 1, argv_compute);
 			MSG_vm_bind(vm, process_compute);
 		}
-		else if (message_is(msg, SMS_FINISH))
+		else if (message_is(msg, sms_finish))
 		{
 			MSG_task_destroy(msg);
 			break;
@@ -125,6 +154,8 @@ static int listen(int argc, char* argv[])
  */
 static int compute(int argc, char* argv[])
 {
+	char task_done[MAILBOX_ALIAS_SIZE];
+	char master_mailbox[MAILBOX_ALIAS_SIZE];
 	msg_error_t error;
 	msg_task_t task;
 	task_info_t ti;
@@ -135,6 +166,10 @@ static int compute(int argc, char* argv[])
 	msg_process_t parent_process;
 	size_t wid;
 	msg_host_t dest_host;
+	int config_id;
+
+	xbt_assert(argc >= 1, "compute function requires at least 1 argument - the config ID");
+	sscanf(argv[0], "%d", &config_id);
 
 	parent_id = MSG_process_self_PPID();
 	parent_process = MSG_process_from_PID(parent_id);
@@ -151,25 +186,24 @@ static int compute(int argc, char* argv[])
 	switch (ti->phase)
 	{
 	case MAP:
-		get_chunk(grand_parent_process_worker, ti);
-		XBT_INFO("\t\tmap %zu received by task tracker\t wid %d\t on %s", ti->id, wid, MSG_host_get_name(dest_host));
+		get_chunk(grand_parent_process_worker, ti, config_id);
+		XBT_INFO("\t\tconfig %d map %zu received by task tracker\t wid %d\t on %s", config_id, ti->id, wid, MSG_host_get_name(dest_host));
 
 		break;
 
 	case REDUCE:
-		get_map_output(grand_parent_process_worker, ti);
-		XBT_INFO("\t\treduce %zu received by task tracker\t wid %d\t on %s", ti->id, wid, MSG_host_get_name(dest_host));
+		get_map_output(grand_parent_process_worker, ti, config_id);
+		XBT_INFO("\t\tconfig %d reduce %zu received by task tracker\t wid %d\t on %s", config_id, ti->id, wid, MSG_host_get_name(dest_host));
 		break;
 	}
 
-	if (job.task_status[ti->phase][ti->id] != T_STATUS_DONE)
+	if (jobs[config_id].task_status[ti->phase][ti->id] != T_STATUS_DONE)
 	{
 		TRY
 				{
-					int times = 1;
 
-					if (wid == 0 || wid == 2)
-						times = 2000;
+					//if (wid == 0 || wid == 2)
+					//	times = 2000;
 
 					//perform memory operations
 					{
@@ -178,6 +212,9 @@ static int compute(int argc, char* argv[])
 						double read;
 						int j;
 
+						int times = 1;
+						if (config_id == 0)
+							times = 2000;
 						for (j = 0; j < times; j++)
 						{
 							file = MSG_file_open("/slot", "./memory/mem.mem", "rw");
@@ -202,12 +239,15 @@ static int compute(int argc, char* argv[])
 						void *ptr = NULL;
 						double read;
 						int j;
+						int times = 1;
+						if (config_id == 1)
+							times = 2000;
 
 						for (j = 0; j < times; j++)
 						{
 							file = MSG_file_open("/home", "./disk/disk.disk", "rw");
 
-							read = MSG_file_read(ptr, 10000000, sizeof(char*), file);     // Read for 10Mo
+							read = MSG_file_read(ptr, 1000000, sizeof(char*), file);     // Read for 10Mo
 
 #ifdef VERBOSE
 							XBT_INFO("\tHave read    %8.1f on %s", read, file->name);
@@ -225,7 +265,7 @@ static int compute(int argc, char* argv[])
 					error = MSG_task_execute(task);
 
 					if (ti->phase == MAP && error == MSG_OK)
-						update_map_output(grand_parent_process_worker, ti->id);
+						update_map_output(grand_parent_process_worker, ti->id, config_id);
 				}
 					CATCH(e)
 		{
@@ -234,20 +274,24 @@ static int compute(int argc, char* argv[])
 		}
 	}
 
-	w_heartbeat[ti->wid].slots_av[ti->phase]++;
+	w_heartbeats[config_id][ti->wid].slots_av[ti->phase]++;
 
-	if (!job.finished)
-		send(SMS_TASK_DONE, 0.0, 0.0, ti, MASTER_MAILBOX);
+	if (!jobs[config_id].finished)
+	{
+		sprintf(task_done, SMS_TASK_DONE, config_id);
+		sprintf(master_mailbox, MASTER_MAILBOX, config_id);
+		send(task_done, 0.0, 0.0, ti, master_mailbox);
+	}
 
 	switch (ti->phase)
 	{
 	case MAP:
-		XBT_INFO("\t\tmap %zu complete by task tracker\t wid %d\t on %s", ti->id, wid, MSG_host_get_name(dest_host));
+		XBT_INFO("\t\tconfig %d map %zu complete by task tracker\t wid %d\t on %s", config_id, ti->id, wid, MSG_host_get_name(dest_host));
 
 		break;
 
 	case REDUCE:
-		XBT_INFO("\t\treduce %zu complete by task tracker\t wid %d\t on %s", ti->id, wid, MSG_host_get_name(dest_host));
+		XBT_INFO("\t\tconfig %d reduce %zu complete by task tracker\t wid %d\t on %s", config_id, ti->id, wid, MSG_host_get_name(dest_host));
 		break;
 	}
 
@@ -259,24 +303,26 @@ static int compute(int argc, char* argv[])
  * @param  worker  The worker that finished a map task.
  * @param  mid     The ID of map task.
  */
-static void update_map_output(msg_process_t worker, size_t mid)
+static void update_map_output(msg_process_t worker, size_t mid, int configuration_id)
 {
 	size_t rid;
 	size_t wid;
 
 	wid = get_worker_id(worker);
 
-	for (rid = 0; rid < config.number_of_reduces; rid++)
-		job.map_output[wid][rid] += user.map_output_f(mid, rid);
+	for (rid = 0; rid < configs[configuration_id].number_of_reduces; rid++)
+		jobs[configuration_id].map_output[wid][rid] += user.map_output_f(mid, rid);
 }
 
 /**
  * @brief  Get the chunk associated to a map task.
  * @param  ti  The task information.
  */
-static void get_chunk(msg_process_t worker, task_info_t ti)
+static void get_chunk(msg_process_t worker, task_info_t ti, int configuration_id)
 {
 	char mailbox[MAILBOX_ALIAS_SIZE];
+	char get_chunk[MAILBOX_ALIAS_SIZE];
+
 	msg_task_t data = NULL;
 	size_t my_id;
 
@@ -285,10 +331,11 @@ static void get_chunk(msg_process_t worker, task_info_t ti)
 	/* Request the chunk to the source node. */
 	if (ti->src != my_id)
 	{
-		sprintf(mailbox, DATANODE_MAILBOX, ti->src);
-		send(SMS_GET_CHUNK, 0.0, 0.0, ti, mailbox);
+		sprintf(mailbox, DATANODE_MAILBOX, configuration_id, ti->src);
+		sprintf(get_chunk, SMS_GET_CHUNK, configuration_id);
+		send(get_chunk, 0.0, 0.0, ti, mailbox);
 
-		sprintf(mailbox, TASK_MAILBOX, my_id, MSG_process_self_PID());
+		sprintf(mailbox, TASK_MAILBOX, configuration_id, my_id, MSG_process_self_PID());
 		receive(&data, mailbox);
 
 		MSG_task_destroy(data);
@@ -299,9 +346,10 @@ static void get_chunk(msg_process_t worker, task_info_t ti)
  * @brief  Copy the itermediary pairs for a reduce task.
  * @param  ti  The task information.
  */
-static void get_map_output(msg_process_t worker, task_info_t ti)
+static void get_map_output(msg_process_t worker, task_info_t ti, int configuration_id)
 {
 	char mailbox[MAILBOX_ALIAS_SIZE];
+	char ger_inter_pairs[MAILBOX_ALIAS_SIZE];
 	msg_task_t data = NULL;
 	size_t total_copied, must_copy;
 	size_t mid;
@@ -314,11 +362,11 @@ static void get_map_output(msg_process_t worker, task_info_t ti)
 #endif
 
 	my_id = get_worker_id(worker);
-	data_copied = xbt_new0 (size_t, config.number_of_workers);
+	data_copied = xbt_new0 (size_t, configs[configuration_id].number_of_workers);
 	ti->map_output_copied = data_copied;
 	total_copied = 0;
 	must_copy = 0;
-	for (mid = 0; mid < config.number_of_maps; mid++)
+	for (mid = 0; mid < configs[configuration_id].number_of_maps; mid++)
 		must_copy += user.map_output_f(mid, ti->id);
 
 #ifdef VERBOSE
@@ -327,20 +375,21 @@ static void get_map_output(msg_process_t worker, task_info_t ti)
 
 	while (total_copied < must_copy)
 	{
-		for (wid = 0; wid < config.number_of_workers; wid++)
+		for (wid = 0; wid < configs[configuration_id].number_of_workers; wid++)
 		{
-			if (job.task_status[REDUCE][ti->id] == T_STATUS_DONE)
+			if (jobs[configuration_id].task_status[REDUCE][ti->id] == T_STATUS_DONE)
 			{
 				xbt_free_ref(&data_copied);
 				return;
 			}
 
-			if (job.map_output[wid][ti->id] > data_copied[wid])
+			if (jobs[configuration_id].map_output[wid][ti->id] > data_copied[wid])
 			{
-				sprintf(mailbox, DATANODE_MAILBOX, wid);
-				send(SMS_GET_INTER_PAIRS, 0.0, 0.0, ti, mailbox);
+				sprintf(mailbox, DATANODE_MAILBOX, configuration_id, wid);
+				sprintf(ger_inter_pairs, SMS_GET_INTER_PAIRS, configuration_id);
+				send(ger_inter_pairs, 0.0, 0.0, ti, mailbox);
 
-				sprintf(mailbox, TASK_MAILBOX, my_id, MSG_process_self_PID());
+				sprintf(mailbox, TASK_MAILBOX, configuration_id, my_id, MSG_process_self_PID());
 				data = NULL;
 				receive(&data, mailbox);
 				data_copied[wid] += (size_t) MSG_task_get_data_size(data);

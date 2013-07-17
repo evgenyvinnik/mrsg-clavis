@@ -180,7 +180,7 @@
 				latency="0.0005" />
 		</AS>
 
-		<link id="link1-2" bandwidth="22500000" latency="0.005" />
+		<link id="link1-2" bandwidth="225000000" latency="0.005" />
 
 		<ASroute src="cluster1" dst="cluster2" gw_src="cluster1_router"
 			gw_dst="cluster2_router">

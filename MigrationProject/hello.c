@@ -12,7 +12,8 @@ XBT_LOG_EXTERNAL_DEFAULT_CATEGORY(msg_test);
  */
 size_t my_map_output_function(size_t mid, size_t rid)
 {
-	return 4 * 1024 * 1024;
+	//return 4 * 1024 * 1024;
+	return 1024 * 1024 * 1024;
 }
 
 /**
