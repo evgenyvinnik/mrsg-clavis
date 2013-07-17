@@ -13,7 +13,10 @@
 #include "mrsg.h"
 
 XBT_LOG_EXTERNAL_DEFAULT_CATEGORY(msg_test);
+
+int hosts_ordering_function(const void* a, const void* b);
 int vm_ordering_function(const void* a, const void* b);
+
 int master(int argc, char *argv[]);
 int worker(int argc, char *argv[]);
 static void init_job(int configuration_id);
@@ -39,6 +42,7 @@ int scheduler(int argc, char *argv[])
 
 	/* Retrieve the first hosts of the platform file */
 	hosts_dynar = MSG_hosts_as_dynar();
+	xbt_dynar_sort(hosts_dynar, hosts_ordering_function);
 	XBT_INFO("Number of available hosts %lu", xbt_dynar_length(hosts_dynar));
 	xbt_assert(xbt_dynar_length(hosts_dynar) >= PHYSICAL_MACHINES+1,
 	        "I need at least %i hosts in the platform file, but platform file contains only %ld hosts.", PHYSICAL_MACHINES+1, xbt_dynar_length(hosts_dynar));
@@ -208,6 +212,16 @@ int scheduler(int argc, char *argv[])
 
 	xbt_dynar_free(&hosts_dynar);
 	return 0;
+}
+
+int hosts_ordering_function(const void* a, const void* b)
+{
+	msg_host_t* system_host1 = (msg_host_t*) a;
+	msg_host_t* system_host2 = (msg_host_t*) b;
+	const char* name1 = MSG_host_get_name(*system_host1);
+	const char* name2 = MSG_host_get_name(*system_host2);
+
+	return strcmp(name1, name2);
 }
 
 int vm_ordering_function(const void* a, const void* b)
