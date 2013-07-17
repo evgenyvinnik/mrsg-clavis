@@ -29,7 +29,16 @@
 			<storage id="cluster1_Disk6" typeId="cluster1_crucial" />
 			<storage id="cluster1_Disk7" typeId="cluster1_crucial" />
 			<storage id="cluster1_Disk8" typeId="cluster1_crucial" />
-
+			<storage id="cluster1_Disk9" typeId="cluster1_crucial" />
+			<storage id="cluster1_Disk10" typeId="cluster1_crucial" />
+			<storage id="cluster1_Disk11" typeId="cluster1_crucial" />
+			<storage id="cluster1_Disk12" typeId="cluster1_crucial" />
+			<storage id="cluster1_Disk13" typeId="cluster1_crucial" />
+			<storage id="cluster1_Disk14" typeId="cluster1_crucial" />
+			<storage id="cluster1_Disk15" typeId="cluster1_crucial" />
+			<storage id="cluster1_Disk16" typeId="cluster1_crucial" />
+			<storage id="cluster1_Disk17" typeId="cluster1_crucial" />
+			<storage id="cluster1_Disk18" typeId="cluster1_crucial" />
 
 			<storage id="cluster1_Ram1" typeId="cluster1_ram" />
 			<storage id="cluster1_Ram2" typeId="cluster1_ram" />
@@ -39,7 +48,16 @@
 			<storage id="cluster1_Ram6" typeId="cluster1_ram" />
 			<storage id="cluster1_Ram7" typeId="cluster1_ram" />
 			<storage id="cluster1_Ram8" typeId="cluster1_ram" />
-
+			<storage id="cluster1_Ram9" typeId="cluster1_ram" />
+			<storage id="cluster1_Ram10" typeId="cluster1_ram" />
+			<storage id="cluster1_Ram11" typeId="cluster1_ram" />
+			<storage id="cluster1_Ram12" typeId="cluster1_ram" />
+			<storage id="cluster1_Ram13" typeId="cluster1_ram" />
+			<storage id="cluster1_Ram14" typeId="cluster1_ram" />
+			<storage id="cluster1_Ram15" typeId="cluster1_ram" />
+			<storage id="cluster1_Ram16" typeId="cluster1_ram" />
+			<storage id="cluster1_Ram17" typeId="cluster1_ram" />
+			<storage id="cluster1_Ram18" typeId="cluster1_ram" />
 
 			<host id="cluster1_host10" power="1000000000">
 				<mount id="cluster1_Disk10" name="/home" />
