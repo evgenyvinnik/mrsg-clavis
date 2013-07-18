@@ -156,11 +156,31 @@ static void send_data(msg_process_t worker, msg_task_t msg, int configuration_id
 
 	if (message_is(msg, message_get_chunk))
 	{
+		//simulate disk access
+		{
+			msg_file_t file = NULL;
+			void *ptr = NULL;
+			double read;
+
+			file = MSG_file_open("/home", "./disk/disk.disk", "rw");
+
+			read = MSG_file_read(ptr, (size_t) configs[configuration_id].chunk_size, sizeof(char*), file);     // Read for 10Mo
+
+#ifdef VERBOSE
+			XBT_INFO("\tDFS read    %8.1f on %s", read, file->name);
+			s_msg_stat_t stat;
+			MSG_file_stat(file, &stat);
+			XBT_INFO("\tFile stat %s Size %.1f", file->name, stat.size);
+			MSG_file_free_stat(&stat);
+#endif
+			MSG_file_close(file);
+
+		}
 		MSG_task_dsend(MSG_task_create("DATA-C", 0.0, configs[configuration_id].chunk_size, NULL ), mailbox, NULL );
 	}
 	else if (message_is(msg, message_get_inter_pairs))
 	{
-		data_size = jobs[configuration_id].map_output[my_id][ti->id] - ti->map_output_copied[my_id];
+		data_size =(double) ( jobs[configuration_id].map_output[my_id][ti->id] - ti->map_output_copied[my_id]);
 		MSG_task_dsend(MSG_task_create("DATA-IP", 0.0, data_size, NULL ), mailbox, NULL );
 	}
 

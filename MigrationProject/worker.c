@@ -328,17 +328,38 @@ static void get_chunk(msg_process_t worker, task_info_t ti, int configuration_id
 
 	my_id = get_worker_id(worker);
 
-	/* Request the chunk to the source node. */
+	/* Request the chunk to the source node if we are performing it remotely */
 	if (ti->src != my_id)
 	{
 		sprintf(mailbox, DATANODE_MAILBOX, configuration_id, ti->src);
 		sprintf(get_chunk, SMS_GET_CHUNK, configuration_id);
-		send(get_chunk, 0.0, 0.0, ti, mailbox);
+		send(get_chunk, 0.0, 0.0, ti, mailbox);//get_chunk message would take care of disk access
 
 		sprintf(mailbox, TASK_MAILBOX, configuration_id, my_id, MSG_process_self_PID());
 		receive(&data, mailbox);
 
 		MSG_task_destroy(data);
+	}
+	else //otherwise just simulate disk access
+	{
+
+		msg_file_t file = NULL;
+		void *ptr = NULL;
+		double read;
+
+		file = MSG_file_open("/home", "./disk/disk.disk", "rw");
+
+		read = MSG_file_read(ptr, (size_t) configs[configuration_id].chunk_size, sizeof(char*), file);     // Read for 10Mo
+
+#ifdef VERBOSE
+		XBT_INFO("\tDFS read    %8.1f on %s", read, file->name);
+		s_msg_stat_t stat;
+		MSG_file_stat(file, &stat);
+		XBT_INFO("\tFile stat %s Size %.1f", file->name, stat.size);
+		MSG_file_free_stat(&stat);
+#endif
+		MSG_file_close(file);
+
 	}
 }
 
@@ -357,9 +378,9 @@ static void get_map_output(msg_process_t worker, task_info_t ti, int configurati
 	size_t wid;
 	unsigned long long* data_copied;
 
-//#ifdef VERBOSE
+#ifdef VERBOSE
 	msg_host_t dest_host = MSG_process_get_host(worker);
-//#endif
+#endif
 
 	my_id = get_worker_id(worker);
 	data_copied = xbt_new0 (unsigned long long, configs[configuration_id].number_of_workers);
@@ -369,10 +390,10 @@ static void get_map_output(msg_process_t worker, task_info_t ti, int configurati
 	for (mid = 0; mid < configs[configuration_id].number_of_maps; mid++)
 		must_copy += user.map_output_f(mid, ti->id);
 
-
-//#ifdef VERBOSE
-	XBT_INFO("INFO: config %d start copy must_copy %llu, reduce %zu, task tracker\t wid %zu\t on %s", configuration_id, must_copy, ti->id, my_id, MSG_host_get_name(dest_host));
-//#endif
+#ifdef VERBOSE
+	XBT_INFO("INFO: config %d start copy must_copy %llu, reduce %zu, task tracker\t wid %zu\t on %s", configuration_id, must_copy, ti->id, my_id,
+	        MSG_host_get_name(dest_host));
+#endif
 
 	while (total_copied < must_copy)
 	{
@@ -402,9 +423,10 @@ static void get_map_output(msg_process_t worker, task_info_t ti, int configurati
 		MSG_process_sleep(5);
 	}
 
-//#ifdef VERBOSE
-	XBT_INFO("INFO: config %d  copy finished. received %llu, reduce %zu, task tracker\t wid %zu\t on %s", configuration_id, total_copied, ti->id, my_id, MSG_host_get_name(dest_host));
-//#endif
+#ifdef VERBOSE
+	XBT_INFO("INFO: config %d  copy finished. received %llu, reduce %zu, task tracker\t wid %zu\t on %s", configuration_id, total_copied, ti->id, my_id,
+	        MSG_host_get_name(dest_host));
+#endif
 	ti->shuffle_end = MSG_get_clock();
 
 	xbt_free_ref(&data_copied);
