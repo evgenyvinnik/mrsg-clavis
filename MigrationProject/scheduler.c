@@ -252,9 +252,9 @@ static void init_job(int configuration_id)
 	for (i = 0; i < MAX_SPECULATIVE_COPIES; i++)
 		jobs[configuration_id].task_list[MAP][i] = xbt_new0 (msg_task_t, configs[configuration_id].number_of_maps);
 
-	jobs[configuration_id].map_output = xbt_new (size_t*, configs[configuration_id].number_of_workers);
+	jobs[configuration_id].map_output = xbt_new (unsigned long long*, configs[configuration_id].number_of_workers);
 	for (i = 0; i < configs[configuration_id].number_of_workers; i++)
-		jobs[configuration_id].map_output[i] = xbt_new0 (size_t, configs[configuration_id].number_of_reduces);
+		jobs[configuration_id].map_output[i] = xbt_new0 (unsigned long long, configs[configuration_id].number_of_reduces);
 
 	/* Initialize reduce information. */
 	jobs[configuration_id].tasks_pending[REDUCE] = configs[configuration_id].number_of_reduces;

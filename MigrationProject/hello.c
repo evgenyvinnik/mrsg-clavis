@@ -10,10 +10,10 @@ XBT_LOG_EXTERNAL_DEFAULT_CATEGORY(msg_test);
  * @param  rid  The ID of the reduce task.
  * @return The amount of data emitted (in bytes).
  */
-size_t my_map_output_function(size_t mid, size_t rid)
+unsigned long long my_map_output_function(size_t mid, size_t rid)
 {
 	//return 4 * 1024 * 1024;
-	return 1024 * 1024 * 1024;
+	return (unsigned long long)1024 * 1024 * 1024;
 }
 
 /**

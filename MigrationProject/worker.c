@@ -351,27 +351,28 @@ static void get_map_output(msg_process_t worker, task_info_t ti, int configurati
 	char mailbox[MAILBOX_ALIAS_SIZE];
 	char ger_inter_pairs[MAILBOX_ALIAS_SIZE];
 	msg_task_t data = NULL;
-	size_t total_copied, must_copy;
+	unsigned long long total_copied, must_copy;
 	size_t mid;
 	size_t my_id;
 	size_t wid;
-	size_t* data_copied;
+	unsigned long long* data_copied;
 
-#ifdef VERBOSE
+//#ifdef VERBOSE
 	msg_host_t dest_host = MSG_process_get_host(worker);
-#endif
+//#endif
 
 	my_id = get_worker_id(worker);
-	data_copied = xbt_new0 (size_t, configs[configuration_id].number_of_workers);
+	data_copied = xbt_new0 (unsigned long long, configs[configuration_id].number_of_workers);
 	ti->map_output_copied = data_copied;
 	total_copied = 0;
 	must_copy = 0;
 	for (mid = 0; mid < configs[configuration_id].number_of_maps; mid++)
 		must_copy += user.map_output_f(mid, ti->id);
 
-#ifdef VERBOSE
-	XBT_INFO("INFO: start copy must_copy %d, reduce %zu, task tracker\t wid %zu\t on %s", must_copy, ti->id, my_id, MSG_host_get_name(dest_host));
-#endif
+
+//#ifdef VERBOSE
+	XBT_INFO("INFO: config %d start copy must_copy %llu, reduce %zu, task tracker\t wid %zu\t on %s", configuration_id, must_copy, ti->id, my_id, MSG_host_get_name(dest_host));
+//#endif
 
 	while (total_copied < must_copy)
 	{
@@ -392,8 +393,8 @@ static void get_map_output(msg_process_t worker, task_info_t ti, int configurati
 				sprintf(mailbox, TASK_MAILBOX, configuration_id, my_id, MSG_process_self_PID());
 				data = NULL;
 				receive(&data, mailbox);
-				data_copied[wid] += (size_t) MSG_task_get_data_size(data);
-				total_copied += (size_t) MSG_task_get_data_size(data);
+				data_copied[wid] += (unsigned long long) MSG_task_get_data_size(data);
+				total_copied += (unsigned long long) MSG_task_get_data_size(data);
 				MSG_task_destroy(data);
 			}
 		}
@@ -401,9 +402,9 @@ static void get_map_output(msg_process_t worker, task_info_t ti, int configurati
 		MSG_process_sleep(5);
 	}
 
-#ifdef VERBOSE
-	XBT_INFO("INFO: copy finished. received %d, reduce %zu, task tracker\t wid %zu\t on %s", total_copied, ti->id, my_id, MSG_host_get_name(dest_host));
-#endif
+//#ifdef VERBOSE
+	XBT_INFO("INFO: config %d  copy finished. received %llu, reduce %zu, task tracker\t wid %zu\t on %s", configuration_id, total_copied, ti->id, my_id, MSG_host_get_name(dest_host));
+//#endif
 	ti->shuffle_end = MSG_get_clock();
 
 	xbt_free_ref(&data_copied);

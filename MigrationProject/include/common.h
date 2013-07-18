@@ -84,7 +84,7 @@ struct job_s
 	int* task_has_spec_copy[2];
 	int* task_status[2];
 	msg_task_t** task_list[2];
-	size_t** map_output;
+	unsigned long long** map_output;
 };
 
 typedef struct job_s* job_t;
@@ -98,7 +98,7 @@ struct task_info_s
 	size_t wid;
 	int pid;
 	msg_task_t task;
-	size_t* map_output_copied;
+	unsigned long long* map_output_copied;
 	double shuffle_end;
 	msg_process_t worker_process;
 };
@@ -131,7 +131,7 @@ struct user_s
 	double (*task_cost_f)(enum phase_e phase, size_t tid, size_t wid);
 	void (*dfs_f)(char** dfs_matrix, size_t chunks, size_t workers,
 	        unsigned int replicas, int configuration_id);
-	size_t (*map_output_f)(size_t mid, size_t rid);
+	unsigned long long (*map_output_f)(size_t mid, size_t rid);
 } user;
 
 msg_host_t master_host;
