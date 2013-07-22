@@ -29,7 +29,7 @@ static void get_map_output(msg_process_t worker, task_info_t ti, int configurati
 static void my_ram_operations_function(enum phase_e phase, size_t tid, size_t wid, int configuration_id, long unsigned int fraction);
 static void my_disk_operations_function(enum phase_e phase, size_t tid, size_t wid, int configuration_id, long unsigned int fraction);
 
-#define JOB_FRACTION 1024
+#define IO_FRACTION 1024
 
 /**
  * @brief  Main worker function.
@@ -206,31 +206,20 @@ static int compute(int argc, char* argv[])
 	{
 		TRY
 				{
-					//NOTE: important thing: we split entire task in 1000 pieces
-					//so the contention would be more realistic
-
-					/*MSG_task_set_compute_duration(task, MSG_task_get_compute_duration(task) / JOB_FRACTION);
-
-					 for (fraction = 0; fraction < JOB_FRACTION; fraction++)
-					 {
-
-					 //perform memory operations
-					 my_ram_operations_function(ti->phase, ti->id, ti->wid, config_id, JOB_FRACTION);
-					 //perform disk operations
-
-					 my_disk_operations_function(ti->phase, ti->id, ti->wid, config_id, JOB_FRACTION);
-
-					 //perform execution (CPU)
-					 error = MSG_task_execute(task);
-					 }*/
-
 					//perform execution (CPU)
 					error = MSG_task_execute(task);
-					//perform memory operations
-					my_ram_operations_function(ti->phase, ti->id, ti->wid, config_id, 1);
-					 //perform disk operations
-					my_disk_operations_function(ti->phase, ti->id, ti->wid, config_id, 1);
 
+					//NOTE: important thing: we split entire task in 1024 pieces
+					//so the contention would be somewhat more realistic
+					for (fraction = 0; fraction < IO_FRACTION; fraction++)
+					{
+
+						//perform memory operations
+						my_ram_operations_function(ti->phase, ti->id, ti->wid, config_id, IO_FRACTION);
+						//perform disk operations
+
+						my_disk_operations_function(ti->phase, ti->id, ti->wid, config_id, IO_FRACTION);
+					}
 
 					if (ti->phase == MAP && error == MSG_OK)
 						update_map_output(grand_parent_process_worker, ti->id, config_id);
