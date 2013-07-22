@@ -26,6 +26,10 @@ static int compute(int argc, char* argv[]);
 static void update_map_output(msg_process_t worker, size_t mid, int configuration_id);
 static void get_chunk(msg_process_t worker, task_info_t ti, int configuration_id);
 static void get_map_output(msg_process_t worker, task_info_t ti, int configuration_id);
+static void my_ram_operations_function(enum phase_e phase, size_t tid, size_t wid, int configuration_id, long unsigned int fraction);
+static void my_disk_operations_function(enum phase_e phase, size_t tid, size_t wid, int configuration_id, long unsigned int fraction);
+
+#define JOB_FRACTION 1024
 
 /**
  * @brief  Main worker function.
@@ -167,6 +171,7 @@ static int compute(int argc, char* argv[])
 	size_t wid;
 	msg_host_t dest_host;
 	int config_id;
+	long unsigned int fraction;
 
 	xbt_assert(argc >= 1, "compute function requires at least 1 argument - the config ID");
 	sscanf(argv[0], "%d", &config_id);
@@ -201,68 +206,31 @@ static int compute(int argc, char* argv[])
 	{
 		TRY
 				{
+					//NOTE: important thing: we split entire task in 1000 pieces
+					//so the contention would be more realistic
 
-					//if (wid == 0 || wid == 2)
-					//	times = 2000;
+					/*MSG_task_set_compute_duration(task, MSG_task_get_compute_duration(task) / JOB_FRACTION);
 
-					//perform memory operations
-					{
-						msg_file_t file = NULL;
-						void *ptr = NULL;
-						double read;
-						int j;
+					 for (fraction = 0; fraction < JOB_FRACTION; fraction++)
+					 {
 
-						int times = 1;
-						if (config_id == 0)
-							times = 2000;
-						for (j = 0; j < times; j++)
-						{
-							file = MSG_file_open("/slot", "./memory/mem.mem", "rw");
-							read = MSG_file_read(ptr, 100000000, sizeof(char*), file);     // Read for 10Mo
+					 //perform memory operations
+					 my_ram_operations_function(ti->phase, ti->id, ti->wid, config_id, JOB_FRACTION);
+					 //perform disk operations
 
-#ifdef VERBOSE
-							XBT_INFO("\tHave read    %8.1f on %s", read, file->name);
-							s_msg_stat_t stat;
-							MSG_file_stat(file, &stat);
-							XBT_INFO("\tFile stat %s Size %.1f", file->name, stat.size);
-							MSG_file_free_stat(&stat);
-#endif
+					 my_disk_operations_function(ti->phase, ti->id, ti->wid, config_id, JOB_FRACTION);
 
-							MSG_file_close(file);
-						}
+					 //perform execution (CPU)
+					 error = MSG_task_execute(task);
+					 }*/
 
-					}
-					//perform IO operations
-
-					{
-						msg_file_t file = NULL;
-						void *ptr = NULL;
-						double read;
-						int j;
-						int times = 1;
-						if (config_id == 1)
-							times = 2000;
-
-						for (j = 0; j < times; j++)
-						{
-							file = MSG_file_open("/home", "./disk/disk.disk", "rw");
-
-							read = MSG_file_read(ptr, 1000000, sizeof(char*), file);     // Read for 10Mo
-
-#ifdef VERBOSE
-							XBT_INFO("\tHave read    %8.1f on %s", read, file->name);
-							s_msg_stat_t stat;
-							MSG_file_stat(file, &stat);
-							XBT_INFO("\tFile stat %s Size %.1f", file->name, stat.size);
-							MSG_file_free_stat(&stat);
-#endif
-							MSG_file_close(file);
-						}
-					}
-
-					//Perform memory operations (treated as very fast harddrive);
 					//perform execution (CPU)
 					error = MSG_task_execute(task);
+					//perform memory operations
+					my_ram_operations_function(ti->phase, ti->id, ti->wid, config_id, 1);
+					 //perform disk operations
+					my_disk_operations_function(ti->phase, ti->id, ti->wid, config_id, 1);
+
 
 					if (ti->phase == MAP && error == MSG_OK)
 						update_map_output(grand_parent_process_worker, ti->id, config_id);
@@ -298,6 +266,70 @@ static int compute(int argc, char* argv[])
 	return 0;
 }
 
+static void my_ram_operations_function(enum phase_e phase, size_t tid, size_t wid, int configuration_id, long unsigned int fraction)
+{
+	msg_file_t file = NULL;
+	void *ptr = NULL;
+	double read;
+
+	file = MSG_file_open("/slot", "./memory/mem.mem", "rw");
+
+	switch (phase)
+	{
+	case MAP:
+		read = MSG_file_read(ptr, (size_t) (configs[configuration_id].ram_operations_map / fraction), sizeof(char*), file);
+
+		break;
+	case REDUCE:
+		read = MSG_file_read(ptr, (size_t) (configs[configuration_id].ram_operations_reduce / fraction), sizeof(char*), file);
+
+		break;
+	}
+
+#ifdef VERBOSE
+	XBT_INFO("\tHave read    %8.1f on %s", read, file->name);
+	s_msg_stat_t stat;
+	MSG_file_stat(file, &stat);
+	XBT_INFO("\tFile stat %s Size %.1f", file->name, stat.size);
+	MSG_file_free_stat(&stat);
+#endif
+
+	MSG_file_close(file);
+
+}
+
+static void my_disk_operations_function(enum phase_e phase, size_t tid, size_t wid, int configuration_id, long unsigned int fraction)
+{
+	msg_file_t file = NULL;
+	void *ptr = NULL;
+	double read;
+
+	file = MSG_file_open("/slot", "./disk/disk.disk", "rw");
+
+	switch (phase)
+	{
+	case MAP:
+		read = MSG_file_read(ptr, (size_t) (configs[configuration_id].disk_operations_map / fraction), sizeof(char*), file);
+
+		break;
+	case REDUCE:
+		read = MSG_file_read(ptr, (size_t) (configs[configuration_id].disk_operations_reduce / fraction), sizeof(char*), file);
+
+		break;
+	}
+
+#ifdef VERBOSE
+	XBT_INFO("\tHave read    %8.1f on %s", read, file->name);
+	s_msg_stat_t stat;
+	MSG_file_stat(file, &stat);
+	XBT_INFO("\tFile stat %s Size %.1f", file->name, stat.size);
+	MSG_file_free_stat(&stat);
+#endif
+
+	MSG_file_close(file);
+
+}
+
 /**
  * @brief  Update the amount of data produced by a mapper.
  * @param  worker  The worker that finished a map task.
@@ -311,7 +343,7 @@ static void update_map_output(msg_process_t worker, size_t mid, int configuratio
 	wid = get_worker_id(worker);
 
 	for (rid = 0; rid < configs[configuration_id].number_of_reduces; rid++)
-		jobs[configuration_id].map_output[wid][rid] += user.map_output_f(mid, rid);
+		jobs[configuration_id].map_output[wid][rid] += user.map_output_f(mid, rid, configuration_id);
 }
 
 /**
@@ -333,7 +365,7 @@ static void get_chunk(msg_process_t worker, task_info_t ti, int configuration_id
 	{
 		sprintf(mailbox, DATANODE_MAILBOX, configuration_id, ti->src);
 		sprintf(get_chunk, SMS_GET_CHUNK, configuration_id);
-		send(get_chunk, 0.0, 0.0, ti, mailbox);//get_chunk message would take care of disk access
+		send(get_chunk, 0.0, 0.0, ti, mailbox);					//get_chunk message would take care of disk access
 
 		sprintf(mailbox, TASK_MAILBOX, configuration_id, my_id, MSG_process_self_PID());
 		receive(&data, mailbox);
@@ -388,11 +420,11 @@ static void get_map_output(msg_process_t worker, task_info_t ti, int configurati
 	total_copied = 0;
 	must_copy = 0;
 	for (mid = 0; mid < configs[configuration_id].number_of_maps; mid++)
-		must_copy += user.map_output_f(mid, ti->id);
+		must_copy += user.map_output_f(mid, ti->id, configuration_id);
 
 #ifdef VERBOSE
 	XBT_INFO("INFO: config %d start copy must_copy %llu, reduce %zu, task tracker\t wid %zu\t on %s", configuration_id, must_copy, ti->id, my_id,
-	        MSG_host_get_name(dest_host));
+			MSG_host_get_name(dest_host));
 #endif
 
 	while (total_copied < must_copy)
@@ -425,7 +457,7 @@ static void get_map_output(msg_process_t worker, task_info_t ti, int configurati
 
 #ifdef VERBOSE
 	XBT_INFO("INFO: config %d  copy finished. received %llu, reduce %zu, task tracker\t wid %zu\t on %s", configuration_id, total_copied, ti->id, my_id,
-	        MSG_host_get_name(dest_host));
+			MSG_host_get_name(dest_host));
 #endif
 	ti->shuffle_end = MSG_get_clock();
 

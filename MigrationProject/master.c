@@ -440,7 +440,7 @@ static void send_task(enum phase_e phase, size_t tid, size_t data_src, msg_proce
 
 	wid = get_worker_id(dest);
 
-	cpu_required = user.task_cost_f(phase, tid, wid);
+	cpu_required = user.task_cost_f(phase, tid, wid, configuration_id);
 	sprintf(sms_task, SMS_TASK, configuration_id);
 
 	task_info = xbt_new (struct task_info_s, 1);

@@ -19,13 +19,7 @@ along with MRSG.  If not, see <http://www.gnu.org/licenses/>. */
 #include "dfs.h"
 #include "mrsg.h"
 
-void MRSG_init (void)
-{
-    user.task_cost_f = NULL;
-    user.dfs_f = default_dfs_f;
-}
-
-void MRSG_set_task_cost_f ( double (*f)(enum phase_e phase, size_t tid, size_t wid) )
+void MRSG_set_task_cost_f ( double (*f)(enum phase_e phase, size_t tid, size_t wid, int configuration_id) )
 {
     user.task_cost_f = f;
 }
@@ -35,7 +29,7 @@ void MRSG_set_dfs_f ( void (*f)(char** dfs_matrix, size_t chunks, size_t workers
     user.dfs_f = f;
 }
 
-void MRSG_set_map_output_f ( unsigned long long (*f)(size_t mid, size_t rid) )
+void MRSG_set_map_output_f ( unsigned long long (*f)(size_t mid, size_t rid, int configuration_id) )
 {
     user.map_output_f = f;
 }

@@ -73,6 +73,14 @@ struct config_s
 	int initialized;
 	unsigned long int worker_hosts_number;
 	unsigned long int vm_per_host;
+
+	double cpu_flops_map;
+	unsigned long int ram_operations_map;
+	unsigned long int disk_operations_map;
+	unsigned long long int map_output_bytes;
+	double cpu_flops_reduce;
+	unsigned long int ram_operations_reduce;
+	unsigned long int disk_operations_reduce;
 };
 
 typedef struct config_s* config_t;
@@ -128,10 +136,10 @@ typedef struct stats_s* stats_t;
 
 struct user_s
 {
-	double (*task_cost_f)(enum phase_e phase, size_t tid, size_t wid);
+	double (*task_cost_f)(enum phase_e phase, size_t tid, size_t wid, int configuration_id);
 	void (*dfs_f)(char** dfs_matrix, size_t chunks, size_t workers,
 	        unsigned int replicas, int configuration_id);
-	unsigned long long (*map_output_f)(size_t mid, size_t rid);
+	unsigned long long (*map_output_f)(size_t mid, size_t rid, int configuration_id);
 } user;
 
 msg_host_t master_host;

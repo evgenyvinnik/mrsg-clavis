@@ -133,93 +133,39 @@ int scheduler(int argc, char *argv[])
 		XBT_INFO("Launched %ld VMs for configuration %d, %ld VMs total", vm_count_local, conf_count, vm_count);
 	}
 
-	struct csv_parser p;
-	FILE *fp;
-	csv_init(&p, 0);
-	char buf[1024];
-	size_t bytes_read;
-	struct schedule c;
-	c.row_reading = 0;
-	c.vms_ids = xbt_dynar_new(sizeof(int), NULL);
-	c.hosts_ids = xbt_dynar_new(sizeof(int), NULL);
-	c.system_hosts = system_hosts;
-	c.vms = vms;
+	//do scheduling here
+	{
+		struct csv_parser p;
+		FILE *fp;
+		csv_init(&p, 0);
+		char buf[1024];
+		size_t bytes_read;
+		struct schedule c;
+		c.row_reading = 0;
+		c.vms_ids = xbt_dynar_new(sizeof(int), NULL );
+		c.hosts_ids = xbt_dynar_new(sizeof(int), NULL );
+		c.system_hosts = system_hosts;
+		c.vms = vms;
 
-	if (csv_init(&p, 0) != 0)
-		exit(EXIT_FAILURE);
-
-	fp = fopen(SCHEDULE_FILE, "rb");
-	if (!fp)
-		exit(EXIT_FAILURE);
-	while ((bytes_read = fread(buf, 1, 1024, fp)) > 0)
-		if (csv_parse(&p, buf, bytes_read, cb1, cb2, &c) != bytes_read)
-		{
-			XBT_INFO("Error while parsing file: %s\n", csv_strerror(csv_error(&p)));
+		if (csv_init(&p, 0) != 0)
 			exit(EXIT_FAILURE);
-		}
-	csv_fini(&p, cb1, cb2, &c);
-	//XBT_INFO("%lu fields, %lu rows\n", c.fields, c.rows);
 
-	fclose(fp);
-	csv_free(&p);
-	/*XBT_INFO("Now suspend all VMs, just for fun");
+		fp = fopen(SCHEDULE_FILE, "rb");
+		if (!fp)
+			exit(EXIT_FAILURE);
+		while ((bytes_read = fread(buf, 1, 1024, fp)) > 0)
+			if (csv_parse(&p, buf, bytes_read, cb1, cb2, &c) != bytes_read)
+			{
+				XBT_INFO("Error while parsing file: %s\n", csv_strerror(csv_error(&p)));
+				exit(EXIT_FAILURE);
+			}
+		csv_fini(&p, cb1, cb2, &c);
 
-	 xbt_dynar_foreach(vms,i,vm)
-	 {
-	 MSG_vm_suspend(vm);
-	 }
+		fclose(fp);
+		csv_free(&p);
+	}
 
-	 XBT_INFO("Wait a while");
-	 MSG_process_sleep(1000);
-	 XBT_INFO("Enough. Let's resume everybody.");
-	 xbt_dynar_foreach(vms,i,vm)
-	 {
-	 MSG_vm_resume(vm);
-	 }*/
-
-	/*XBT_INFO("Migrate VMs.");
-	 //1
-	 vm=xbt_dynar_get_as(vms,0,msg_vm_t);
-	 XBT_INFO("Migrate VM %s to %s.", vm->name, MSG_host_get_name(system_hosts[3]));
-	 MSG_vm_migrate(vm, system_hosts[3]);
-	 //2
-	 vm=xbt_dynar_get_as(vms,3,msg_vm_t);
-	 XBT_INFO("Migrate VM %s to %s.", vm->name, MSG_host_get_name(system_hosts[4]));
-	 MSG_vm_migrate(vm, system_hosts[4]);
-
-	 //3
-	 vm=xbt_dynar_get_as(vms,5,msg_vm_t);
-	 XBT_INFO("Migrate VM %s to %s.", vm->name, MSG_host_get_name(system_hosts[5]));
-	 MSG_vm_migrate(vm, system_hosts[5]);*/
-
-	/*XBT_INFO("Migrate VMs.");
-	 //1
-	 vm=xbt_dynar_get_as(vms,0,msg_vm_t);
-	 XBT_INFO("Migrate VM %s to %s.", vm->name, MSG_host_get_name(system_hosts[1]));
-	 MSG_vm_migrate(vm, system_hosts[1]);
-	 //2
-	 vm=xbt_dynar_get_as(vms,3,msg_vm_t);
-	 XBT_INFO("Migrate VM %s to %s.", vm->name, MSG_host_get_name(system_hosts[0]));
-	 MSG_vm_migrate(vm, system_hosts[0]);
-
-	 //3
-	 vm=xbt_dynar_get_as(vms,5,msg_vm_t);
-	 XBT_INFO("Migrate VM %s to %s.", vm->name, MSG_host_get_name(system_hosts[5]));
-	 MSG_vm_migrate(vm, system_hosts[5]);*/
-
-	//xbt_dynar_foreach(vms,i,vm)
-	//{
-	//	 MSG_vm_migrate(vm, worker_hosts[0]);
-	//}
-	/*MSG_process_sleep(1000);
-	 XBT_INFO( "Suspend everyone, move them to the second host, and resume them.");
-	 xbt_dynar_foreach(vms,i,vm)
-	 {
-	 MSG_vm_suspend(vm);
-	 MSG_vm_migrate(vm, worker_hosts[1]);
-	 MSG_vm_resume(vm);
-	 }*/
-
+	//if we are done with scheduling, but the simulation is going on - just wait till it finish
 	while (1)
 	{
 		int break_cycle, jb;
@@ -353,17 +299,16 @@ static void free_global_mem(int configuration_id)
 	xbt_free_ref(&statistics[configuration_id].reduces_processed);
 }
 
-
 static void cb1(void *s, size_t len, void *data)
 {
 	struct schedule* sched = ((struct schedule *) data);
 	if (sched->row_reading == 0)
 	{
-		xbt_dynar_push_as(sched->vms_ids,int, atoi(s));
+		xbt_dynar_push_as(sched->vms_ids, int, atoi(s));
 	}
 	else
 	{
-		xbt_dynar_push_as(sched->hosts_ids,int, atoi(s));
+		xbt_dynar_push_as(sched->hosts_ids, int, atoi(s));
 	}
 }
 
@@ -387,11 +332,11 @@ static void cb2(int c, void *data)
 				int vm_id = xbt_dynar_pop_as(sched->vms_ids, int);
 				int host_id = xbt_dynar_pop_as(sched->hosts_ids, int);
 
-				vm = xbt_dynar_get_as(sched->vms,vm_id,msg_vm_t);
+				vm = xbt_dynar_get_as(sched->vms,(long unsigned int)vm_id,msg_vm_t);
 				XBT_INFO("Migrate VM %s to %s.", vm->name, MSG_host_get_name(sched->system_hosts[host_id]));
 				MSG_vm_migrate(vm, sched->system_hosts[host_id]);
 			}
-			 MSG_process_sleep(SCHEDULE_SLEEP_TIME);
+			MSG_process_sleep(SCHEDULE_SLEEP_TIME);
 		}
 
 		sched->row_reading = 0;

@@ -45,6 +45,7 @@ int MRSG_main(const char* plat, const char* conf)
 	// Check if the user configuration is sound.
 	xbt_assert(user.task_cost_f != NULL, "Task cost function not specified.");
 	xbt_assert(user.map_output_f != NULL, "Map output function not specified.");
+	xbt_assert(user.dfs_f != NULL, "DFS function not specified.");
 
 	MSG_init(&argc, argv);
 
@@ -137,7 +138,7 @@ static void read_mr_config_file(const char* config_collection_file_name)
 
 	if (linesnum > 0)
 	{
-		configs_count = (int)linesnum;
+		configs_count = (int) linesnum;
 		config_collection_file = fopen(config_collection_file_name, "r");
 		configs = xbt_new(struct config_s,linesnum);
 		w_heartbeats = xbt_new(heartbeat_t,linesnum);
@@ -170,6 +171,17 @@ static void read_mr_config_file(const char* config_collection_file_name)
 				configs[i].reduce_slots = 2;
 				configs[i].worker_hosts_number = 40;
 				configs[i].vm_per_host = 2;
+
+				//
+				configs[i].cpu_flops_map = 100000000000;
+				configs[i].ram_operations_map = 1000000;
+				configs[i].disk_operations_map = 10000;
+
+				configs[i].map_output_bytes = (unsigned long long) 1024 * 1024 * 1024;
+
+				configs[i].cpu_flops_reduce = 500000000000;
+				configs[i].ram_operations_reduce = 1000000;
+				configs[i].disk_operations_reduce = 10000;
 				/* Read the user configuration file. */
 
 				while (fscanf(config_file, "%256s", property) != EOF)
@@ -207,6 +219,34 @@ static void read_mr_config_file(const char* config_collection_file_name)
 					{
 						fscanf(config_file, "%ld", &configs[i].vm_per_host);
 					}
+					else if (strcmp(property, "cpu_flops_map") == 0)
+					{
+						fscanf(config_file, "%lg", &configs[i].cpu_flops_map);
+					}
+					else if (strcmp(property, "ram_operations_map") == 0)
+					{
+						fscanf(config_file, "%ld", &configs[i].ram_operations_map);
+					}
+					else if (strcmp(property, "disk_operations_map") == 0)
+					{
+						fscanf(config_file, "%ld", &configs[i].disk_operations_map);
+					}
+					else if (strcmp(property, "map_output_bytes") == 0)
+					{
+						fscanf(config_file, "%lld", &configs[i].map_output_bytes);
+					}
+					else if (strcmp(property, "cpu_flops_reduce") == 0)
+					{
+						fscanf(config_file, "%lg", &configs[i].cpu_flops_reduce);
+					}
+					else if (strcmp(property, "ram_operations_reduce") == 0)
+					{
+						fscanf(config_file, "%ld", &configs[i].ram_operations_reduce);
+					}
+					else if (strcmp(property, "disk_operations_reduce") == 0)
+					{
+						fscanf(config_file, "%ld", &configs[i].disk_operations_reduce);
+					}
 					else
 					{
 						printf("Error: Property %s is not valid. (in %s)", property, config_file_name);
@@ -228,6 +268,12 @@ static void read_mr_config_file(const char* config_collection_file_name)
 			xbt_assert(configs[i].reduce_slots > 0, "Reduce slots must be greater than zero");
 			xbt_assert(configs[i].worker_hosts_number > 0, "Number of worker hosts must be greater than zero");
 			xbt_assert(configs[i].vm_per_host > 0, "Number of virtual machines per host must be greater than zero");
+
+
+			xbt_assert(configs[i].cpu_flops_map > 0, "Number of CPU FLOPS for map stage must be greater than zero");
+			xbt_assert(configs[i].map_output_bytes > 0, "Number of bytes that map task sends to reduce must be greater than zero");
+
+			xbt_assert(configs[i].cpu_flops_reduce > 0, "Number of CPU FLOPS for reduce stage must be greater than zero");
 		}
 		fclose(config_collection_file);
 	}
