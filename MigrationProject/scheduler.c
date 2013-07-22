@@ -29,6 +29,7 @@ static void cb2(int c, void *data);
 
 #define PHYSICAL_MACHINES 8
 #define SCHEDULE_SLEEP_TIME 1000
+#define SCHEDULE_FILE "schedule.txt"
 
 struct schedule
 {
@@ -147,7 +148,7 @@ int scheduler(int argc, char *argv[])
 	if (csv_init(&p, 0) != 0)
 		exit(EXIT_FAILURE);
 
-	fp = fopen("schedule.txt", "rb");
+	fp = fopen(SCHEDULE_FILE, "rb");
 	if (!fp)
 		exit(EXIT_FAILURE);
 	while ((bytes_read = fread(buf, 1, 1024, fp)) > 0)
@@ -365,6 +366,7 @@ static void cb1(void *s, size_t len, void *data)
 		xbt_dynar_push_as(sched->hosts_ids,int, atoi(s));
 	}
 }
+
 static void cb2(int c, void *data)
 {
 	struct schedule* sched = ((struct schedule *) data);
