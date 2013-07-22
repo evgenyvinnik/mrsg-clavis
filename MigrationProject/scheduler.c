@@ -355,7 +355,7 @@ static void free_global_mem(int configuration_id)
 
 static void cb1(void *s, size_t len, void *data)
 {
-	struct schedule* sched = ((struct counts *) data);
+	struct schedule* sched = ((struct schedule *) data);
 	if (sched->row_reading == 0)
 	{
 		xbt_dynar_push_as(sched->vms_ids,int, atoi(s));
@@ -367,7 +367,7 @@ static void cb1(void *s, size_t len, void *data)
 }
 static void cb2(int c, void *data)
 {
-	struct schedule* sched = ((struct counts *) data);
+	struct schedule* sched = ((struct schedule *) data);
 	if (sched->row_reading == 0)
 	{
 		sched->row_reading = 1;
