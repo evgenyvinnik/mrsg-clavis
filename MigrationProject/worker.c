@@ -169,7 +169,6 @@ static int compute(int argc, char* argv[])
 	int parent_id;
 	msg_process_t parent_process;
 	size_t wid;
-	msg_host_t dest_host;
 	int config_id;
 	long unsigned int fraction;
 
@@ -181,7 +180,6 @@ static int compute(int argc, char* argv[])
 	grand_parent_id = MSG_process_get_PPID(parent_process);
 	grand_parent_process_worker = MSG_process_from_PID(grand_parent_id);
 	wid = get_worker_id(grand_parent_process_worker);
-	dest_host = MSG_process_get_host(grand_parent_process_worker);
 
 	task = (msg_task_t) MSG_process_get_data(MSG_process_self());
 	ti = (task_info_t) MSG_task_get_data(task);
@@ -192,13 +190,15 @@ static int compute(int argc, char* argv[])
 	{
 	case MAP:
 		get_chunk(grand_parent_process_worker, ti, config_id);
-		XBT_INFO("\t\tconfig %d map %zu received by task tracker\t wid %d\t on %s", config_id, ti->id, wid, MSG_host_get_name(dest_host));
+		XBT_INFO("\t\tconfig %d map %zu received by task tracker\t wid %d\t on %s", config_id, ti->id, wid,
+		        MSG_host_get_name(MSG_process_get_host(grand_parent_process_worker)));
 
 		break;
 
 	case REDUCE:
 		get_map_output(grand_parent_process_worker, ti, config_id);
-		XBT_INFO("\t\tconfig %d reduce %zu received by task tracker\t wid %d\t on %s", config_id, ti->id, wid, MSG_host_get_name(dest_host));
+		XBT_INFO("\t\tconfig %d reduce %zu received by task tracker\t wid %d\t on %s", config_id, ti->id, wid,
+		        MSG_host_get_name(MSG_process_get_host(grand_parent_process_worker)));
 		break;
 	}
 
@@ -208,7 +208,7 @@ static int compute(int argc, char* argv[])
 				{
 					//perform execution (CPU)
 					error = MSG_task_execute(task);
-
+					
 					//NOTE: important thing: we split entire task in 1024 pieces
 					//so the contention would be somewhat more realistic
 					for (fraction = 0; fraction < IO_FRACTION; fraction++)
@@ -243,12 +243,14 @@ static int compute(int argc, char* argv[])
 	switch (ti->phase)
 	{
 	case MAP:
-		XBT_INFO("\t\tconfig %d map %zu complete by task tracker\t wid %d\t on %s", config_id, ti->id, wid, MSG_host_get_name(dest_host));
+		XBT_INFO("\t\tconfig %d map %zu complete by task tracker\t wid %d\t on %s", config_id, ti->id, wid,
+		        MSG_host_get_name(MSG_process_get_host(grand_parent_process_worker)));
 
 		break;
 
 	case REDUCE:
-		XBT_INFO("\t\tconfig %d reduce %zu complete by task tracker\t wid %d\t on %s", config_id, ti->id, wid, MSG_host_get_name(dest_host));
+		XBT_INFO("\t\tconfig %d reduce %zu complete by task tracker\t wid %d\t on %s", config_id, ti->id, wid,
+		        MSG_host_get_name(MSG_process_get_host(grand_parent_process_worker)));
 		break;
 	}
 
@@ -262,6 +264,10 @@ static void my_ram_operations_function(enum phase_e phase, size_t tid, size_t wi
 	double read;
 
 	file = MSG_file_open("/slot", "./memory/mem.mem", "rw");
+
+#ifdef VERBOSE
+		XBT_INFO("\tRam start reading");
+#endif
 
 	switch (phase)
 	{
@@ -293,9 +299,13 @@ static void my_disk_operations_function(enum phase_e phase, size_t tid, size_t w
 	void *ptr = NULL;
 	double read;
 
-	file = MSG_file_open("/slot", "./disk/disk.disk", "rw");
+	file = MSG_file_open("/home", "./disk/disk.disk", "rw");
 
-	switch (phase)
+#ifdef VERBOSE
+		XBT_INFO("\tDisk start reading");
+#endif
+
+		switch (phase)
 	{
 	case MAP:
 		read = MSG_file_read(ptr, (size_t) (configs[configuration_id].disk_operations_map / fraction), sizeof(char*), file);
@@ -369,6 +379,9 @@ static void get_chunk(msg_process_t worker, task_info_t ti, int configuration_id
 		double read;
 
 		file = MSG_file_open("/home", "./disk/disk.disk", "rw");
+#ifdef VERBOSE
+		XBT_INFO("\tDFS start reading");
+#endif
 
 		read = MSG_file_read(ptr, (size_t) configs[configuration_id].chunk_size, sizeof(char*), file);     // Read for 10Mo
 
@@ -435,8 +448,16 @@ static void get_map_output(msg_process_t worker, task_info_t ti, int configurati
 				sprintf(mailbox, TASK_MAILBOX, configuration_id, my_id, MSG_process_self_PID());
 				data = NULL;
 				receive(&data, mailbox);
-				data_copied[wid] += (unsigned long long) MSG_task_get_data_size(data);
-				total_copied += (unsigned long long) MSG_task_get_data_size(data);
+				if(MSG_task_get_data_size(data) > 0)
+				{
+					data_copied[wid] += (unsigned long long) MSG_task_get_data_size(data);
+					total_copied += (unsigned long long) MSG_task_get_data_size(data);
+				}
+				else
+				{
+					data_copied[wid] += (unsigned long long) MSG_task_get_compute_duration(data);
+					total_copied += (unsigned long long) MSG_task_get_compute_duration(data);
+				}
 				MSG_task_destroy(data);
 			}
 		}
