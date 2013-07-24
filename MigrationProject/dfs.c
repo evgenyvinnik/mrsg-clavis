@@ -180,8 +180,19 @@ static void send_data(msg_process_t worker, msg_task_t msg, int configuration_id
 	}
 	else if (message_is(msg, message_get_inter_pairs))
 	{
-		data_size =(double) ( jobs[configuration_id].map_output[my_id][ti->id] - ti->map_output_copied[my_id]);
-		MSG_task_dsend(MSG_task_create("DATA-IP", 0.0, data_size, NULL ), mailbox, NULL );
+		data_size = (double) (jobs[configuration_id].map_output[my_id][ti->id] - ti->map_output_copied[my_id]);
+#ifdef VERBOSE
+		XBT_INFO("\tDATA-IP    %f mailbox %s my id %d from %s to %s", data_size, mailbox, my_id, MSG_host_get_name(MSG_process_get_host(worker)),
+				MSG_host_get_name(MSG_process_get_host(MSG_task_get_sender(msg))));
+#endif
+		if (strcmp(MSG_host_get_name(MSG_process_get_host(worker)), MSG_host_get_name(MSG_process_get_host(MSG_task_get_sender(msg)))))
+		{
+			MSG_task_dsend(MSG_task_create("DATA-IP", 0.0, data_size, NULL ), mailbox, NULL );
+		}
+		else
+		{
+			MSG_task_dsend(MSG_task_create("DATA-IP", data_size, -1, NULL ), mailbox, NULL );
+		}
 	}
 
 	MSG_task_destroy(msg);
