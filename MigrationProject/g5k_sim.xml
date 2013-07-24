@@ -1,13 +1,6 @@
 <?xml version='1.0'?>
 <!DOCTYPE platform SYSTEM "http://simgrid.gforge.inria.fr/simgrid.dtd">
 
-<!-- router1 -------------link1-2--------------router2 __________________________ 
-	_________________________ | | | | | backbone1 | | backbone2 | |________________________| 
-	|________________________| / / | \ \ / / | \ \ l1_up / / l1_down | l3 l2_up\ 
-	\ l2_down l4_up / / l4_down | l6 l5_up\ \ l5_down / / | \ \ / / | \ \ host1 
-	host3 host2 host4 host6 host5 -->
-
-
 <platform version="3">
 	<AS id="AS0" routing="Floyd">
 
@@ -131,7 +124,7 @@
 			<storage id="cluster1_Ram49" typeId="cluster1_ram" />
 			<storage id="cluster1_Ram50" typeId="cluster1_ram" />
 
-			<host id="cluster1_host10" power="4932000000" core="24">
+			<host id="cluster1_host10" power="121200000000">
 				<mount id="cluster1_Disk10" name="/home" />
 				<mount id="cluster1_Ram10" name="/slot" />
 			</host>
@@ -140,7 +133,7 @@
 			<host_link id="cluster1_host10" up="cluster1_l10_UP" down="cluster1_l10_DOWN" />
 			<!--11-20 -->
 
-			<host id="cluster1_host11" power="4932000000" core="24">
+			<host id="cluster1_host11" power="121200000000">
 				<mount id="cluster1_Disk11" name="/home" />
 				<mount id="cluster1_Ram11" name="/slot" />
 			</host>
@@ -148,7 +141,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster1_host11" up="cluster1_l11_UP" down="cluster1_l11_DOWN" />
 
-			<host id="cluster1_host12" power="4932000000" core="24">
+			<host id="cluster1_host12" power="121200000000">
 				<mount id="cluster1_Disk12" name="/home" />
 				<mount id="cluster1_Ram12" name="/slot" />
 			</host>
@@ -156,7 +149,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster1_host12" up="cluster1_l12_UP" down="cluster1_l12_DOWN" />
 
-			<host id="cluster1_host13" power="4932000000" core="24">
+			<host id="cluster1_host13" power="121200000000">
 				<mount id="cluster1_Disk13" name="/home" />
 				<mount id="cluster1_Ram13" name="/slot" />
 			</host>
@@ -164,7 +157,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster1_host13" up="cluster1_l13_UP" down="cluster1_l13_DOWN" />
 
-			<host id="cluster1_host14" power="4932000000" core="24">
+			<host id="cluster1_host14" power="121200000000">
 				<mount id="cluster1_Disk14" name="/home" />
 				<mount id="cluster1_Ram14" name="/slot" />
 			</host>
@@ -172,7 +165,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster1_host14" up="cluster1_l14_UP" down="cluster1_l14_DOWN" />
 
-			<host id="cluster1_host15" power="4932000000" core="24">
+			<host id="cluster1_host15" power="121200000000">
 				<mount id="cluster1_Disk15" name="/home" />
 				<mount id="cluster1_Ram15" name="/slot" />
 			</host>
@@ -180,7 +173,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster1_host15" up="cluster1_l15_UP" down="cluster1_l15_DOWN" />
 
-			<host id="cluster1_host16" power="4932000000" core="24">
+			<host id="cluster1_host16" power="121200000000">
 				<mount id="cluster1_Disk16" name="/home" />
 				<mount id="cluster1_Ram16" name="/slot" />
 			</host>
@@ -188,7 +181,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster1_host16" up="cluster1_l16_UP" down="cluster1_l16_DOWN" />
 
-			<host id="cluster1_host17" power="4932000000" core="24">
+			<host id="cluster1_host17" power="121200000000">
 				<mount id="cluster1_Disk17" name="/home" />
 				<mount id="cluster1_Ram17" name="/slot" />
 			</host>
@@ -196,7 +189,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster1_host17" up="cluster1_l17_UP" down="cluster1_l17_DOWN" />
 
-			<host id="cluster1_host18" power="4932000000" core="24">
+			<host id="cluster1_host18" power="121200000000">
 				<mount id="cluster1_Disk18" name="/home" />
 				<mount id="cluster1_Ram18" name="/slot" />
 			</host>
@@ -204,7 +197,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster1_host18" up="cluster1_l18_UP" down="cluster1_l18_DOWN" />
 
-			<host id="cluster1_host19" power="4932000000" core="24">
+			<host id="cluster1_host19" power="121200000000">
 				<mount id="cluster1_Disk19" name="/home" />
 				<mount id="cluster1_Ram19" name="/slot" />
 			</host>
@@ -212,7 +205,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster1_host19" up="cluster1_l19_UP" down="cluster1_l19_DOWN" />
 
-			<host id="cluster1_host20" power="4932000000" core="24">
+			<host id="cluster1_host20" power="121200000000">
 				<mount id="cluster1_Disk20" name="/home" />
 				<mount id="cluster1_Ram20" name="/slot" />
 			</host>
@@ -221,7 +214,7 @@
 			<host_link id="cluster1_host20" up="cluster1_l20_UP" down="cluster1_l20_DOWN" />
 
 			<!--21-30 -->
-			<host id="cluster1_host21" power="4932000000" core="24">
+			<host id="cluster1_host21" power="121200000000">
 				<mount id="cluster1_Disk21" name="/home" />
 				<mount id="cluster1_Ram21" name="/slot" />
 			</host>
@@ -229,7 +222,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster1_host21" up="cluster1_l21_UP" down="cluster1_l21_DOWN" />
 
-			<host id="cluster1_host22" power="4932000000" core="24">
+			<host id="cluster1_host22" power="121200000000">
 				<mount id="cluster1_Disk22" name="/home" />
 				<mount id="cluster1_Ram22" name="/slot" />
 			</host>
@@ -237,7 +230,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster1_host22" up="cluster1_l22_UP" down="cluster1_l22_DOWN" />
 
-			<host id="cluster1_host23" power="4932000000" core="24">
+			<host id="cluster1_host23" power="121200000000">
 				<mount id="cluster1_Disk23" name="/home" />
 				<mount id="cluster1_Ram23" name="/slot" />
 			</host>
@@ -245,7 +238,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster1_host23" up="cluster1_l23_UP" down="cluster1_l23_DOWN" />
 
-			<host id="cluster1_host24" power="4932000000" core="24">
+			<host id="cluster1_host24" power="121200000000">
 				<mount id="cluster1_Disk24" name="/home" />
 				<mount id="cluster1_Ram24" name="/slot" />
 			</host>
@@ -253,7 +246,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster1_host24" up="cluster1_l24_UP" down="cluster1_l24_DOWN" />
 
-			<host id="cluster1_host25" power="4932000000" core="24">
+			<host id="cluster1_host25" power="121200000000">
 				<mount id="cluster1_Disk25" name="/home" />
 				<mount id="cluster1_Ram25" name="/slot" />
 			</host>
@@ -261,7 +254,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster1_host25" up="cluster1_l25_UP" down="cluster1_l25_DOWN" />
 
-			<host id="cluster1_host26" power="4932000000" core="24">
+			<host id="cluster1_host26" power="121200000000">
 				<mount id="cluster1_Disk26" name="/home" />
 				<mount id="cluster1_Ram26" name="/slot" />
 			</host>
@@ -269,7 +262,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster1_host26" up="cluster1_l26_UP" down="cluster1_l26_DOWN" />
 
-			<host id="cluster1_host27" power="4932000000" core="24">
+			<host id="cluster1_host27" power="121200000000">
 				<mount id="cluster1_Disk27" name="/home" />
 				<mount id="cluster1_Ram27" name="/slot" />
 			</host>
@@ -277,7 +270,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster1_host27" up="cluster1_l27_UP" down="cluster1_l27_DOWN" />
 
-			<host id="cluster1_host28" power="4932000000" core="24">
+			<host id="cluster1_host28" power="121200000000">
 				<mount id="cluster1_Disk28" name="/home" />
 				<mount id="cluster1_Ram28" name="/slot" />
 			</host>
@@ -285,7 +278,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster1_host28" up="cluster1_l28_UP" down="cluster1_l28_DOWN" />
 
-			<host id="cluster1_host29" power="4932000000" core="24">
+			<host id="cluster1_host29" power="121200000000">
 				<mount id="cluster1_Disk29" name="/home" />
 				<mount id="cluster1_Ram29" name="/slot" />
 			</host>
@@ -293,7 +286,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster1_host29" up="cluster1_l29_UP" down="cluster1_l29_DOWN" />
 
-			<host id="cluster1_host30" power="4932000000" core="24">
+			<host id="cluster1_host30" power="121200000000">
 				<mount id="cluster1_Disk30" name="/home" />
 				<mount id="cluster1_Ram30" name="/slot" />
 			</host>
@@ -302,7 +295,7 @@
 			<host_link id="cluster1_host30" up="cluster1_l30_UP" down="cluster1_l30_DOWN" />
 
 			<!--31-40 -->
-			<host id="cluster1_host31" power="4932000000" core="24">
+			<host id="cluster1_host31" power="121200000000">
 				<mount id="cluster1_Disk31" name="/home" />
 				<mount id="cluster1_Ram31" name="/slot" />
 			</host>
@@ -310,7 +303,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster1_host31" up="cluster1_l31_UP" down="cluster1_l31_DOWN" />
 
-			<host id="cluster1_host32" power="4932000000" core="24">
+			<host id="cluster1_host32" power="121200000000">
 				<mount id="cluster1_Disk32" name="/home" />
 				<mount id="cluster1_Ram32" name="/slot" />
 			</host>
@@ -318,7 +311,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster1_host32" up="cluster1_l32_UP" down="cluster1_l32_DOWN" />
 
-			<host id="cluster1_host33" power="4932000000" core="24">
+			<host id="cluster1_host33" power="121200000000">
 				<mount id="cluster1_Disk33" name="/home" />
 				<mount id="cluster1_Ram33" name="/slot" />
 			</host>
@@ -326,7 +319,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster1_host33" up="cluster1_l33_UP" down="cluster1_l33_DOWN" />
 
-			<host id="cluster1_host34" power="4932000000" core="24">
+			<host id="cluster1_host34" power="121200000000">
 				<mount id="cluster1_Disk34" name="/home" />
 				<mount id="cluster1_Ram34" name="/slot" />
 			</host>
@@ -334,7 +327,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster1_host34" up="cluster1_l34_UP" down="cluster1_l34_DOWN" />
 
-			<host id="cluster1_host35" power="4932000000" core="24">
+			<host id="cluster1_host35" power="121200000000">
 				<mount id="cluster1_Disk35" name="/home" />
 				<mount id="cluster1_Ram35" name="/slot" />
 			</host>
@@ -342,7 +335,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster1_host35" up="cluster1_l35_UP" down="cluster1_l35_DOWN" />
 
-			<host id="cluster1_host36" power="4932000000" core="24">
+			<host id="cluster1_host36" power="121200000000">
 				<mount id="cluster1_Disk36" name="/home" />
 				<mount id="cluster1_Ram36" name="/slot" />
 			</host>
@@ -350,7 +343,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster1_host36" up="cluster1_l36_UP" down="cluster1_l36_DOWN" />
 
-			<host id="cluster1_host37" power="4932000000" core="24">
+			<host id="cluster1_host37" power="121200000000">
 				<mount id="cluster1_Disk37" name="/home" />
 				<mount id="cluster1_Ram37" name="/slot" />
 			</host>
@@ -358,7 +351,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster1_host37" up="cluster1_l37_UP" down="cluster1_l37_DOWN" />
 
-			<host id="cluster1_host38" power="4932000000" core="24">
+			<host id="cluster1_host38" power="121200000000">
 				<mount id="cluster1_Disk38" name="/home" />
 				<mount id="cluster1_Ram38" name="/slot" />
 			</host>
@@ -366,7 +359,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster1_host38" up="cluster1_l38_UP" down="cluster1_l38_DOWN" />
 
-			<host id="cluster1_host39" power="4932000000" core="24">
+			<host id="cluster1_host39" power="121200000000">
 				<mount id="cluster1_Disk39" name="/home" />
 				<mount id="cluster1_Ram39" name="/slot" />
 			</host>
@@ -374,7 +367,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster1_host39" up="cluster1_l39_UP" down="cluster1_l39_DOWN" />
 
-			<host id="cluster1_host40" power="4932000000" core="24">
+			<host id="cluster1_host40" power="121200000000">
 				<mount id="cluster1_Disk40" name="/home" />
 				<mount id="cluster1_Ram40" name="/slot" />
 			</host>
@@ -384,7 +377,7 @@
 
 
 			<!--41-50 -->
-			<host id="cluster1_host41" power="4932000000" core="24">
+			<host id="cluster1_host41" power="121200000000">
 				<mount id="cluster1_Disk41" name="/home" />
 				<mount id="cluster1_Ram41" name="/slot" />
 			</host>
@@ -392,7 +385,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster1_host41" up="cluster1_l41_UP" down="cluster1_l41_DOWN" />
 
-			<host id="cluster1_host42" power="4932000000" core="24">
+			<host id="cluster1_host42" power="121200000000">
 				<mount id="cluster1_Disk42" name="/home" />
 				<mount id="cluster1_Ram42" name="/slot" />
 			</host>
@@ -400,7 +393,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster1_host42" up="cluster1_l42_UP" down="cluster1_l42_DOWN" />
 
-			<host id="cluster1_host43" power="4932000000" core="24">
+			<host id="cluster1_host43" power="121200000000">
 				<mount id="cluster1_Disk43" name="/home" />
 				<mount id="cluster1_Ram43" name="/slot" />
 			</host>
@@ -408,7 +401,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster1_host43" up="cluster1_l43_UP" down="cluster1_l43_DOWN" />
 
-			<host id="cluster1_host44" power="4932000000" core="24">
+			<host id="cluster1_host44" power="121200000000">
 				<mount id="cluster1_Disk44" name="/home" />
 				<mount id="cluster1_Ram44" name="/slot" />
 			</host>
@@ -416,7 +409,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster1_host44" up="cluster1_l44_UP" down="cluster1_l44_DOWN" />
 
-			<host id="cluster1_host45" power="4932000000" core="24">
+			<host id="cluster1_host45" power="121200000000">
 				<mount id="cluster1_Disk45" name="/home" />
 				<mount id="cluster1_Ram45" name="/slot" />
 			</host>
@@ -424,7 +417,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster1_host45" up="cluster1_l45_UP" down="cluster1_l45_DOWN" />
 
-			<host id="cluster1_host46" power="4932000000" core="24">
+			<host id="cluster1_host46" power="121200000000">
 				<mount id="cluster1_Disk46" name="/home" />
 				<mount id="cluster1_Ram46" name="/slot" />
 			</host>
@@ -432,7 +425,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster1_host46" up="cluster1_l46_UP" down="cluster1_l46_DOWN" />
 
-			<host id="cluster1_host47" power="4932000000" core="24">
+			<host id="cluster1_host47" power="121200000000">
 				<mount id="cluster1_Disk47" name="/home" />
 				<mount id="cluster1_Ram47" name="/slot" />
 			</host>
@@ -440,7 +433,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster1_host47" up="cluster1_l47_UP" down="cluster1_l47_DOWN" />
 
-			<host id="cluster1_host48" power="4932000000" core="24">
+			<host id="cluster1_host48" power="121200000000">
 				<mount id="cluster1_Disk48" name="/home" />
 				<mount id="cluster1_Ram48" name="/slot" />
 			</host>
@@ -448,7 +441,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster1_host48" up="cluster1_l48_UP" down="cluster1_l48_DOWN" />
 
-			<host id="cluster1_host49" power="4932000000" core="24">
+			<host id="cluster1_host49" power="121200000000">
 				<mount id="cluster1_Disk49" name="/home" />
 				<mount id="cluster1_Ram49" name="/slot" />
 			</host>
@@ -456,7 +449,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster1_host49" up="cluster1_l49_UP" down="cluster1_l49_DOWN" />
 
-			<host id="cluster1_host50" power="4932000000" core="24">
+			<host id="cluster1_host50" power="121200000000">
 				<mount id="cluster1_Disk50" name="/home" />
 				<mount id="cluster1_Ram50" name="/slot" />
 			</host>
@@ -464,7 +457,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster1_host50" up="cluster1_l50_UP" down="cluster1_l50_DOWN" />
 
-			<backbone id="cluster1_backbone" bandwidth="2250000000"
+			<backbone id="cluster1_backbone" bandwidth="376000000"
 				latency="5E-4" />
 		</AS>
 
@@ -588,7 +581,7 @@
 			<storage id="cluster2_Ram49" typeId="cluster2_ram" />
 			<storage id="cluster2_Ram50" typeId="cluster2_ram" />
 
-			<host id="cluster2_host10" power="4932000000" core="24">
+			<host id="cluster2_host10" power="121200000000">
 				<mount id="cluster2_Disk10" name="/home" />
 				<mount id="cluster2_Ram10" name="/slot" />
 			</host>
@@ -597,7 +590,7 @@
 			<host_link id="cluster2_host10" up="cluster2_l10_UP" down="cluster2_l10_DOWN" />
 			<!--11-20 -->
 
-			<host id="cluster2_host11" power="4932000000" core="24">
+			<host id="cluster2_host11" power="121200000000">
 				<mount id="cluster2_Disk11" name="/home" />
 				<mount id="cluster2_Ram11" name="/slot" />
 			</host>
@@ -605,7 +598,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster2_host11" up="cluster2_l11_UP" down="cluster2_l11_DOWN" />
 
-			<host id="cluster2_host12" power="4932000000" core="24">
+			<host id="cluster2_host12" power="121200000000">
 				<mount id="cluster2_Disk12" name="/home" />
 				<mount id="cluster2_Ram12" name="/slot" />
 			</host>
@@ -613,7 +606,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster2_host12" up="cluster2_l12_UP" down="cluster2_l12_DOWN" />
 
-			<host id="cluster2_host13" power="4932000000" core="24">
+			<host id="cluster2_host13" power="121200000000">
 				<mount id="cluster2_Disk13" name="/home" />
 				<mount id="cluster2_Ram13" name="/slot" />
 			</host>
@@ -621,7 +614,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster2_host13" up="cluster2_l13_UP" down="cluster2_l13_DOWN" />
 
-			<host id="cluster2_host14" power="4932000000" core="24">
+			<host id="cluster2_host14" power="121200000000">
 				<mount id="cluster2_Disk14" name="/home" />
 				<mount id="cluster2_Ram14" name="/slot" />
 			</host>
@@ -629,7 +622,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster2_host14" up="cluster2_l14_UP" down="cluster2_l14_DOWN" />
 
-			<host id="cluster2_host15" power="4932000000" core="24">
+			<host id="cluster2_host15" power="121200000000">
 				<mount id="cluster2_Disk15" name="/home" />
 				<mount id="cluster2_Ram15" name="/slot" />
 			</host>
@@ -637,7 +630,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster2_host15" up="cluster2_l15_UP" down="cluster2_l15_DOWN" />
 
-			<host id="cluster2_host16" power="4932000000" core="24">
+			<host id="cluster2_host16" power="121200000000">
 				<mount id="cluster2_Disk16" name="/home" />
 				<mount id="cluster2_Ram16" name="/slot" />
 			</host>
@@ -645,7 +638,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster2_host16" up="cluster2_l16_UP" down="cluster2_l16_DOWN" />
 
-			<host id="cluster2_host17" power="4932000000" core="24">
+			<host id="cluster2_host17" power="121200000000">
 				<mount id="cluster2_Disk17" name="/home" />
 				<mount id="cluster2_Ram17" name="/slot" />
 			</host>
@@ -653,7 +646,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster2_host17" up="cluster2_l17_UP" down="cluster2_l17_DOWN" />
 
-			<host id="cluster2_host18" power="4932000000" core="24">
+			<host id="cluster2_host18" power="121200000000">
 				<mount id="cluster2_Disk18" name="/home" />
 				<mount id="cluster2_Ram18" name="/slot" />
 			</host>
@@ -661,7 +654,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster2_host18" up="cluster2_l18_UP" down="cluster2_l18_DOWN" />
 
-			<host id="cluster2_host19" power="4932000000" core="24">
+			<host id="cluster2_host19" power="121200000000">
 				<mount id="cluster2_Disk19" name="/home" />
 				<mount id="cluster2_Ram19" name="/slot" />
 			</host>
@@ -669,7 +662,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster2_host19" up="cluster2_l19_UP" down="cluster2_l19_DOWN" />
 
-			<host id="cluster2_host20" power="4932000000" core="24">
+			<host id="cluster2_host20" power="121200000000">
 				<mount id="cluster2_Disk20" name="/home" />
 				<mount id="cluster2_Ram20" name="/slot" />
 			</host>
@@ -678,7 +671,7 @@
 			<host_link id="cluster2_host20" up="cluster2_l20_UP" down="cluster2_l20_DOWN" />
 
 			<!--21-30 -->
-			<host id="cluster2_host21" power="4932000000" core="24">
+			<host id="cluster2_host21" power="121200000000">
 				<mount id="cluster2_Disk21" name="/home" />
 				<mount id="cluster2_Ram21" name="/slot" />
 			</host>
@@ -686,7 +679,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster2_host21" up="cluster2_l21_UP" down="cluster2_l21_DOWN" />
 
-			<host id="cluster2_host22" power="4932000000" core="24">
+			<host id="cluster2_host22" power="121200000000">
 				<mount id="cluster2_Disk22" name="/home" />
 				<mount id="cluster2_Ram22" name="/slot" />
 			</host>
@@ -694,7 +687,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster2_host22" up="cluster2_l22_UP" down="cluster2_l22_DOWN" />
 
-			<host id="cluster2_host23" power="4932000000" core="24">
+			<host id="cluster2_host23" power="121200000000">
 				<mount id="cluster2_Disk23" name="/home" />
 				<mount id="cluster2_Ram23" name="/slot" />
 			</host>
@@ -702,7 +695,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster2_host23" up="cluster2_l23_UP" down="cluster2_l23_DOWN" />
 
-			<host id="cluster2_host24" power="4932000000" core="24">
+			<host id="cluster2_host24" power="121200000000">
 				<mount id="cluster2_Disk24" name="/home" />
 				<mount id="cluster2_Ram24" name="/slot" />
 			</host>
@@ -710,7 +703,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster2_host24" up="cluster2_l24_UP" down="cluster2_l24_DOWN" />
 
-			<host id="cluster2_host25" power="4932000000" core="24">
+			<host id="cluster2_host25" power="121200000000">
 				<mount id="cluster2_Disk25" name="/home" />
 				<mount id="cluster2_Ram25" name="/slot" />
 			</host>
@@ -718,7 +711,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster2_host25" up="cluster2_l25_UP" down="cluster2_l25_DOWN" />
 
-			<host id="cluster2_host26" power="4932000000" core="24">
+			<host id="cluster2_host26" power="121200000000">
 				<mount id="cluster2_Disk26" name="/home" />
 				<mount id="cluster2_Ram26" name="/slot" />
 			</host>
@@ -726,7 +719,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster2_host26" up="cluster2_l26_UP" down="cluster2_l26_DOWN" />
 
-			<host id="cluster2_host27" power="4932000000" core="24">
+			<host id="cluster2_host27" power="121200000000">
 				<mount id="cluster2_Disk27" name="/home" />
 				<mount id="cluster2_Ram27" name="/slot" />
 			</host>
@@ -734,7 +727,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster2_host27" up="cluster2_l27_UP" down="cluster2_l27_DOWN" />
 
-			<host id="cluster2_host28" power="4932000000" core="24">
+			<host id="cluster2_host28" power="121200000000">
 				<mount id="cluster2_Disk28" name="/home" />
 				<mount id="cluster2_Ram28" name="/slot" />
 			</host>
@@ -742,7 +735,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster2_host28" up="cluster2_l28_UP" down="cluster2_l28_DOWN" />
 
-			<host id="cluster2_host29" power="4932000000" core="24">
+			<host id="cluster2_host29" power="121200000000">
 				<mount id="cluster2_Disk29" name="/home" />
 				<mount id="cluster2_Ram29" name="/slot" />
 			</host>
@@ -750,7 +743,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster2_host29" up="cluster2_l29_UP" down="cluster2_l29_DOWN" />
 
-			<host id="cluster2_host30" power="4932000000" core="24">
+			<host id="cluster2_host30" power="121200000000">
 				<mount id="cluster2_Disk30" name="/home" />
 				<mount id="cluster2_Ram30" name="/slot" />
 			</host>
@@ -759,7 +752,7 @@
 			<host_link id="cluster2_host30" up="cluster2_l30_UP" down="cluster2_l30_DOWN" />
 
 			<!--31-40 -->
-			<host id="cluster2_host31" power="4932000000" core="24">
+			<host id="cluster2_host31" power="121200000000">
 				<mount id="cluster2_Disk31" name="/home" />
 				<mount id="cluster2_Ram31" name="/slot" />
 			</host>
@@ -767,7 +760,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster2_host31" up="cluster2_l31_UP" down="cluster2_l31_DOWN" />
 
-			<host id="cluster2_host32" power="4932000000" core="24">
+			<host id="cluster2_host32" power="121200000000">
 				<mount id="cluster2_Disk32" name="/home" />
 				<mount id="cluster2_Ram32" name="/slot" />
 			</host>
@@ -775,7 +768,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster2_host32" up="cluster2_l32_UP" down="cluster2_l32_DOWN" />
 
-			<host id="cluster2_host33" power="4932000000" core="24">
+			<host id="cluster2_host33" power="121200000000">
 				<mount id="cluster2_Disk33" name="/home" />
 				<mount id="cluster2_Ram33" name="/slot" />
 			</host>
@@ -783,7 +776,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster2_host33" up="cluster2_l33_UP" down="cluster2_l33_DOWN" />
 
-			<host id="cluster2_host34" power="4932000000" core="24">
+			<host id="cluster2_host34" power="121200000000">
 				<mount id="cluster2_Disk34" name="/home" />
 				<mount id="cluster2_Ram34" name="/slot" />
 			</host>
@@ -791,7 +784,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster2_host34" up="cluster2_l34_UP" down="cluster2_l34_DOWN" />
 
-			<host id="cluster2_host35" power="4932000000" core="24">
+			<host id="cluster2_host35" power="121200000000">
 				<mount id="cluster2_Disk35" name="/home" />
 				<mount id="cluster2_Ram35" name="/slot" />
 			</host>
@@ -799,7 +792,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster2_host35" up="cluster2_l35_UP" down="cluster2_l35_DOWN" />
 
-			<host id="cluster2_host36" power="4932000000" core="24">
+			<host id="cluster2_host36" power="121200000000">
 				<mount id="cluster2_Disk36" name="/home" />
 				<mount id="cluster2_Ram36" name="/slot" />
 			</host>
@@ -807,7 +800,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster2_host36" up="cluster2_l36_UP" down="cluster2_l36_DOWN" />
 
-			<host id="cluster2_host37" power="4932000000" core="24">
+			<host id="cluster2_host37" power="121200000000">
 				<mount id="cluster2_Disk37" name="/home" />
 				<mount id="cluster2_Ram37" name="/slot" />
 			</host>
@@ -815,7 +808,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster2_host37" up="cluster2_l37_UP" down="cluster2_l37_DOWN" />
 
-			<host id="cluster2_host38" power="4932000000" core="24">
+			<host id="cluster2_host38" power="121200000000">
 				<mount id="cluster2_Disk38" name="/home" />
 				<mount id="cluster2_Ram38" name="/slot" />
 			</host>
@@ -823,7 +816,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster2_host38" up="cluster2_l38_UP" down="cluster2_l38_DOWN" />
 
-			<host id="cluster2_host39" power="4932000000" core="24">
+			<host id="cluster2_host39" power="121200000000">
 				<mount id="cluster2_Disk39" name="/home" />
 				<mount id="cluster2_Ram39" name="/slot" />
 			</host>
@@ -831,7 +824,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster2_host39" up="cluster2_l39_UP" down="cluster2_l39_DOWN" />
 
-			<host id="cluster2_host40" power="4932000000" core="24">
+			<host id="cluster2_host40" power="121200000000">
 				<mount id="cluster2_Disk40" name="/home" />
 				<mount id="cluster2_Ram40" name="/slot" />
 			</host>
@@ -841,7 +834,7 @@
 
 
 			<!--41-50 -->
-			<host id="cluster2_host41" power="4932000000" core="24">
+			<host id="cluster2_host41" power="121200000000">
 				<mount id="cluster2_Disk41" name="/home" />
 				<mount id="cluster2_Ram41" name="/slot" />
 			</host>
@@ -849,7 +842,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster2_host41" up="cluster2_l41_UP" down="cluster2_l41_DOWN" />
 
-			<host id="cluster2_host42" power="4932000000" core="24">
+			<host id="cluster2_host42" power="121200000000">
 				<mount id="cluster2_Disk42" name="/home" />
 				<mount id="cluster2_Ram42" name="/slot" />
 			</host>
@@ -857,7 +850,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster2_host42" up="cluster2_l42_UP" down="cluster2_l42_DOWN" />
 
-			<host id="cluster2_host43" power="4932000000" core="24">
+			<host id="cluster2_host43" power="121200000000">
 				<mount id="cluster2_Disk43" name="/home" />
 				<mount id="cluster2_Ram43" name="/slot" />
 			</host>
@@ -865,7 +858,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster2_host43" up="cluster2_l43_UP" down="cluster2_l43_DOWN" />
 
-			<host id="cluster2_host44" power="4932000000" core="24">
+			<host id="cluster2_host44" power="121200000000">
 				<mount id="cluster2_Disk44" name="/home" />
 				<mount id="cluster2_Ram44" name="/slot" />
 			</host>
@@ -873,7 +866,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster2_host44" up="cluster2_l44_UP" down="cluster2_l44_DOWN" />
 
-			<host id="cluster2_host45" power="4932000000" core="24">
+			<host id="cluster2_host45" power="121200000000">
 				<mount id="cluster2_Disk45" name="/home" />
 				<mount id="cluster2_Ram45" name="/slot" />
 			</host>
@@ -881,7 +874,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster2_host45" up="cluster2_l45_UP" down="cluster2_l45_DOWN" />
 
-			<host id="cluster2_host46" power="4932000000" core="24">
+			<host id="cluster2_host46" power="121200000000">
 				<mount id="cluster2_Disk46" name="/home" />
 				<mount id="cluster2_Ram46" name="/slot" />
 			</host>
@@ -889,7 +882,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster2_host46" up="cluster2_l46_UP" down="cluster2_l46_DOWN" />
 
-			<host id="cluster2_host47" power="4932000000" core="24">
+			<host id="cluster2_host47" power="121200000000">
 				<mount id="cluster2_Disk47" name="/home" />
 				<mount id="cluster2_Ram47" name="/slot" />
 			</host>
@@ -897,7 +890,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster2_host47" up="cluster2_l47_UP" down="cluster2_l47_DOWN" />
 
-			<host id="cluster2_host48" power="4932000000" core="24">
+			<host id="cluster2_host48" power="121200000000">
 				<mount id="cluster2_Disk48" name="/home" />
 				<mount id="cluster2_Ram48" name="/slot" />
 			</host>
@@ -905,7 +898,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster2_host48" up="cluster2_l48_UP" down="cluster2_l48_DOWN" />
 
-			<host id="cluster2_host49" power="4932000000" core="24">
+			<host id="cluster2_host49" power="121200000000">
 				<mount id="cluster2_Disk49" name="/home" />
 				<mount id="cluster2_Ram49" name="/slot" />
 			</host>
@@ -913,7 +906,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster2_host49" up="cluster2_l49_UP" down="cluster2_l49_DOWN" />
 
-			<host id="cluster2_host50" power="4932000000" core="24">
+			<host id="cluster2_host50" power="121200000000">
 				<mount id="cluster2_Disk50" name="/home" />
 				<mount id="cluster2_Ram50" name="/slot" />
 			</host>
@@ -921,7 +914,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster2_host50" up="cluster2_l50_UP" down="cluster2_l50_DOWN" />
 
-			<backbone id="cluster2_backbone" bandwidth="2250000000"
+			<backbone id="cluster2_backbone" bandwidth="376000000"
 				latency="5E-4" />
 		</AS>
 
@@ -1045,7 +1038,7 @@
 			<storage id="cluster3_Ram49" typeId="cluster3_ram" />
 			<storage id="cluster3_Ram50" typeId="cluster3_ram" />
 
-			<host id="cluster3_host10" power="4932000000" core="24">
+			<host id="cluster3_host10" power="121200000000">
 				<mount id="cluster3_Disk10" name="/home" />
 				<mount id="cluster3_Ram10" name="/slot" />
 			</host>
@@ -1054,7 +1047,7 @@
 			<host_link id="cluster3_host10" up="cluster3_l10_UP" down="cluster3_l10_DOWN" />
 			<!--11-20 -->
 
-			<host id="cluster3_host11" power="4932000000" core="24">
+			<host id="cluster3_host11" power="121200000000">
 				<mount id="cluster3_Disk11" name="/home" />
 				<mount id="cluster3_Ram11" name="/slot" />
 			</host>
@@ -1062,7 +1055,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster3_host11" up="cluster3_l11_UP" down="cluster3_l11_DOWN" />
 
-			<host id="cluster3_host12" power="4932000000" core="24">
+			<host id="cluster3_host12" power="121200000000">
 				<mount id="cluster3_Disk12" name="/home" />
 				<mount id="cluster3_Ram12" name="/slot" />
 			</host>
@@ -1070,7 +1063,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster3_host12" up="cluster3_l12_UP" down="cluster3_l12_DOWN" />
 
-			<host id="cluster3_host13" power="4932000000" core="24">
+			<host id="cluster3_host13" power="121200000000">
 				<mount id="cluster3_Disk13" name="/home" />
 				<mount id="cluster3_Ram13" name="/slot" />
 			</host>
@@ -1078,7 +1071,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster3_host13" up="cluster3_l13_UP" down="cluster3_l13_DOWN" />
 
-			<host id="cluster3_host14" power="4932000000" core="24">
+			<host id="cluster3_host14" power="121200000000">
 				<mount id="cluster3_Disk14" name="/home" />
 				<mount id="cluster3_Ram14" name="/slot" />
 			</host>
@@ -1086,7 +1079,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster3_host14" up="cluster3_l14_UP" down="cluster3_l14_DOWN" />
 
-			<host id="cluster3_host15" power="4932000000" core="24">
+			<host id="cluster3_host15" power="121200000000">
 				<mount id="cluster3_Disk15" name="/home" />
 				<mount id="cluster3_Ram15" name="/slot" />
 			</host>
@@ -1094,7 +1087,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster3_host15" up="cluster3_l15_UP" down="cluster3_l15_DOWN" />
 
-			<host id="cluster3_host16" power="4932000000" core="24">
+			<host id="cluster3_host16" power="121200000000">
 				<mount id="cluster3_Disk16" name="/home" />
 				<mount id="cluster3_Ram16" name="/slot" />
 			</host>
@@ -1102,7 +1095,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster3_host16" up="cluster3_l16_UP" down="cluster3_l16_DOWN" />
 
-			<host id="cluster3_host17" power="4932000000" core="24">
+			<host id="cluster3_host17" power="121200000000">
 				<mount id="cluster3_Disk17" name="/home" />
 				<mount id="cluster3_Ram17" name="/slot" />
 			</host>
@@ -1110,7 +1103,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster3_host17" up="cluster3_l17_UP" down="cluster3_l17_DOWN" />
 
-			<host id="cluster3_host18" power="4932000000" core="24">
+			<host id="cluster3_host18" power="121200000000">
 				<mount id="cluster3_Disk18" name="/home" />
 				<mount id="cluster3_Ram18" name="/slot" />
 			</host>
@@ -1118,7 +1111,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster3_host18" up="cluster3_l18_UP" down="cluster3_l18_DOWN" />
 
-			<host id="cluster3_host19" power="4932000000" core="24">
+			<host id="cluster3_host19" power="121200000000">
 				<mount id="cluster3_Disk19" name="/home" />
 				<mount id="cluster3_Ram19" name="/slot" />
 			</host>
@@ -1126,7 +1119,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster3_host19" up="cluster3_l19_UP" down="cluster3_l19_DOWN" />
 
-			<host id="cluster3_host20" power="4932000000" core="24">
+			<host id="cluster3_host20" power="121200000000">
 				<mount id="cluster3_Disk20" name="/home" />
 				<mount id="cluster3_Ram20" name="/slot" />
 			</host>
@@ -1135,7 +1128,7 @@
 			<host_link id="cluster3_host20" up="cluster3_l20_UP" down="cluster3_l20_DOWN" />
 
 			<!--21-30 -->
-			<host id="cluster3_host21" power="4932000000" core="24">
+			<host id="cluster3_host21" power="121200000000">
 				<mount id="cluster3_Disk21" name="/home" />
 				<mount id="cluster3_Ram21" name="/slot" />
 			</host>
@@ -1143,7 +1136,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster3_host21" up="cluster3_l21_UP" down="cluster3_l21_DOWN" />
 
-			<host id="cluster3_host22" power="4932000000" core="24">
+			<host id="cluster3_host22" power="121200000000">
 				<mount id="cluster3_Disk22" name="/home" />
 				<mount id="cluster3_Ram22" name="/slot" />
 			</host>
@@ -1151,7 +1144,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster3_host22" up="cluster3_l22_UP" down="cluster3_l22_DOWN" />
 
-			<host id="cluster3_host23" power="4932000000" core="24">
+			<host id="cluster3_host23" power="121200000000">
 				<mount id="cluster3_Disk23" name="/home" />
 				<mount id="cluster3_Ram23" name="/slot" />
 			</host>
@@ -1159,7 +1152,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster3_host23" up="cluster3_l23_UP" down="cluster3_l23_DOWN" />
 
-			<host id="cluster3_host24" power="4932000000" core="24">
+			<host id="cluster3_host24" power="121200000000">
 				<mount id="cluster3_Disk24" name="/home" />
 				<mount id="cluster3_Ram24" name="/slot" />
 			</host>
@@ -1167,7 +1160,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster3_host24" up="cluster3_l24_UP" down="cluster3_l24_DOWN" />
 
-			<host id="cluster3_host25" power="4932000000" core="24">
+			<host id="cluster3_host25" power="121200000000">
 				<mount id="cluster3_Disk25" name="/home" />
 				<mount id="cluster3_Ram25" name="/slot" />
 			</host>
@@ -1175,7 +1168,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster3_host25" up="cluster3_l25_UP" down="cluster3_l25_DOWN" />
 
-			<host id="cluster3_host26" power="4932000000" core="24">
+			<host id="cluster3_host26" power="121200000000">
 				<mount id="cluster3_Disk26" name="/home" />
 				<mount id="cluster3_Ram26" name="/slot" />
 			</host>
@@ -1183,7 +1176,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster3_host26" up="cluster3_l26_UP" down="cluster3_l26_DOWN" />
 
-			<host id="cluster3_host27" power="4932000000" core="24">
+			<host id="cluster3_host27" power="121200000000">
 				<mount id="cluster3_Disk27" name="/home" />
 				<mount id="cluster3_Ram27" name="/slot" />
 			</host>
@@ -1191,7 +1184,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster3_host27" up="cluster3_l27_UP" down="cluster3_l27_DOWN" />
 
-			<host id="cluster3_host28" power="4932000000" core="24">
+			<host id="cluster3_host28" power="121200000000">
 				<mount id="cluster3_Disk28" name="/home" />
 				<mount id="cluster3_Ram28" name="/slot" />
 			</host>
@@ -1199,7 +1192,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster3_host28" up="cluster3_l28_UP" down="cluster3_l28_DOWN" />
 
-			<host id="cluster3_host29" power="4932000000" core="24">
+			<host id="cluster3_host29" power="121200000000">
 				<mount id="cluster3_Disk29" name="/home" />
 				<mount id="cluster3_Ram29" name="/slot" />
 			</host>
@@ -1207,7 +1200,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster3_host29" up="cluster3_l29_UP" down="cluster3_l29_DOWN" />
 
-			<host id="cluster3_host30" power="4932000000" core="24">
+			<host id="cluster3_host30" power="121200000000">
 				<mount id="cluster3_Disk30" name="/home" />
 				<mount id="cluster3_Ram30" name="/slot" />
 			</host>
@@ -1216,7 +1209,7 @@
 			<host_link id="cluster3_host30" up="cluster3_l30_UP" down="cluster3_l30_DOWN" />
 
 			<!--31-40 -->
-			<host id="cluster3_host31" power="4932000000" core="24">
+			<host id="cluster3_host31" power="121200000000">
 				<mount id="cluster3_Disk31" name="/home" />
 				<mount id="cluster3_Ram31" name="/slot" />
 			</host>
@@ -1224,7 +1217,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster3_host31" up="cluster3_l31_UP" down="cluster3_l31_DOWN" />
 
-			<host id="cluster3_host32" power="4932000000" core="24">
+			<host id="cluster3_host32" power="121200000000">
 				<mount id="cluster3_Disk32" name="/home" />
 				<mount id="cluster3_Ram32" name="/slot" />
 			</host>
@@ -1232,7 +1225,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster3_host32" up="cluster3_l32_UP" down="cluster3_l32_DOWN" />
 
-			<host id="cluster3_host33" power="4932000000" core="24">
+			<host id="cluster3_host33" power="121200000000">
 				<mount id="cluster3_Disk33" name="/home" />
 				<mount id="cluster3_Ram33" name="/slot" />
 			</host>
@@ -1240,7 +1233,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster3_host33" up="cluster3_l33_UP" down="cluster3_l33_DOWN" />
 
-			<host id="cluster3_host34" power="4932000000" core="24">
+			<host id="cluster3_host34" power="121200000000">
 				<mount id="cluster3_Disk34" name="/home" />
 				<mount id="cluster3_Ram34" name="/slot" />
 			</host>
@@ -1248,7 +1241,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster3_host34" up="cluster3_l34_UP" down="cluster3_l34_DOWN" />
 
-			<host id="cluster3_host35" power="4932000000" core="24">
+			<host id="cluster3_host35" power="121200000000">
 				<mount id="cluster3_Disk35" name="/home" />
 				<mount id="cluster3_Ram35" name="/slot" />
 			</host>
@@ -1256,7 +1249,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster3_host35" up="cluster3_l35_UP" down="cluster3_l35_DOWN" />
 
-			<host id="cluster3_host36" power="4932000000" core="24">
+			<host id="cluster3_host36" power="121200000000">
 				<mount id="cluster3_Disk36" name="/home" />
 				<mount id="cluster3_Ram36" name="/slot" />
 			</host>
@@ -1264,7 +1257,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster3_host36" up="cluster3_l36_UP" down="cluster3_l36_DOWN" />
 
-			<host id="cluster3_host37" power="4932000000" core="24">
+			<host id="cluster3_host37" power="121200000000">
 				<mount id="cluster3_Disk37" name="/home" />
 				<mount id="cluster3_Ram37" name="/slot" />
 			</host>
@@ -1272,7 +1265,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster3_host37" up="cluster3_l37_UP" down="cluster3_l37_DOWN" />
 
-			<host id="cluster3_host38" power="4932000000" core="24">
+			<host id="cluster3_host38" power="121200000000">
 				<mount id="cluster3_Disk38" name="/home" />
 				<mount id="cluster3_Ram38" name="/slot" />
 			</host>
@@ -1280,7 +1273,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster3_host38" up="cluster3_l38_UP" down="cluster3_l38_DOWN" />
 
-			<host id="cluster3_host39" power="4932000000" core="24">
+			<host id="cluster3_host39" power="121200000000">
 				<mount id="cluster3_Disk39" name="/home" />
 				<mount id="cluster3_Ram39" name="/slot" />
 			</host>
@@ -1288,7 +1281,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster3_host39" up="cluster3_l39_UP" down="cluster3_l39_DOWN" />
 
-			<host id="cluster3_host40" power="4932000000" core="24">
+			<host id="cluster3_host40" power="121200000000">
 				<mount id="cluster3_Disk40" name="/home" />
 				<mount id="cluster3_Ram40" name="/slot" />
 			</host>
@@ -1298,7 +1291,7 @@
 
 
 			<!--41-50 -->
-			<host id="cluster3_host41" power="4932000000" core="24">
+			<host id="cluster3_host41" power="121200000000">
 				<mount id="cluster3_Disk41" name="/home" />
 				<mount id="cluster3_Ram41" name="/slot" />
 			</host>
@@ -1306,7 +1299,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster3_host41" up="cluster3_l41_UP" down="cluster3_l41_DOWN" />
 
-			<host id="cluster3_host42" power="4932000000" core="24">
+			<host id="cluster3_host42" power="121200000000">
 				<mount id="cluster3_Disk42" name="/home" />
 				<mount id="cluster3_Ram42" name="/slot" />
 			</host>
@@ -1314,7 +1307,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster3_host42" up="cluster3_l42_UP" down="cluster3_l42_DOWN" />
 
-			<host id="cluster3_host43" power="4932000000" core="24">
+			<host id="cluster3_host43" power="121200000000">
 				<mount id="cluster3_Disk43" name="/home" />
 				<mount id="cluster3_Ram43" name="/slot" />
 			</host>
@@ -1322,7 +1315,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster3_host43" up="cluster3_l43_UP" down="cluster3_l43_DOWN" />
 
-			<host id="cluster3_host44" power="4932000000" core="24">
+			<host id="cluster3_host44" power="121200000000">
 				<mount id="cluster3_Disk44" name="/home" />
 				<mount id="cluster3_Ram44" name="/slot" />
 			</host>
@@ -1330,7 +1323,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster3_host44" up="cluster3_l44_UP" down="cluster3_l44_DOWN" />
 
-			<host id="cluster3_host45" power="4932000000" core="24">
+			<host id="cluster3_host45" power="121200000000">
 				<mount id="cluster3_Disk45" name="/home" />
 				<mount id="cluster3_Ram45" name="/slot" />
 			</host>
@@ -1338,7 +1331,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster3_host45" up="cluster3_l45_UP" down="cluster3_l45_DOWN" />
 
-			<host id="cluster3_host46" power="4932000000" core="24">
+			<host id="cluster3_host46" power="121200000000">
 				<mount id="cluster3_Disk46" name="/home" />
 				<mount id="cluster3_Ram46" name="/slot" />
 			</host>
@@ -1346,7 +1339,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster3_host46" up="cluster3_l46_UP" down="cluster3_l46_DOWN" />
 
-			<host id="cluster3_host47" power="4932000000" core="24">
+			<host id="cluster3_host47" power="121200000000">
 				<mount id="cluster3_Disk47" name="/home" />
 				<mount id="cluster3_Ram47" name="/slot" />
 			</host>
@@ -1354,7 +1347,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster3_host47" up="cluster3_l47_UP" down="cluster3_l47_DOWN" />
 
-			<host id="cluster3_host48" power="4932000000" core="24">
+			<host id="cluster3_host48" power="121200000000">
 				<mount id="cluster3_Disk48" name="/home" />
 				<mount id="cluster3_Ram48" name="/slot" />
 			</host>
@@ -1362,7 +1355,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster3_host48" up="cluster3_l48_UP" down="cluster3_l48_DOWN" />
 
-			<host id="cluster3_host49" power="4932000000" core="24">
+			<host id="cluster3_host49" power="121200000000">
 				<mount id="cluster3_Disk49" name="/home" />
 				<mount id="cluster3_Ram49" name="/slot" />
 			</host>
@@ -1370,7 +1363,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster3_host49" up="cluster3_l49_UP" down="cluster3_l49_DOWN" />
 
-			<host id="cluster3_host50" power="4932000000" core="24">
+			<host id="cluster3_host50" power="121200000000">
 				<mount id="cluster3_Disk50" name="/home" />
 				<mount id="cluster3_Ram50" name="/slot" />
 			</host>
@@ -1378,7 +1371,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster3_host50" up="cluster3_l50_UP" down="cluster3_l50_DOWN" />
 
-			<backbone id="cluster3_backbone" bandwidth="2250000000"
+			<backbone id="cluster3_backbone" bandwidth="376000000"
 				latency="5E-4" />
 		</AS>
 
@@ -1502,7 +1495,7 @@
 			<storage id="cluster4_Ram49" typeId="cluster4_ram" />
 			<storage id="cluster4_Ram50" typeId="cluster4_ram" />
 
-			<host id="cluster4_host10" power="4932000000" core="24">
+			<host id="cluster4_host10" power="121200000000">
 				<mount id="cluster4_Disk10" name="/home" />
 				<mount id="cluster4_Ram10" name="/slot" />
 			</host>
@@ -1511,7 +1504,7 @@
 			<host_link id="cluster4_host10" up="cluster4_l10_UP" down="cluster4_l10_DOWN" />
 			<!--11-20 -->
 
-			<host id="cluster4_host11" power="4932000000" core="24">
+			<host id="cluster4_host11" power="121200000000">
 				<mount id="cluster4_Disk11" name="/home" />
 				<mount id="cluster4_Ram11" name="/slot" />
 			</host>
@@ -1519,7 +1512,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster4_host11" up="cluster4_l11_UP" down="cluster4_l11_DOWN" />
 
-			<host id="cluster4_host12" power="4932000000" core="24">
+			<host id="cluster4_host12" power="121200000000">
 				<mount id="cluster4_Disk12" name="/home" />
 				<mount id="cluster4_Ram12" name="/slot" />
 			</host>
@@ -1527,7 +1520,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster4_host12" up="cluster4_l12_UP" down="cluster4_l12_DOWN" />
 
-			<host id="cluster4_host13" power="4932000000" core="24">
+			<host id="cluster4_host13" power="121200000000">
 				<mount id="cluster4_Disk13" name="/home" />
 				<mount id="cluster4_Ram13" name="/slot" />
 			</host>
@@ -1535,7 +1528,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster4_host13" up="cluster4_l13_UP" down="cluster4_l13_DOWN" />
 
-			<host id="cluster4_host14" power="4932000000" core="24">
+			<host id="cluster4_host14" power="121200000000">
 				<mount id="cluster4_Disk14" name="/home" />
 				<mount id="cluster4_Ram14" name="/slot" />
 			</host>
@@ -1543,7 +1536,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster4_host14" up="cluster4_l14_UP" down="cluster4_l14_DOWN" />
 
-			<host id="cluster4_host15" power="4932000000" core="24">
+			<host id="cluster4_host15" power="121200000000">
 				<mount id="cluster4_Disk15" name="/home" />
 				<mount id="cluster4_Ram15" name="/slot" />
 			</host>
@@ -1551,7 +1544,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster4_host15" up="cluster4_l15_UP" down="cluster4_l15_DOWN" />
 
-			<host id="cluster4_host16" power="4932000000" core="24">
+			<host id="cluster4_host16" power="121200000000">
 				<mount id="cluster4_Disk16" name="/home" />
 				<mount id="cluster4_Ram16" name="/slot" />
 			</host>
@@ -1559,7 +1552,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster4_host16" up="cluster4_l16_UP" down="cluster4_l16_DOWN" />
 
-			<host id="cluster4_host17" power="4932000000" core="24">
+			<host id="cluster4_host17" power="121200000000">
 				<mount id="cluster4_Disk17" name="/home" />
 				<mount id="cluster4_Ram17" name="/slot" />
 			</host>
@@ -1567,7 +1560,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster4_host17" up="cluster4_l17_UP" down="cluster4_l17_DOWN" />
 
-			<host id="cluster4_host18" power="4932000000" core="24">
+			<host id="cluster4_host18" power="121200000000">
 				<mount id="cluster4_Disk18" name="/home" />
 				<mount id="cluster4_Ram18" name="/slot" />
 			</host>
@@ -1575,7 +1568,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster4_host18" up="cluster4_l18_UP" down="cluster4_l18_DOWN" />
 
-			<host id="cluster4_host19" power="4932000000" core="24">
+			<host id="cluster4_host19" power="121200000000">
 				<mount id="cluster4_Disk19" name="/home" />
 				<mount id="cluster4_Ram19" name="/slot" />
 			</host>
@@ -1583,7 +1576,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster4_host19" up="cluster4_l19_UP" down="cluster4_l19_DOWN" />
 
-			<host id="cluster4_host20" power="4932000000" core="24">
+			<host id="cluster4_host20" power="121200000000">
 				<mount id="cluster4_Disk20" name="/home" />
 				<mount id="cluster4_Ram20" name="/slot" />
 			</host>
@@ -1592,7 +1585,7 @@
 			<host_link id="cluster4_host20" up="cluster4_l20_UP" down="cluster4_l20_DOWN" />
 
 			<!--21-30 -->
-			<host id="cluster4_host21" power="4932000000" core="24">
+			<host id="cluster4_host21" power="121200000000">
 				<mount id="cluster4_Disk21" name="/home" />
 				<mount id="cluster4_Ram21" name="/slot" />
 			</host>
@@ -1600,7 +1593,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster4_host21" up="cluster4_l21_UP" down="cluster4_l21_DOWN" />
 
-			<host id="cluster4_host22" power="4932000000" core="24">
+			<host id="cluster4_host22" power="121200000000">
 				<mount id="cluster4_Disk22" name="/home" />
 				<mount id="cluster4_Ram22" name="/slot" />
 			</host>
@@ -1608,7 +1601,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster4_host22" up="cluster4_l22_UP" down="cluster4_l22_DOWN" />
 
-			<host id="cluster4_host23" power="4932000000" core="24">
+			<host id="cluster4_host23" power="121200000000">
 				<mount id="cluster4_Disk23" name="/home" />
 				<mount id="cluster4_Ram23" name="/slot" />
 			</host>
@@ -1616,7 +1609,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster4_host23" up="cluster4_l23_UP" down="cluster4_l23_DOWN" />
 
-			<host id="cluster4_host24" power="4932000000" core="24">
+			<host id="cluster4_host24" power="121200000000">
 				<mount id="cluster4_Disk24" name="/home" />
 				<mount id="cluster4_Ram24" name="/slot" />
 			</host>
@@ -1624,7 +1617,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster4_host24" up="cluster4_l24_UP" down="cluster4_l24_DOWN" />
 
-			<host id="cluster4_host25" power="4932000000" core="24">
+			<host id="cluster4_host25" power="121200000000">
 				<mount id="cluster4_Disk25" name="/home" />
 				<mount id="cluster4_Ram25" name="/slot" />
 			</host>
@@ -1632,7 +1625,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster4_host25" up="cluster4_l25_UP" down="cluster4_l25_DOWN" />
 
-			<host id="cluster4_host26" power="4932000000" core="24">
+			<host id="cluster4_host26" power="121200000000">
 				<mount id="cluster4_Disk26" name="/home" />
 				<mount id="cluster4_Ram26" name="/slot" />
 			</host>
@@ -1640,7 +1633,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster4_host26" up="cluster4_l26_UP" down="cluster4_l26_DOWN" />
 
-			<host id="cluster4_host27" power="4932000000" core="24">
+			<host id="cluster4_host27" power="121200000000">
 				<mount id="cluster4_Disk27" name="/home" />
 				<mount id="cluster4_Ram27" name="/slot" />
 			</host>
@@ -1648,7 +1641,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster4_host27" up="cluster4_l27_UP" down="cluster4_l27_DOWN" />
 
-			<host id="cluster4_host28" power="4932000000" core="24">
+			<host id="cluster4_host28" power="121200000000">
 				<mount id="cluster4_Disk28" name="/home" />
 				<mount id="cluster4_Ram28" name="/slot" />
 			</host>
@@ -1656,7 +1649,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster4_host28" up="cluster4_l28_UP" down="cluster4_l28_DOWN" />
 
-			<host id="cluster4_host29" power="4932000000" core="24">
+			<host id="cluster4_host29" power="121200000000">
 				<mount id="cluster4_Disk29" name="/home" />
 				<mount id="cluster4_Ram29" name="/slot" />
 			</host>
@@ -1664,7 +1657,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster4_host29" up="cluster4_l29_UP" down="cluster4_l29_DOWN" />
 
-			<host id="cluster4_host30" power="4932000000" core="24">
+			<host id="cluster4_host30" power="121200000000">
 				<mount id="cluster4_Disk30" name="/home" />
 				<mount id="cluster4_Ram30" name="/slot" />
 			</host>
@@ -1673,7 +1666,7 @@
 			<host_link id="cluster4_host30" up="cluster4_l30_UP" down="cluster4_l30_DOWN" />
 
 			<!--31-40 -->
-			<host id="cluster4_host31" power="4932000000" core="24">
+			<host id="cluster4_host31" power="121200000000">
 				<mount id="cluster4_Disk31" name="/home" />
 				<mount id="cluster4_Ram31" name="/slot" />
 			</host>
@@ -1681,7 +1674,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster4_host31" up="cluster4_l31_UP" down="cluster4_l31_DOWN" />
 
-			<host id="cluster4_host32" power="4932000000" core="24">
+			<host id="cluster4_host32" power="121200000000">
 				<mount id="cluster4_Disk32" name="/home" />
 				<mount id="cluster4_Ram32" name="/slot" />
 			</host>
@@ -1689,7 +1682,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster4_host32" up="cluster4_l32_UP" down="cluster4_l32_DOWN" />
 
-			<host id="cluster4_host33" power="4932000000" core="24">
+			<host id="cluster4_host33" power="121200000000">
 				<mount id="cluster4_Disk33" name="/home" />
 				<mount id="cluster4_Ram33" name="/slot" />
 			</host>
@@ -1697,7 +1690,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster4_host33" up="cluster4_l33_UP" down="cluster4_l33_DOWN" />
 
-			<host id="cluster4_host34" power="4932000000" core="24">
+			<host id="cluster4_host34" power="121200000000">
 				<mount id="cluster4_Disk34" name="/home" />
 				<mount id="cluster4_Ram34" name="/slot" />
 			</host>
@@ -1705,7 +1698,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster4_host34" up="cluster4_l34_UP" down="cluster4_l34_DOWN" />
 
-			<host id="cluster4_host35" power="4932000000" core="24">
+			<host id="cluster4_host35" power="121200000000">
 				<mount id="cluster4_Disk35" name="/home" />
 				<mount id="cluster4_Ram35" name="/slot" />
 			</host>
@@ -1713,7 +1706,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster4_host35" up="cluster4_l35_UP" down="cluster4_l35_DOWN" />
 
-			<host id="cluster4_host36" power="4932000000" core="24">
+			<host id="cluster4_host36" power="121200000000">
 				<mount id="cluster4_Disk36" name="/home" />
 				<mount id="cluster4_Ram36" name="/slot" />
 			</host>
@@ -1721,7 +1714,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster4_host36" up="cluster4_l36_UP" down="cluster4_l36_DOWN" />
 
-			<host id="cluster4_host37" power="4932000000" core="24">
+			<host id="cluster4_host37" power="121200000000">
 				<mount id="cluster4_Disk37" name="/home" />
 				<mount id="cluster4_Ram37" name="/slot" />
 			</host>
@@ -1729,7 +1722,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster4_host37" up="cluster4_l37_UP" down="cluster4_l37_DOWN" />
 
-			<host id="cluster4_host38" power="4932000000" core="24">
+			<host id="cluster4_host38" power="121200000000">
 				<mount id="cluster4_Disk38" name="/home" />
 				<mount id="cluster4_Ram38" name="/slot" />
 			</host>
@@ -1737,7 +1730,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster4_host38" up="cluster4_l38_UP" down="cluster4_l38_DOWN" />
 
-			<host id="cluster4_host39" power="4932000000" core="24">
+			<host id="cluster4_host39" power="121200000000">
 				<mount id="cluster4_Disk39" name="/home" />
 				<mount id="cluster4_Ram39" name="/slot" />
 			</host>
@@ -1745,7 +1738,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster4_host39" up="cluster4_l39_UP" down="cluster4_l39_DOWN" />
 
-			<host id="cluster4_host40" power="4932000000" core="24">
+			<host id="cluster4_host40" power="121200000000">
 				<mount id="cluster4_Disk40" name="/home" />
 				<mount id="cluster4_Ram40" name="/slot" />
 			</host>
@@ -1755,7 +1748,7 @@
 
 
 			<!--41-50 -->
-			<host id="cluster4_host41" power="4932000000" core="24">
+			<host id="cluster4_host41" power="121200000000">
 				<mount id="cluster4_Disk41" name="/home" />
 				<mount id="cluster4_Ram41" name="/slot" />
 			</host>
@@ -1763,7 +1756,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster4_host41" up="cluster4_l41_UP" down="cluster4_l41_DOWN" />
 
-			<host id="cluster4_host42" power="4932000000" core="24">
+			<host id="cluster4_host42" power="121200000000">
 				<mount id="cluster4_Disk42" name="/home" />
 				<mount id="cluster4_Ram42" name="/slot" />
 			</host>
@@ -1771,7 +1764,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster4_host42" up="cluster4_l42_UP" down="cluster4_l42_DOWN" />
 
-			<host id="cluster4_host43" power="4932000000" core="24">
+			<host id="cluster4_host43" power="121200000000">
 				<mount id="cluster4_Disk43" name="/home" />
 				<mount id="cluster4_Ram43" name="/slot" />
 			</host>
@@ -1779,7 +1772,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster4_host43" up="cluster4_l43_UP" down="cluster4_l43_DOWN" />
 
-			<host id="cluster4_host44" power="4932000000" core="24">
+			<host id="cluster4_host44" power="121200000000">
 				<mount id="cluster4_Disk44" name="/home" />
 				<mount id="cluster4_Ram44" name="/slot" />
 			</host>
@@ -1787,7 +1780,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster4_host44" up="cluster4_l44_UP" down="cluster4_l44_DOWN" />
 
-			<host id="cluster4_host45" power="4932000000" core="24">
+			<host id="cluster4_host45" power="121200000000">
 				<mount id="cluster4_Disk45" name="/home" />
 				<mount id="cluster4_Ram45" name="/slot" />
 			</host>
@@ -1795,7 +1788,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster4_host45" up="cluster4_l45_UP" down="cluster4_l45_DOWN" />
 
-			<host id="cluster4_host46" power="4932000000" core="24">
+			<host id="cluster4_host46" power="121200000000">
 				<mount id="cluster4_Disk46" name="/home" />
 				<mount id="cluster4_Ram46" name="/slot" />
 			</host>
@@ -1803,7 +1796,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster4_host46" up="cluster4_l46_UP" down="cluster4_l46_DOWN" />
 
-			<host id="cluster4_host47" power="4932000000" core="24">
+			<host id="cluster4_host47" power="121200000000">
 				<mount id="cluster4_Disk47" name="/home" />
 				<mount id="cluster4_Ram47" name="/slot" />
 			</host>
@@ -1811,7 +1804,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster4_host47" up="cluster4_l47_UP" down="cluster4_l47_DOWN" />
 
-			<host id="cluster4_host48" power="4932000000" core="24">
+			<host id="cluster4_host48" power="121200000000">
 				<mount id="cluster4_Disk48" name="/home" />
 				<mount id="cluster4_Ram48" name="/slot" />
 			</host>
@@ -1819,7 +1812,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster4_host48" up="cluster4_l48_UP" down="cluster4_l48_DOWN" />
 
-			<host id="cluster4_host49" power="4932000000" core="24">
+			<host id="cluster4_host49" power="121200000000">
 				<mount id="cluster4_Disk49" name="/home" />
 				<mount id="cluster4_Ram49" name="/slot" />
 			</host>
@@ -1827,7 +1820,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster4_host49" up="cluster4_l49_UP" down="cluster4_l49_DOWN" />
 
-			<host id="cluster4_host50" power="4932000000" core="24">
+			<host id="cluster4_host50" power="121200000000">
 				<mount id="cluster4_Disk50" name="/home" />
 				<mount id="cluster4_Ram50" name="/slot" />
 			</host>
@@ -1835,7 +1828,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster4_host50" up="cluster4_l50_UP" down="cluster4_l50_DOWN" />
 
-			<backbone id="cluster4_backbone" bandwidth="2250000000"
+			<backbone id="cluster4_backbone" bandwidth="376000000"
 				latency="5E-4" />
 		</AS>
 
@@ -1959,7 +1952,7 @@
 			<storage id="cluster5_Ram49" typeId="cluster5_ram" />
 			<storage id="cluster5_Ram50" typeId="cluster5_ram" />
 
-			<host id="cluster5_host10" power="4932000000" core="24">
+			<host id="cluster5_host10" power="121200000000">
 				<mount id="cluster5_Disk10" name="/home" />
 				<mount id="cluster5_Ram10" name="/slot" />
 			</host>
@@ -1968,7 +1961,7 @@
 			<host_link id="cluster5_host10" up="cluster5_l10_UP" down="cluster5_l10_DOWN" />
 			<!--11-20 -->
 
-			<host id="cluster5_host11" power="4932000000" core="24">
+			<host id="cluster5_host11" power="121200000000">
 				<mount id="cluster5_Disk11" name="/home" />
 				<mount id="cluster5_Ram11" name="/slot" />
 			</host>
@@ -1976,7 +1969,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster5_host11" up="cluster5_l11_UP" down="cluster5_l11_DOWN" />
 
-			<host id="cluster5_host12" power="4932000000" core="24">
+			<host id="cluster5_host12" power="121200000000">
 				<mount id="cluster5_Disk12" name="/home" />
 				<mount id="cluster5_Ram12" name="/slot" />
 			</host>
@@ -1984,7 +1977,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster5_host12" up="cluster5_l12_UP" down="cluster5_l12_DOWN" />
 
-			<host id="cluster5_host13" power="4932000000" core="24">
+			<host id="cluster5_host13" power="121200000000">
 				<mount id="cluster5_Disk13" name="/home" />
 				<mount id="cluster5_Ram13" name="/slot" />
 			</host>
@@ -1992,7 +1985,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster5_host13" up="cluster5_l13_UP" down="cluster5_l13_DOWN" />
 
-			<host id="cluster5_host14" power="4932000000" core="24">
+			<host id="cluster5_host14" power="121200000000">
 				<mount id="cluster5_Disk14" name="/home" />
 				<mount id="cluster5_Ram14" name="/slot" />
 			</host>
@@ -2000,7 +1993,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster5_host14" up="cluster5_l14_UP" down="cluster5_l14_DOWN" />
 
-			<host id="cluster5_host15" power="4932000000" core="24">
+			<host id="cluster5_host15" power="121200000000">
 				<mount id="cluster5_Disk15" name="/home" />
 				<mount id="cluster5_Ram15" name="/slot" />
 			</host>
@@ -2008,7 +2001,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster5_host15" up="cluster5_l15_UP" down="cluster5_l15_DOWN" />
 
-			<host id="cluster5_host16" power="4932000000" core="24">
+			<host id="cluster5_host16" power="121200000000">
 				<mount id="cluster5_Disk16" name="/home" />
 				<mount id="cluster5_Ram16" name="/slot" />
 			</host>
@@ -2016,7 +2009,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster5_host16" up="cluster5_l16_UP" down="cluster5_l16_DOWN" />
 
-			<host id="cluster5_host17" power="4932000000" core="24">
+			<host id="cluster5_host17" power="121200000000">
 				<mount id="cluster5_Disk17" name="/home" />
 				<mount id="cluster5_Ram17" name="/slot" />
 			</host>
@@ -2024,7 +2017,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster5_host17" up="cluster5_l17_UP" down="cluster5_l17_DOWN" />
 
-			<host id="cluster5_host18" power="4932000000" core="24">
+			<host id="cluster5_host18" power="121200000000">
 				<mount id="cluster5_Disk18" name="/home" />
 				<mount id="cluster5_Ram18" name="/slot" />
 			</host>
@@ -2032,7 +2025,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster5_host18" up="cluster5_l18_UP" down="cluster5_l18_DOWN" />
 
-			<host id="cluster5_host19" power="4932000000" core="24">
+			<host id="cluster5_host19" power="121200000000">
 				<mount id="cluster5_Disk19" name="/home" />
 				<mount id="cluster5_Ram19" name="/slot" />
 			</host>
@@ -2040,7 +2033,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster5_host19" up="cluster5_l19_UP" down="cluster5_l19_DOWN" />
 
-			<host id="cluster5_host20" power="4932000000" core="24">
+			<host id="cluster5_host20" power="121200000000">
 				<mount id="cluster5_Disk20" name="/home" />
 				<mount id="cluster5_Ram20" name="/slot" />
 			</host>
@@ -2049,7 +2042,7 @@
 			<host_link id="cluster5_host20" up="cluster5_l20_UP" down="cluster5_l20_DOWN" />
 
 			<!--21-30 -->
-			<host id="cluster5_host21" power="4932000000" core="24">
+			<host id="cluster5_host21" power="121200000000">
 				<mount id="cluster5_Disk21" name="/home" />
 				<mount id="cluster5_Ram21" name="/slot" />
 			</host>
@@ -2057,7 +2050,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster5_host21" up="cluster5_l21_UP" down="cluster5_l21_DOWN" />
 
-			<host id="cluster5_host22" power="4932000000" core="24">
+			<host id="cluster5_host22" power="121200000000">
 				<mount id="cluster5_Disk22" name="/home" />
 				<mount id="cluster5_Ram22" name="/slot" />
 			</host>
@@ -2065,7 +2058,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster5_host22" up="cluster5_l22_UP" down="cluster5_l22_DOWN" />
 
-			<host id="cluster5_host23" power="4932000000" core="24">
+			<host id="cluster5_host23" power="121200000000">
 				<mount id="cluster5_Disk23" name="/home" />
 				<mount id="cluster5_Ram23" name="/slot" />
 			</host>
@@ -2073,7 +2066,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster5_host23" up="cluster5_l23_UP" down="cluster5_l23_DOWN" />
 
-			<host id="cluster5_host24" power="4932000000" core="24">
+			<host id="cluster5_host24" power="121200000000">
 				<mount id="cluster5_Disk24" name="/home" />
 				<mount id="cluster5_Ram24" name="/slot" />
 			</host>
@@ -2081,7 +2074,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster5_host24" up="cluster5_l24_UP" down="cluster5_l24_DOWN" />
 
-			<host id="cluster5_host25" power="4932000000" core="24">
+			<host id="cluster5_host25" power="121200000000">
 				<mount id="cluster5_Disk25" name="/home" />
 				<mount id="cluster5_Ram25" name="/slot" />
 			</host>
@@ -2089,7 +2082,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster5_host25" up="cluster5_l25_UP" down="cluster5_l25_DOWN" />
 
-			<host id="cluster5_host26" power="4932000000" core="24">
+			<host id="cluster5_host26" power="121200000000">
 				<mount id="cluster5_Disk26" name="/home" />
 				<mount id="cluster5_Ram26" name="/slot" />
 			</host>
@@ -2097,7 +2090,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster5_host26" up="cluster5_l26_UP" down="cluster5_l26_DOWN" />
 
-			<host id="cluster5_host27" power="4932000000" core="24">
+			<host id="cluster5_host27" power="121200000000">
 				<mount id="cluster5_Disk27" name="/home" />
 				<mount id="cluster5_Ram27" name="/slot" />
 			</host>
@@ -2105,7 +2098,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster5_host27" up="cluster5_l27_UP" down="cluster5_l27_DOWN" />
 
-			<host id="cluster5_host28" power="4932000000" core="24">
+			<host id="cluster5_host28" power="121200000000">
 				<mount id="cluster5_Disk28" name="/home" />
 				<mount id="cluster5_Ram28" name="/slot" />
 			</host>
@@ -2113,7 +2106,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster5_host28" up="cluster5_l28_UP" down="cluster5_l28_DOWN" />
 
-			<host id="cluster5_host29" power="4932000000" core="24">
+			<host id="cluster5_host29" power="121200000000">
 				<mount id="cluster5_Disk29" name="/home" />
 				<mount id="cluster5_Ram29" name="/slot" />
 			</host>
@@ -2121,7 +2114,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster5_host29" up="cluster5_l29_UP" down="cluster5_l29_DOWN" />
 
-			<host id="cluster5_host30" power="4932000000" core="24">
+			<host id="cluster5_host30" power="121200000000">
 				<mount id="cluster5_Disk30" name="/home" />
 				<mount id="cluster5_Ram30" name="/slot" />
 			</host>
@@ -2130,7 +2123,7 @@
 			<host_link id="cluster5_host30" up="cluster5_l30_UP" down="cluster5_l30_DOWN" />
 
 			<!--31-40 -->
-			<host id="cluster5_host31" power="4932000000" core="24">
+			<host id="cluster5_host31" power="121200000000">
 				<mount id="cluster5_Disk31" name="/home" />
 				<mount id="cluster5_Ram31" name="/slot" />
 			</host>
@@ -2138,7 +2131,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster5_host31" up="cluster5_l31_UP" down="cluster5_l31_DOWN" />
 
-			<host id="cluster5_host32" power="4932000000" core="24">
+			<host id="cluster5_host32" power="121200000000">
 				<mount id="cluster5_Disk32" name="/home" />
 				<mount id="cluster5_Ram32" name="/slot" />
 			</host>
@@ -2146,7 +2139,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster5_host32" up="cluster5_l32_UP" down="cluster5_l32_DOWN" />
 
-			<host id="cluster5_host33" power="4932000000" core="24">
+			<host id="cluster5_host33" power="121200000000">
 				<mount id="cluster5_Disk33" name="/home" />
 				<mount id="cluster5_Ram33" name="/slot" />
 			</host>
@@ -2154,7 +2147,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster5_host33" up="cluster5_l33_UP" down="cluster5_l33_DOWN" />
 
-			<host id="cluster5_host34" power="4932000000" core="24">
+			<host id="cluster5_host34" power="121200000000">
 				<mount id="cluster5_Disk34" name="/home" />
 				<mount id="cluster5_Ram34" name="/slot" />
 			</host>
@@ -2162,7 +2155,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster5_host34" up="cluster5_l34_UP" down="cluster5_l34_DOWN" />
 
-			<host id="cluster5_host35" power="4932000000" core="24">
+			<host id="cluster5_host35" power="121200000000">
 				<mount id="cluster5_Disk35" name="/home" />
 				<mount id="cluster5_Ram35" name="/slot" />
 			</host>
@@ -2170,7 +2163,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster5_host35" up="cluster5_l35_UP" down="cluster5_l35_DOWN" />
 
-			<host id="cluster5_host36" power="4932000000" core="24">
+			<host id="cluster5_host36" power="121200000000">
 				<mount id="cluster5_Disk36" name="/home" />
 				<mount id="cluster5_Ram36" name="/slot" />
 			</host>
@@ -2178,7 +2171,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster5_host36" up="cluster5_l36_UP" down="cluster5_l36_DOWN" />
 
-			<host id="cluster5_host37" power="4932000000" core="24">
+			<host id="cluster5_host37" power="121200000000">
 				<mount id="cluster5_Disk37" name="/home" />
 				<mount id="cluster5_Ram37" name="/slot" />
 			</host>
@@ -2186,7 +2179,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster5_host37" up="cluster5_l37_UP" down="cluster5_l37_DOWN" />
 
-			<host id="cluster5_host38" power="4932000000" core="24">
+			<host id="cluster5_host38" power="121200000000">
 				<mount id="cluster5_Disk38" name="/home" />
 				<mount id="cluster5_Ram38" name="/slot" />
 			</host>
@@ -2194,7 +2187,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster5_host38" up="cluster5_l38_UP" down="cluster5_l38_DOWN" />
 
-			<host id="cluster5_host39" power="4932000000" core="24">
+			<host id="cluster5_host39" power="121200000000">
 				<mount id="cluster5_Disk39" name="/home" />
 				<mount id="cluster5_Ram39" name="/slot" />
 			</host>
@@ -2202,7 +2195,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster5_host39" up="cluster5_l39_UP" down="cluster5_l39_DOWN" />
 
-			<host id="cluster5_host40" power="4932000000" core="24">
+			<host id="cluster5_host40" power="121200000000">
 				<mount id="cluster5_Disk40" name="/home" />
 				<mount id="cluster5_Ram40" name="/slot" />
 			</host>
@@ -2212,7 +2205,7 @@
 
 
 			<!--41-50 -->
-			<host id="cluster5_host41" power="4932000000" core="24">
+			<host id="cluster5_host41" power="121200000000">
 				<mount id="cluster5_Disk41" name="/home" />
 				<mount id="cluster5_Ram41" name="/slot" />
 			</host>
@@ -2220,7 +2213,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster5_host41" up="cluster5_l41_UP" down="cluster5_l41_DOWN" />
 
-			<host id="cluster5_host42" power="4932000000" core="24">
+			<host id="cluster5_host42" power="121200000000">
 				<mount id="cluster5_Disk42" name="/home" />
 				<mount id="cluster5_Ram42" name="/slot" />
 			</host>
@@ -2228,7 +2221,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster5_host42" up="cluster5_l42_UP" down="cluster5_l42_DOWN" />
 
-			<host id="cluster5_host43" power="4932000000" core="24">
+			<host id="cluster5_host43" power="121200000000">
 				<mount id="cluster5_Disk43" name="/home" />
 				<mount id="cluster5_Ram43" name="/slot" />
 			</host>
@@ -2236,7 +2229,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster5_host43" up="cluster5_l43_UP" down="cluster5_l43_DOWN" />
 
-			<host id="cluster5_host44" power="4932000000" core="24">
+			<host id="cluster5_host44" power="121200000000">
 				<mount id="cluster5_Disk44" name="/home" />
 				<mount id="cluster5_Ram44" name="/slot" />
 			</host>
@@ -2244,7 +2237,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster5_host44" up="cluster5_l44_UP" down="cluster5_l44_DOWN" />
 
-			<host id="cluster5_host45" power="4932000000" core="24">
+			<host id="cluster5_host45" power="121200000000">
 				<mount id="cluster5_Disk45" name="/home" />
 				<mount id="cluster5_Ram45" name="/slot" />
 			</host>
@@ -2252,7 +2245,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster5_host45" up="cluster5_l45_UP" down="cluster5_l45_DOWN" />
 
-			<host id="cluster5_host46" power="4932000000" core="24">
+			<host id="cluster5_host46" power="121200000000">
 				<mount id="cluster5_Disk46" name="/home" />
 				<mount id="cluster5_Ram46" name="/slot" />
 			</host>
@@ -2260,7 +2253,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster5_host46" up="cluster5_l46_UP" down="cluster5_l46_DOWN" />
 
-			<host id="cluster5_host47" power="4932000000" core="24">
+			<host id="cluster5_host47" power="121200000000">
 				<mount id="cluster5_Disk47" name="/home" />
 				<mount id="cluster5_Ram47" name="/slot" />
 			</host>
@@ -2268,7 +2261,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster5_host47" up="cluster5_l47_UP" down="cluster5_l47_DOWN" />
 
-			<host id="cluster5_host48" power="4932000000" core="24">
+			<host id="cluster5_host48" power="121200000000">
 				<mount id="cluster5_Disk48" name="/home" />
 				<mount id="cluster5_Ram48" name="/slot" />
 			</host>
@@ -2276,7 +2269,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster5_host48" up="cluster5_l48_UP" down="cluster5_l48_DOWN" />
 
-			<host id="cluster5_host49" power="4932000000" core="24">
+			<host id="cluster5_host49" power="121200000000">
 				<mount id="cluster5_Disk49" name="/home" />
 				<mount id="cluster5_Ram49" name="/slot" />
 			</host>
@@ -2284,7 +2277,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster5_host49" up="cluster5_l49_UP" down="cluster5_l49_DOWN" />
 
-			<host id="cluster5_host50" power="4932000000" core="24">
+			<host id="cluster5_host50" power="121200000000">
 				<mount id="cluster5_Disk50" name="/home" />
 				<mount id="cluster5_Ram50" name="/slot" />
 			</host>
@@ -2292,7 +2285,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster5_host50" up="cluster5_l50_UP" down="cluster5_l50_DOWN" />
 
-			<backbone id="cluster5_backbone" bandwidth="2250000000"
+			<backbone id="cluster5_backbone" bandwidth="376000000"
 				latency="5E-4" />
 		</AS>
 
@@ -2416,7 +2409,7 @@
 			<storage id="cluster6_Ram49" typeId="cluster6_ram" />
 			<storage id="cluster6_Ram50" typeId="cluster6_ram" />
 
-			<host id="cluster6_host10" power="4932000000" core="24">
+			<host id="cluster6_host10" power="121200000000">
 				<mount id="cluster6_Disk10" name="/home" />
 				<mount id="cluster6_Ram10" name="/slot" />
 			</host>
@@ -2425,7 +2418,7 @@
 			<host_link id="cluster6_host10" up="cluster6_l10_UP" down="cluster6_l10_DOWN" />
 			<!--11-20 -->
 
-			<host id="cluster6_host11" power="4932000000" core="24">
+			<host id="cluster6_host11" power="121200000000">
 				<mount id="cluster6_Disk11" name="/home" />
 				<mount id="cluster6_Ram11" name="/slot" />
 			</host>
@@ -2433,7 +2426,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster6_host11" up="cluster6_l11_UP" down="cluster6_l11_DOWN" />
 
-			<host id="cluster6_host12" power="4932000000" core="24">
+			<host id="cluster6_host12" power="121200000000">
 				<mount id="cluster6_Disk12" name="/home" />
 				<mount id="cluster6_Ram12" name="/slot" />
 			</host>
@@ -2441,7 +2434,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster6_host12" up="cluster6_l12_UP" down="cluster6_l12_DOWN" />
 
-			<host id="cluster6_host13" power="4932000000" core="24">
+			<host id="cluster6_host13" power="121200000000">
 				<mount id="cluster6_Disk13" name="/home" />
 				<mount id="cluster6_Ram13" name="/slot" />
 			</host>
@@ -2449,7 +2442,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster6_host13" up="cluster6_l13_UP" down="cluster6_l13_DOWN" />
 
-			<host id="cluster6_host14" power="4932000000" core="24">
+			<host id="cluster6_host14" power="121200000000">
 				<mount id="cluster6_Disk14" name="/home" />
 				<mount id="cluster6_Ram14" name="/slot" />
 			</host>
@@ -2457,7 +2450,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster6_host14" up="cluster6_l14_UP" down="cluster6_l14_DOWN" />
 
-			<host id="cluster6_host15" power="4932000000" core="24">
+			<host id="cluster6_host15" power="121200000000">
 				<mount id="cluster6_Disk15" name="/home" />
 				<mount id="cluster6_Ram15" name="/slot" />
 			</host>
@@ -2465,7 +2458,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster6_host15" up="cluster6_l15_UP" down="cluster6_l15_DOWN" />
 
-			<host id="cluster6_host16" power="4932000000" core="24">
+			<host id="cluster6_host16" power="121200000000">
 				<mount id="cluster6_Disk16" name="/home" />
 				<mount id="cluster6_Ram16" name="/slot" />
 			</host>
@@ -2473,7 +2466,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster6_host16" up="cluster6_l16_UP" down="cluster6_l16_DOWN" />
 
-			<host id="cluster6_host17" power="4932000000" core="24">
+			<host id="cluster6_host17" power="121200000000">
 				<mount id="cluster6_Disk17" name="/home" />
 				<mount id="cluster6_Ram17" name="/slot" />
 			</host>
@@ -2481,7 +2474,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster6_host17" up="cluster6_l17_UP" down="cluster6_l17_DOWN" />
 
-			<host id="cluster6_host18" power="4932000000" core="24">
+			<host id="cluster6_host18" power="121200000000">
 				<mount id="cluster6_Disk18" name="/home" />
 				<mount id="cluster6_Ram18" name="/slot" />
 			</host>
@@ -2489,7 +2482,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster6_host18" up="cluster6_l18_UP" down="cluster6_l18_DOWN" />
 
-			<host id="cluster6_host19" power="4932000000" core="24">
+			<host id="cluster6_host19" power="121200000000">
 				<mount id="cluster6_Disk19" name="/home" />
 				<mount id="cluster6_Ram19" name="/slot" />
 			</host>
@@ -2497,7 +2490,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster6_host19" up="cluster6_l19_UP" down="cluster6_l19_DOWN" />
 
-			<host id="cluster6_host20" power="4932000000" core="24">
+			<host id="cluster6_host20" power="121200000000">
 				<mount id="cluster6_Disk20" name="/home" />
 				<mount id="cluster6_Ram20" name="/slot" />
 			</host>
@@ -2506,7 +2499,7 @@
 			<host_link id="cluster6_host20" up="cluster6_l20_UP" down="cluster6_l20_DOWN" />
 
 			<!--21-30 -->
-			<host id="cluster6_host21" power="4932000000" core="24">
+			<host id="cluster6_host21" power="121200000000">
 				<mount id="cluster6_Disk21" name="/home" />
 				<mount id="cluster6_Ram21" name="/slot" />
 			</host>
@@ -2514,7 +2507,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster6_host21" up="cluster6_l21_UP" down="cluster6_l21_DOWN" />
 
-			<host id="cluster6_host22" power="4932000000" core="24">
+			<host id="cluster6_host22" power="121200000000">
 				<mount id="cluster6_Disk22" name="/home" />
 				<mount id="cluster6_Ram22" name="/slot" />
 			</host>
@@ -2522,7 +2515,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster6_host22" up="cluster6_l22_UP" down="cluster6_l22_DOWN" />
 
-			<host id="cluster6_host23" power="4932000000" core="24">
+			<host id="cluster6_host23" power="121200000000">
 				<mount id="cluster6_Disk23" name="/home" />
 				<mount id="cluster6_Ram23" name="/slot" />
 			</host>
@@ -2530,7 +2523,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster6_host23" up="cluster6_l23_UP" down="cluster6_l23_DOWN" />
 
-			<host id="cluster6_host24" power="4932000000" core="24">
+			<host id="cluster6_host24" power="121200000000">
 				<mount id="cluster6_Disk24" name="/home" />
 				<mount id="cluster6_Ram24" name="/slot" />
 			</host>
@@ -2538,7 +2531,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster6_host24" up="cluster6_l24_UP" down="cluster6_l24_DOWN" />
 
-			<host id="cluster6_host25" power="4932000000" core="24">
+			<host id="cluster6_host25" power="121200000000">
 				<mount id="cluster6_Disk25" name="/home" />
 				<mount id="cluster6_Ram25" name="/slot" />
 			</host>
@@ -2546,7 +2539,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster6_host25" up="cluster6_l25_UP" down="cluster6_l25_DOWN" />
 
-			<host id="cluster6_host26" power="4932000000" core="24">
+			<host id="cluster6_host26" power="121200000000">
 				<mount id="cluster6_Disk26" name="/home" />
 				<mount id="cluster6_Ram26" name="/slot" />
 			</host>
@@ -2554,7 +2547,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster6_host26" up="cluster6_l26_UP" down="cluster6_l26_DOWN" />
 
-			<host id="cluster6_host27" power="4932000000" core="24">
+			<host id="cluster6_host27" power="121200000000">
 				<mount id="cluster6_Disk27" name="/home" />
 				<mount id="cluster6_Ram27" name="/slot" />
 			</host>
@@ -2562,7 +2555,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster6_host27" up="cluster6_l27_UP" down="cluster6_l27_DOWN" />
 
-			<host id="cluster6_host28" power="4932000000" core="24">
+			<host id="cluster6_host28" power="121200000000">
 				<mount id="cluster6_Disk28" name="/home" />
 				<mount id="cluster6_Ram28" name="/slot" />
 			</host>
@@ -2570,7 +2563,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster6_host28" up="cluster6_l28_UP" down="cluster6_l28_DOWN" />
 
-			<host id="cluster6_host29" power="4932000000" core="24">
+			<host id="cluster6_host29" power="121200000000">
 				<mount id="cluster6_Disk29" name="/home" />
 				<mount id="cluster6_Ram29" name="/slot" />
 			</host>
@@ -2578,7 +2571,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster6_host29" up="cluster6_l29_UP" down="cluster6_l29_DOWN" />
 
-			<host id="cluster6_host30" power="4932000000" core="24">
+			<host id="cluster6_host30" power="121200000000">
 				<mount id="cluster6_Disk30" name="/home" />
 				<mount id="cluster6_Ram30" name="/slot" />
 			</host>
@@ -2587,7 +2580,7 @@
 			<host_link id="cluster6_host30" up="cluster6_l30_UP" down="cluster6_l30_DOWN" />
 
 			<!--31-40 -->
-			<host id="cluster6_host31" power="4932000000" core="24">
+			<host id="cluster6_host31" power="121200000000">
 				<mount id="cluster6_Disk31" name="/home" />
 				<mount id="cluster6_Ram31" name="/slot" />
 			</host>
@@ -2595,7 +2588,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster6_host31" up="cluster6_l31_UP" down="cluster6_l31_DOWN" />
 
-			<host id="cluster6_host32" power="4932000000" core="24">
+			<host id="cluster6_host32" power="121200000000">
 				<mount id="cluster6_Disk32" name="/home" />
 				<mount id="cluster6_Ram32" name="/slot" />
 			</host>
@@ -2603,7 +2596,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster6_host32" up="cluster6_l32_UP" down="cluster6_l32_DOWN" />
 
-			<host id="cluster6_host33" power="4932000000" core="24">
+			<host id="cluster6_host33" power="121200000000">
 				<mount id="cluster6_Disk33" name="/home" />
 				<mount id="cluster6_Ram33" name="/slot" />
 			</host>
@@ -2611,7 +2604,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster6_host33" up="cluster6_l33_UP" down="cluster6_l33_DOWN" />
 
-			<host id="cluster6_host34" power="4932000000" core="24">
+			<host id="cluster6_host34" power="121200000000">
 				<mount id="cluster6_Disk34" name="/home" />
 				<mount id="cluster6_Ram34" name="/slot" />
 			</host>
@@ -2619,7 +2612,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster6_host34" up="cluster6_l34_UP" down="cluster6_l34_DOWN" />
 
-			<host id="cluster6_host35" power="4932000000" core="24">
+			<host id="cluster6_host35" power="121200000000">
 				<mount id="cluster6_Disk35" name="/home" />
 				<mount id="cluster6_Ram35" name="/slot" />
 			</host>
@@ -2627,7 +2620,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster6_host35" up="cluster6_l35_UP" down="cluster6_l35_DOWN" />
 
-			<host id="cluster6_host36" power="4932000000" core="24">
+			<host id="cluster6_host36" power="121200000000">
 				<mount id="cluster6_Disk36" name="/home" />
 				<mount id="cluster6_Ram36" name="/slot" />
 			</host>
@@ -2635,7 +2628,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster6_host36" up="cluster6_l36_UP" down="cluster6_l36_DOWN" />
 
-			<host id="cluster6_host37" power="4932000000" core="24">
+			<host id="cluster6_host37" power="121200000000">
 				<mount id="cluster6_Disk37" name="/home" />
 				<mount id="cluster6_Ram37" name="/slot" />
 			</host>
@@ -2643,7 +2636,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster6_host37" up="cluster6_l37_UP" down="cluster6_l37_DOWN" />
 
-			<host id="cluster6_host38" power="4932000000" core="24">
+			<host id="cluster6_host38" power="121200000000">
 				<mount id="cluster6_Disk38" name="/home" />
 				<mount id="cluster6_Ram38" name="/slot" />
 			</host>
@@ -2651,7 +2644,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster6_host38" up="cluster6_l38_UP" down="cluster6_l38_DOWN" />
 
-			<host id="cluster6_host39" power="4932000000" core="24">
+			<host id="cluster6_host39" power="121200000000">
 				<mount id="cluster6_Disk39" name="/home" />
 				<mount id="cluster6_Ram39" name="/slot" />
 			</host>
@@ -2659,7 +2652,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster6_host39" up="cluster6_l39_UP" down="cluster6_l39_DOWN" />
 
-			<host id="cluster6_host40" power="4932000000" core="24">
+			<host id="cluster6_host40" power="121200000000">
 				<mount id="cluster6_Disk40" name="/home" />
 				<mount id="cluster6_Ram40" name="/slot" />
 			</host>
@@ -2669,7 +2662,7 @@
 
 
 			<!--41-50 -->
-			<host id="cluster6_host41" power="4932000000" core="24">
+			<host id="cluster6_host41" power="121200000000">
 				<mount id="cluster6_Disk41" name="/home" />
 				<mount id="cluster6_Ram41" name="/slot" />
 			</host>
@@ -2677,7 +2670,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster6_host41" up="cluster6_l41_UP" down="cluster6_l41_DOWN" />
 
-			<host id="cluster6_host42" power="4932000000" core="24">
+			<host id="cluster6_host42" power="121200000000">
 				<mount id="cluster6_Disk42" name="/home" />
 				<mount id="cluster6_Ram42" name="/slot" />
 			</host>
@@ -2685,7 +2678,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster6_host42" up="cluster6_l42_UP" down="cluster6_l42_DOWN" />
 
-			<host id="cluster6_host43" power="4932000000" core="24">
+			<host id="cluster6_host43" power="121200000000">
 				<mount id="cluster6_Disk43" name="/home" />
 				<mount id="cluster6_Ram43" name="/slot" />
 			</host>
@@ -2693,7 +2686,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster6_host43" up="cluster6_l43_UP" down="cluster6_l43_DOWN" />
 
-			<host id="cluster6_host44" power="4932000000" core="24">
+			<host id="cluster6_host44" power="121200000000">
 				<mount id="cluster6_Disk44" name="/home" />
 				<mount id="cluster6_Ram44" name="/slot" />
 			</host>
@@ -2701,7 +2694,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster6_host44" up="cluster6_l44_UP" down="cluster6_l44_DOWN" />
 
-			<host id="cluster6_host45" power="4932000000" core="24">
+			<host id="cluster6_host45" power="121200000000">
 				<mount id="cluster6_Disk45" name="/home" />
 				<mount id="cluster6_Ram45" name="/slot" />
 			</host>
@@ -2709,7 +2702,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster6_host45" up="cluster6_l45_UP" down="cluster6_l45_DOWN" />
 
-			<host id="cluster6_host46" power="4932000000" core="24">
+			<host id="cluster6_host46" power="121200000000">
 				<mount id="cluster6_Disk46" name="/home" />
 				<mount id="cluster6_Ram46" name="/slot" />
 			</host>
@@ -2717,7 +2710,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster6_host46" up="cluster6_l46_UP" down="cluster6_l46_DOWN" />
 
-			<host id="cluster6_host47" power="4932000000" core="24">
+			<host id="cluster6_host47" power="121200000000">
 				<mount id="cluster6_Disk47" name="/home" />
 				<mount id="cluster6_Ram47" name="/slot" />
 			</host>
@@ -2725,7 +2718,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster6_host47" up="cluster6_l47_UP" down="cluster6_l47_DOWN" />
 
-			<host id="cluster6_host48" power="4932000000" core="24">
+			<host id="cluster6_host48" power="121200000000">
 				<mount id="cluster6_Disk48" name="/home" />
 				<mount id="cluster6_Ram48" name="/slot" />
 			</host>
@@ -2733,7 +2726,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster6_host48" up="cluster6_l48_UP" down="cluster6_l48_DOWN" />
 
-			<host id="cluster6_host49" power="4932000000" core="24">
+			<host id="cluster6_host49" power="121200000000">
 				<mount id="cluster6_Disk49" name="/home" />
 				<mount id="cluster6_Ram49" name="/slot" />
 			</host>
@@ -2741,7 +2734,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster6_host49" up="cluster6_l49_UP" down="cluster6_l49_DOWN" />
 
-			<host id="cluster6_host50" power="4932000000" core="24">
+			<host id="cluster6_host50" power="121200000000">
 				<mount id="cluster6_Disk50" name="/home" />
 				<mount id="cluster6_Ram50" name="/slot" />
 			</host>
@@ -2749,7 +2742,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster6_host50" up="cluster6_l50_UP" down="cluster6_l50_DOWN" />
 
-			<backbone id="cluster6_backbone" bandwidth="2250000000"
+			<backbone id="cluster6_backbone" bandwidth="376000000"
 				latency="5E-4" />
 		</AS>
 
@@ -2873,7 +2866,7 @@
 			<storage id="cluster7_Ram49" typeId="cluster7_ram" />
 			<storage id="cluster7_Ram50" typeId="cluster7_ram" />
 
-			<host id="cluster7_host10" power="4932000000" core="24">
+			<host id="cluster7_host10" power="121200000000">
 				<mount id="cluster7_Disk10" name="/home" />
 				<mount id="cluster7_Ram10" name="/slot" />
 			</host>
@@ -2882,7 +2875,7 @@
 			<host_link id="cluster7_host10" up="cluster7_l10_UP" down="cluster7_l10_DOWN" />
 			<!--11-20 -->
 
-			<host id="cluster7_host11" power="4932000000" core="24">
+			<host id="cluster7_host11" power="121200000000">
 				<mount id="cluster7_Disk11" name="/home" />
 				<mount id="cluster7_Ram11" name="/slot" />
 			</host>
@@ -2890,7 +2883,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster7_host11" up="cluster7_l11_UP" down="cluster7_l11_DOWN" />
 
-			<host id="cluster7_host12" power="4932000000" core="24">
+			<host id="cluster7_host12" power="121200000000">
 				<mount id="cluster7_Disk12" name="/home" />
 				<mount id="cluster7_Ram12" name="/slot" />
 			</host>
@@ -2898,7 +2891,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster7_host12" up="cluster7_l12_UP" down="cluster7_l12_DOWN" />
 
-			<host id="cluster7_host13" power="4932000000" core="24">
+			<host id="cluster7_host13" power="121200000000">
 				<mount id="cluster7_Disk13" name="/home" />
 				<mount id="cluster7_Ram13" name="/slot" />
 			</host>
@@ -2906,7 +2899,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster7_host13" up="cluster7_l13_UP" down="cluster7_l13_DOWN" />
 
-			<host id="cluster7_host14" power="4932000000" core="24">
+			<host id="cluster7_host14" power="121200000000">
 				<mount id="cluster7_Disk14" name="/home" />
 				<mount id="cluster7_Ram14" name="/slot" />
 			</host>
@@ -2914,7 +2907,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster7_host14" up="cluster7_l14_UP" down="cluster7_l14_DOWN" />
 
-			<host id="cluster7_host15" power="4932000000" core="24">
+			<host id="cluster7_host15" power="121200000000">
 				<mount id="cluster7_Disk15" name="/home" />
 				<mount id="cluster7_Ram15" name="/slot" />
 			</host>
@@ -2922,7 +2915,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster7_host15" up="cluster7_l15_UP" down="cluster7_l15_DOWN" />
 
-			<host id="cluster7_host16" power="4932000000" core="24">
+			<host id="cluster7_host16" power="121200000000">
 				<mount id="cluster7_Disk16" name="/home" />
 				<mount id="cluster7_Ram16" name="/slot" />
 			</host>
@@ -2930,7 +2923,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster7_host16" up="cluster7_l16_UP" down="cluster7_l16_DOWN" />
 
-			<host id="cluster7_host17" power="4932000000" core="24">
+			<host id="cluster7_host17" power="121200000000">
 				<mount id="cluster7_Disk17" name="/home" />
 				<mount id="cluster7_Ram17" name="/slot" />
 			</host>
@@ -2938,7 +2931,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster7_host17" up="cluster7_l17_UP" down="cluster7_l17_DOWN" />
 
-			<host id="cluster7_host18" power="4932000000" core="24">
+			<host id="cluster7_host18" power="121200000000">
 				<mount id="cluster7_Disk18" name="/home" />
 				<mount id="cluster7_Ram18" name="/slot" />
 			</host>
@@ -2946,7 +2939,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster7_host18" up="cluster7_l18_UP" down="cluster7_l18_DOWN" />
 
-			<host id="cluster7_host19" power="4932000000" core="24">
+			<host id="cluster7_host19" power="121200000000">
 				<mount id="cluster7_Disk19" name="/home" />
 				<mount id="cluster7_Ram19" name="/slot" />
 			</host>
@@ -2954,7 +2947,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster7_host19" up="cluster7_l19_UP" down="cluster7_l19_DOWN" />
 
-			<host id="cluster7_host20" power="4932000000" core="24">
+			<host id="cluster7_host20" power="121200000000">
 				<mount id="cluster7_Disk20" name="/home" />
 				<mount id="cluster7_Ram20" name="/slot" />
 			</host>
@@ -2963,7 +2956,7 @@
 			<host_link id="cluster7_host20" up="cluster7_l20_UP" down="cluster7_l20_DOWN" />
 
 			<!--21-30 -->
-			<host id="cluster7_host21" power="4932000000" core="24">
+			<host id="cluster7_host21" power="121200000000">
 				<mount id="cluster7_Disk21" name="/home" />
 				<mount id="cluster7_Ram21" name="/slot" />
 			</host>
@@ -2971,7 +2964,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster7_host21" up="cluster7_l21_UP" down="cluster7_l21_DOWN" />
 
-			<host id="cluster7_host22" power="4932000000" core="24">
+			<host id="cluster7_host22" power="121200000000">
 				<mount id="cluster7_Disk22" name="/home" />
 				<mount id="cluster7_Ram22" name="/slot" />
 			</host>
@@ -2979,7 +2972,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster7_host22" up="cluster7_l22_UP" down="cluster7_l22_DOWN" />
 
-			<host id="cluster7_host23" power="4932000000" core="24">
+			<host id="cluster7_host23" power="121200000000">
 				<mount id="cluster7_Disk23" name="/home" />
 				<mount id="cluster7_Ram23" name="/slot" />
 			</host>
@@ -2987,7 +2980,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster7_host23" up="cluster7_l23_UP" down="cluster7_l23_DOWN" />
 
-			<host id="cluster7_host24" power="4932000000" core="24">
+			<host id="cluster7_host24" power="121200000000">
 				<mount id="cluster7_Disk24" name="/home" />
 				<mount id="cluster7_Ram24" name="/slot" />
 			</host>
@@ -2995,7 +2988,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster7_host24" up="cluster7_l24_UP" down="cluster7_l24_DOWN" />
 
-			<host id="cluster7_host25" power="4932000000" core="24">
+			<host id="cluster7_host25" power="121200000000">
 				<mount id="cluster7_Disk25" name="/home" />
 				<mount id="cluster7_Ram25" name="/slot" />
 			</host>
@@ -3003,7 +2996,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster7_host25" up="cluster7_l25_UP" down="cluster7_l25_DOWN" />
 
-			<host id="cluster7_host26" power="4932000000" core="24">
+			<host id="cluster7_host26" power="121200000000">
 				<mount id="cluster7_Disk26" name="/home" />
 				<mount id="cluster7_Ram26" name="/slot" />
 			</host>
@@ -3011,7 +3004,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster7_host26" up="cluster7_l26_UP" down="cluster7_l26_DOWN" />
 
-			<host id="cluster7_host27" power="4932000000" core="24">
+			<host id="cluster7_host27" power="121200000000">
 				<mount id="cluster7_Disk27" name="/home" />
 				<mount id="cluster7_Ram27" name="/slot" />
 			</host>
@@ -3019,7 +3012,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster7_host27" up="cluster7_l27_UP" down="cluster7_l27_DOWN" />
 
-			<host id="cluster7_host28" power="4932000000" core="24">
+			<host id="cluster7_host28" power="121200000000">
 				<mount id="cluster7_Disk28" name="/home" />
 				<mount id="cluster7_Ram28" name="/slot" />
 			</host>
@@ -3027,7 +3020,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster7_host28" up="cluster7_l28_UP" down="cluster7_l28_DOWN" />
 
-			<host id="cluster7_host29" power="4932000000" core="24">
+			<host id="cluster7_host29" power="121200000000">
 				<mount id="cluster7_Disk29" name="/home" />
 				<mount id="cluster7_Ram29" name="/slot" />
 			</host>
@@ -3035,7 +3028,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster7_host29" up="cluster7_l29_UP" down="cluster7_l29_DOWN" />
 
-			<host id="cluster7_host30" power="4932000000" core="24">
+			<host id="cluster7_host30" power="121200000000">
 				<mount id="cluster7_Disk30" name="/home" />
 				<mount id="cluster7_Ram30" name="/slot" />
 			</host>
@@ -3044,7 +3037,7 @@
 			<host_link id="cluster7_host30" up="cluster7_l30_UP" down="cluster7_l30_DOWN" />
 
 			<!--31-40 -->
-			<host id="cluster7_host31" power="4932000000" core="24">
+			<host id="cluster7_host31" power="121200000000">
 				<mount id="cluster7_Disk31" name="/home" />
 				<mount id="cluster7_Ram31" name="/slot" />
 			</host>
@@ -3052,7 +3045,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster7_host31" up="cluster7_l31_UP" down="cluster7_l31_DOWN" />
 
-			<host id="cluster7_host32" power="4932000000" core="24">
+			<host id="cluster7_host32" power="121200000000">
 				<mount id="cluster7_Disk32" name="/home" />
 				<mount id="cluster7_Ram32" name="/slot" />
 			</host>
@@ -3060,7 +3053,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster7_host32" up="cluster7_l32_UP" down="cluster7_l32_DOWN" />
 
-			<host id="cluster7_host33" power="4932000000" core="24">
+			<host id="cluster7_host33" power="121200000000">
 				<mount id="cluster7_Disk33" name="/home" />
 				<mount id="cluster7_Ram33" name="/slot" />
 			</host>
@@ -3068,7 +3061,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster7_host33" up="cluster7_l33_UP" down="cluster7_l33_DOWN" />
 
-			<host id="cluster7_host34" power="4932000000" core="24">
+			<host id="cluster7_host34" power="121200000000">
 				<mount id="cluster7_Disk34" name="/home" />
 				<mount id="cluster7_Ram34" name="/slot" />
 			</host>
@@ -3076,7 +3069,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster7_host34" up="cluster7_l34_UP" down="cluster7_l34_DOWN" />
 
-			<host id="cluster7_host35" power="4932000000" core="24">
+			<host id="cluster7_host35" power="121200000000">
 				<mount id="cluster7_Disk35" name="/home" />
 				<mount id="cluster7_Ram35" name="/slot" />
 			</host>
@@ -3084,7 +3077,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster7_host35" up="cluster7_l35_UP" down="cluster7_l35_DOWN" />
 
-			<host id="cluster7_host36" power="4932000000" core="24">
+			<host id="cluster7_host36" power="121200000000">
 				<mount id="cluster7_Disk36" name="/home" />
 				<mount id="cluster7_Ram36" name="/slot" />
 			</host>
@@ -3092,7 +3085,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster7_host36" up="cluster7_l36_UP" down="cluster7_l36_DOWN" />
 
-			<host id="cluster7_host37" power="4932000000" core="24">
+			<host id="cluster7_host37" power="121200000000">
 				<mount id="cluster7_Disk37" name="/home" />
 				<mount id="cluster7_Ram37" name="/slot" />
 			</host>
@@ -3100,7 +3093,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster7_host37" up="cluster7_l37_UP" down="cluster7_l37_DOWN" />
 
-			<host id="cluster7_host38" power="4932000000" core="24">
+			<host id="cluster7_host38" power="121200000000">
 				<mount id="cluster7_Disk38" name="/home" />
 				<mount id="cluster7_Ram38" name="/slot" />
 			</host>
@@ -3108,7 +3101,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster7_host38" up="cluster7_l38_UP" down="cluster7_l38_DOWN" />
 
-			<host id="cluster7_host39" power="4932000000" core="24">
+			<host id="cluster7_host39" power="121200000000">
 				<mount id="cluster7_Disk39" name="/home" />
 				<mount id="cluster7_Ram39" name="/slot" />
 			</host>
@@ -3116,7 +3109,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster7_host39" up="cluster7_l39_UP" down="cluster7_l39_DOWN" />
 
-			<host id="cluster7_host40" power="4932000000" core="24">
+			<host id="cluster7_host40" power="121200000000">
 				<mount id="cluster7_Disk40" name="/home" />
 				<mount id="cluster7_Ram40" name="/slot" />
 			</host>
@@ -3126,7 +3119,7 @@
 
 
 			<!--41-50 -->
-			<host id="cluster7_host41" power="4932000000" core="24">
+			<host id="cluster7_host41" power="121200000000">
 				<mount id="cluster7_Disk41" name="/home" />
 				<mount id="cluster7_Ram41" name="/slot" />
 			</host>
@@ -3134,7 +3127,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster7_host41" up="cluster7_l41_UP" down="cluster7_l41_DOWN" />
 
-			<host id="cluster7_host42" power="4932000000" core="24">
+			<host id="cluster7_host42" power="121200000000">
 				<mount id="cluster7_Disk42" name="/home" />
 				<mount id="cluster7_Ram42" name="/slot" />
 			</host>
@@ -3142,7 +3135,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster7_host42" up="cluster7_l42_UP" down="cluster7_l42_DOWN" />
 
-			<host id="cluster7_host43" power="4932000000" core="24">
+			<host id="cluster7_host43" power="121200000000">
 				<mount id="cluster7_Disk43" name="/home" />
 				<mount id="cluster7_Ram43" name="/slot" />
 			</host>
@@ -3150,7 +3143,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster7_host43" up="cluster7_l43_UP" down="cluster7_l43_DOWN" />
 
-			<host id="cluster7_host44" power="4932000000" core="24">
+			<host id="cluster7_host44" power="121200000000">
 				<mount id="cluster7_Disk44" name="/home" />
 				<mount id="cluster7_Ram44" name="/slot" />
 			</host>
@@ -3158,7 +3151,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster7_host44" up="cluster7_l44_UP" down="cluster7_l44_DOWN" />
 
-			<host id="cluster7_host45" power="4932000000" core="24">
+			<host id="cluster7_host45" power="121200000000">
 				<mount id="cluster7_Disk45" name="/home" />
 				<mount id="cluster7_Ram45" name="/slot" />
 			</host>
@@ -3166,7 +3159,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster7_host45" up="cluster7_l45_UP" down="cluster7_l45_DOWN" />
 
-			<host id="cluster7_host46" power="4932000000" core="24">
+			<host id="cluster7_host46" power="121200000000">
 				<mount id="cluster7_Disk46" name="/home" />
 				<mount id="cluster7_Ram46" name="/slot" />
 			</host>
@@ -3174,7 +3167,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster7_host46" up="cluster7_l46_UP" down="cluster7_l46_DOWN" />
 
-			<host id="cluster7_host47" power="4932000000" core="24">
+			<host id="cluster7_host47" power="121200000000">
 				<mount id="cluster7_Disk47" name="/home" />
 				<mount id="cluster7_Ram47" name="/slot" />
 			</host>
@@ -3182,7 +3175,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster7_host47" up="cluster7_l47_UP" down="cluster7_l47_DOWN" />
 
-			<host id="cluster7_host48" power="4932000000" core="24">
+			<host id="cluster7_host48" power="121200000000">
 				<mount id="cluster7_Disk48" name="/home" />
 				<mount id="cluster7_Ram48" name="/slot" />
 			</host>
@@ -3190,7 +3183,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster7_host48" up="cluster7_l48_UP" down="cluster7_l48_DOWN" />
 
-			<host id="cluster7_host49" power="4932000000" core="24">
+			<host id="cluster7_host49" power="121200000000">
 				<mount id="cluster7_Disk49" name="/home" />
 				<mount id="cluster7_Ram49" name="/slot" />
 			</host>
@@ -3198,7 +3191,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster7_host49" up="cluster7_l49_UP" down="cluster7_l49_DOWN" />
 
-			<host id="cluster7_host50" power="4932000000" core="24">
+			<host id="cluster7_host50" power="121200000000">
 				<mount id="cluster7_Disk50" name="/home" />
 				<mount id="cluster7_Ram50" name="/slot" />
 			</host>
@@ -3206,7 +3199,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster7_host50" up="cluster7_l50_UP" down="cluster7_l50_DOWN" />
 
-			<backbone id="cluster7_backbone" bandwidth="2250000000"
+			<backbone id="cluster7_backbone" bandwidth="376000000"
 				latency="5E-4" />
 		</AS>
 
@@ -3330,7 +3323,7 @@
 			<storage id="cluster8_Ram49" typeId="cluster8_ram" />
 			<storage id="cluster8_Ram50" typeId="cluster8_ram" />
 
-			<host id="cluster8_host10" power="4932000000" core="24">
+			<host id="cluster8_host10" power="121200000000">
 				<mount id="cluster8_Disk10" name="/home" />
 				<mount id="cluster8_Ram10" name="/slot" />
 			</host>
@@ -3339,7 +3332,7 @@
 			<host_link id="cluster8_host10" up="cluster8_l10_UP" down="cluster8_l10_DOWN" />
 			<!--11-20 -->
 
-			<host id="cluster8_host11" power="4932000000" core="24">
+			<host id="cluster8_host11" power="121200000000">
 				<mount id="cluster8_Disk11" name="/home" />
 				<mount id="cluster8_Ram11" name="/slot" />
 			</host>
@@ -3347,7 +3340,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster8_host11" up="cluster8_l11_UP" down="cluster8_l11_DOWN" />
 
-			<host id="cluster8_host12" power="4932000000" core="24">
+			<host id="cluster8_host12" power="121200000000">
 				<mount id="cluster8_Disk12" name="/home" />
 				<mount id="cluster8_Ram12" name="/slot" />
 			</host>
@@ -3355,7 +3348,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster8_host12" up="cluster8_l12_UP" down="cluster8_l12_DOWN" />
 
-			<host id="cluster8_host13" power="4932000000" core="24">
+			<host id="cluster8_host13" power="121200000000">
 				<mount id="cluster8_Disk13" name="/home" />
 				<mount id="cluster8_Ram13" name="/slot" />
 			</host>
@@ -3363,7 +3356,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster8_host13" up="cluster8_l13_UP" down="cluster8_l13_DOWN" />
 
-			<host id="cluster8_host14" power="4932000000" core="24">
+			<host id="cluster8_host14" power="121200000000">
 				<mount id="cluster8_Disk14" name="/home" />
 				<mount id="cluster8_Ram14" name="/slot" />
 			</host>
@@ -3371,7 +3364,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster8_host14" up="cluster8_l14_UP" down="cluster8_l14_DOWN" />
 
-			<host id="cluster8_host15" power="4932000000" core="24">
+			<host id="cluster8_host15" power="121200000000">
 				<mount id="cluster8_Disk15" name="/home" />
 				<mount id="cluster8_Ram15" name="/slot" />
 			</host>
@@ -3379,7 +3372,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster8_host15" up="cluster8_l15_UP" down="cluster8_l15_DOWN" />
 
-			<host id="cluster8_host16" power="4932000000" core="24">
+			<host id="cluster8_host16" power="121200000000">
 				<mount id="cluster8_Disk16" name="/home" />
 				<mount id="cluster8_Ram16" name="/slot" />
 			</host>
@@ -3387,7 +3380,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster8_host16" up="cluster8_l16_UP" down="cluster8_l16_DOWN" />
 
-			<host id="cluster8_host17" power="4932000000" core="24">
+			<host id="cluster8_host17" power="121200000000">
 				<mount id="cluster8_Disk17" name="/home" />
 				<mount id="cluster8_Ram17" name="/slot" />
 			</host>
@@ -3395,7 +3388,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster8_host17" up="cluster8_l17_UP" down="cluster8_l17_DOWN" />
 
-			<host id="cluster8_host18" power="4932000000" core="24">
+			<host id="cluster8_host18" power="121200000000">
 				<mount id="cluster8_Disk18" name="/home" />
 				<mount id="cluster8_Ram18" name="/slot" />
 			</host>
@@ -3403,7 +3396,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster8_host18" up="cluster8_l18_UP" down="cluster8_l18_DOWN" />
 
-			<host id="cluster8_host19" power="4932000000" core="24">
+			<host id="cluster8_host19" power="121200000000">
 				<mount id="cluster8_Disk19" name="/home" />
 				<mount id="cluster8_Ram19" name="/slot" />
 			</host>
@@ -3411,7 +3404,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster8_host19" up="cluster8_l19_UP" down="cluster8_l19_DOWN" />
 
-			<host id="cluster8_host20" power="4932000000" core="24">
+			<host id="cluster8_host20" power="121200000000">
 				<mount id="cluster8_Disk20" name="/home" />
 				<mount id="cluster8_Ram20" name="/slot" />
 			</host>
@@ -3420,7 +3413,7 @@
 			<host_link id="cluster8_host20" up="cluster8_l20_UP" down="cluster8_l20_DOWN" />
 
 			<!--21-30 -->
-			<host id="cluster8_host21" power="4932000000" core="24">
+			<host id="cluster8_host21" power="121200000000">
 				<mount id="cluster8_Disk21" name="/home" />
 				<mount id="cluster8_Ram21" name="/slot" />
 			</host>
@@ -3428,7 +3421,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster8_host21" up="cluster8_l21_UP" down="cluster8_l21_DOWN" />
 
-			<host id="cluster8_host22" power="4932000000" core="24">
+			<host id="cluster8_host22" power="121200000000">
 				<mount id="cluster8_Disk22" name="/home" />
 				<mount id="cluster8_Ram22" name="/slot" />
 			</host>
@@ -3436,7 +3429,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster8_host22" up="cluster8_l22_UP" down="cluster8_l22_DOWN" />
 
-			<host id="cluster8_host23" power="4932000000" core="24">
+			<host id="cluster8_host23" power="121200000000">
 				<mount id="cluster8_Disk23" name="/home" />
 				<mount id="cluster8_Ram23" name="/slot" />
 			</host>
@@ -3444,7 +3437,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster8_host23" up="cluster8_l23_UP" down="cluster8_l23_DOWN" />
 
-			<host id="cluster8_host24" power="4932000000" core="24">
+			<host id="cluster8_host24" power="121200000000">
 				<mount id="cluster8_Disk24" name="/home" />
 				<mount id="cluster8_Ram24" name="/slot" />
 			</host>
@@ -3452,7 +3445,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster8_host24" up="cluster8_l24_UP" down="cluster8_l24_DOWN" />
 
-			<host id="cluster8_host25" power="4932000000" core="24">
+			<host id="cluster8_host25" power="121200000000">
 				<mount id="cluster8_Disk25" name="/home" />
 				<mount id="cluster8_Ram25" name="/slot" />
 			</host>
@@ -3460,7 +3453,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster8_host25" up="cluster8_l25_UP" down="cluster8_l25_DOWN" />
 
-			<host id="cluster8_host26" power="4932000000" core="24">
+			<host id="cluster8_host26" power="121200000000">
 				<mount id="cluster8_Disk26" name="/home" />
 				<mount id="cluster8_Ram26" name="/slot" />
 			</host>
@@ -3468,7 +3461,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster8_host26" up="cluster8_l26_UP" down="cluster8_l26_DOWN" />
 
-			<host id="cluster8_host27" power="4932000000" core="24">
+			<host id="cluster8_host27" power="121200000000">
 				<mount id="cluster8_Disk27" name="/home" />
 				<mount id="cluster8_Ram27" name="/slot" />
 			</host>
@@ -3476,7 +3469,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster8_host27" up="cluster8_l27_UP" down="cluster8_l27_DOWN" />
 
-			<host id="cluster8_host28" power="4932000000" core="24">
+			<host id="cluster8_host28" power="121200000000">
 				<mount id="cluster8_Disk28" name="/home" />
 				<mount id="cluster8_Ram28" name="/slot" />
 			</host>
@@ -3484,7 +3477,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster8_host28" up="cluster8_l28_UP" down="cluster8_l28_DOWN" />
 
-			<host id="cluster8_host29" power="4932000000" core="24">
+			<host id="cluster8_host29" power="121200000000">
 				<mount id="cluster8_Disk29" name="/home" />
 				<mount id="cluster8_Ram29" name="/slot" />
 			</host>
@@ -3492,7 +3485,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster8_host29" up="cluster8_l29_UP" down="cluster8_l29_DOWN" />
 
-			<host id="cluster8_host30" power="4932000000" core="24">
+			<host id="cluster8_host30" power="121200000000">
 				<mount id="cluster8_Disk30" name="/home" />
 				<mount id="cluster8_Ram30" name="/slot" />
 			</host>
@@ -3501,7 +3494,7 @@
 			<host_link id="cluster8_host30" up="cluster8_l30_UP" down="cluster8_l30_DOWN" />
 
 			<!--31-40 -->
-			<host id="cluster8_host31" power="4932000000" core="24">
+			<host id="cluster8_host31" power="121200000000">
 				<mount id="cluster8_Disk31" name="/home" />
 				<mount id="cluster8_Ram31" name="/slot" />
 			</host>
@@ -3509,7 +3502,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster8_host31" up="cluster8_l31_UP" down="cluster8_l31_DOWN" />
 
-			<host id="cluster8_host32" power="4932000000" core="24">
+			<host id="cluster8_host32" power="121200000000">
 				<mount id="cluster8_Disk32" name="/home" />
 				<mount id="cluster8_Ram32" name="/slot" />
 			</host>
@@ -3517,7 +3510,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster8_host32" up="cluster8_l32_UP" down="cluster8_l32_DOWN" />
 
-			<host id="cluster8_host33" power="4932000000" core="24">
+			<host id="cluster8_host33" power="121200000000">
 				<mount id="cluster8_Disk33" name="/home" />
 				<mount id="cluster8_Ram33" name="/slot" />
 			</host>
@@ -3525,7 +3518,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster8_host33" up="cluster8_l33_UP" down="cluster8_l33_DOWN" />
 
-			<host id="cluster8_host34" power="4932000000" core="24">
+			<host id="cluster8_host34" power="121200000000">
 				<mount id="cluster8_Disk34" name="/home" />
 				<mount id="cluster8_Ram34" name="/slot" />
 			</host>
@@ -3533,7 +3526,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster8_host34" up="cluster8_l34_UP" down="cluster8_l34_DOWN" />
 
-			<host id="cluster8_host35" power="4932000000" core="24">
+			<host id="cluster8_host35" power="121200000000">
 				<mount id="cluster8_Disk35" name="/home" />
 				<mount id="cluster8_Ram35" name="/slot" />
 			</host>
@@ -3541,7 +3534,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster8_host35" up="cluster8_l35_UP" down="cluster8_l35_DOWN" />
 
-			<host id="cluster8_host36" power="4932000000" core="24">
+			<host id="cluster8_host36" power="121200000000">
 				<mount id="cluster8_Disk36" name="/home" />
 				<mount id="cluster8_Ram36" name="/slot" />
 			</host>
@@ -3549,7 +3542,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster8_host36" up="cluster8_l36_UP" down="cluster8_l36_DOWN" />
 
-			<host id="cluster8_host37" power="4932000000" core="24">
+			<host id="cluster8_host37" power="121200000000">
 				<mount id="cluster8_Disk37" name="/home" />
 				<mount id="cluster8_Ram37" name="/slot" />
 			</host>
@@ -3557,7 +3550,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster8_host37" up="cluster8_l37_UP" down="cluster8_l37_DOWN" />
 
-			<host id="cluster8_host38" power="4932000000" core="24">
+			<host id="cluster8_host38" power="121200000000">
 				<mount id="cluster8_Disk38" name="/home" />
 				<mount id="cluster8_Ram38" name="/slot" />
 			</host>
@@ -3565,7 +3558,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster8_host38" up="cluster8_l38_UP" down="cluster8_l38_DOWN" />
 
-			<host id="cluster8_host39" power="4932000000" core="24">
+			<host id="cluster8_host39" power="121200000000">
 				<mount id="cluster8_Disk39" name="/home" />
 				<mount id="cluster8_Ram39" name="/slot" />
 			</host>
@@ -3573,7 +3566,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster8_host39" up="cluster8_l39_UP" down="cluster8_l39_DOWN" />
 
-			<host id="cluster8_host40" power="4932000000" core="24">
+			<host id="cluster8_host40" power="121200000000">
 				<mount id="cluster8_Disk40" name="/home" />
 				<mount id="cluster8_Ram40" name="/slot" />
 			</host>
@@ -3583,7 +3576,7 @@
 
 
 			<!--41-50 -->
-			<host id="cluster8_host41" power="4932000000" core="24">
+			<host id="cluster8_host41" power="121200000000">
 				<mount id="cluster8_Disk41" name="/home" />
 				<mount id="cluster8_Ram41" name="/slot" />
 			</host>
@@ -3591,7 +3584,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster8_host41" up="cluster8_l41_UP" down="cluster8_l41_DOWN" />
 
-			<host id="cluster8_host42" power="4932000000" core="24">
+			<host id="cluster8_host42" power="121200000000">
 				<mount id="cluster8_Disk42" name="/home" />
 				<mount id="cluster8_Ram42" name="/slot" />
 			</host>
@@ -3599,7 +3592,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster8_host42" up="cluster8_l42_UP" down="cluster8_l42_DOWN" />
 
-			<host id="cluster8_host43" power="4932000000" core="24">
+			<host id="cluster8_host43" power="121200000000">
 				<mount id="cluster8_Disk43" name="/home" />
 				<mount id="cluster8_Ram43" name="/slot" />
 			</host>
@@ -3607,7 +3600,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster8_host43" up="cluster8_l43_UP" down="cluster8_l43_DOWN" />
 
-			<host id="cluster8_host44" power="4932000000" core="24">
+			<host id="cluster8_host44" power="121200000000">
 				<mount id="cluster8_Disk44" name="/home" />
 				<mount id="cluster8_Ram44" name="/slot" />
 			</host>
@@ -3615,7 +3608,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster8_host44" up="cluster8_l44_UP" down="cluster8_l44_DOWN" />
 
-			<host id="cluster8_host45" power="4932000000" core="24">
+			<host id="cluster8_host45" power="121200000000">
 				<mount id="cluster8_Disk45" name="/home" />
 				<mount id="cluster8_Ram45" name="/slot" />
 			</host>
@@ -3623,7 +3616,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster8_host45" up="cluster8_l45_UP" down="cluster8_l45_DOWN" />
 
-			<host id="cluster8_host46" power="4932000000" core="24">
+			<host id="cluster8_host46" power="121200000000">
 				<mount id="cluster8_Disk46" name="/home" />
 				<mount id="cluster8_Ram46" name="/slot" />
 			</host>
@@ -3631,7 +3624,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster8_host46" up="cluster8_l46_UP" down="cluster8_l46_DOWN" />
 
-			<host id="cluster8_host47" power="4932000000" core="24">
+			<host id="cluster8_host47" power="121200000000">
 				<mount id="cluster8_Disk47" name="/home" />
 				<mount id="cluster8_Ram47" name="/slot" />
 			</host>
@@ -3639,7 +3632,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster8_host47" up="cluster8_l47_UP" down="cluster8_l47_DOWN" />
 
-			<host id="cluster8_host48" power="4932000000" core="24">
+			<host id="cluster8_host48" power="121200000000">
 				<mount id="cluster8_Disk48" name="/home" />
 				<mount id="cluster8_Ram48" name="/slot" />
 			</host>
@@ -3647,7 +3640,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster8_host48" up="cluster8_l48_UP" down="cluster8_l48_DOWN" />
 
-			<host id="cluster8_host49" power="4932000000" core="24">
+			<host id="cluster8_host49" power="121200000000">
 				<mount id="cluster8_Disk49" name="/home" />
 				<mount id="cluster8_Ram49" name="/slot" />
 			</host>
@@ -3655,7 +3648,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster8_host49" up="cluster8_l49_UP" down="cluster8_l49_DOWN" />
 
-			<host id="cluster8_host50" power="4932000000" core="24">
+			<host id="cluster8_host50" power="121200000000">
 				<mount id="cluster8_Disk50" name="/home" />
 				<mount id="cluster8_Ram50" name="/slot" />
 			</host>
@@ -3663,7 +3656,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster8_host50" up="cluster8_l50_UP" down="cluster8_l50_DOWN" />
 
-			<backbone id="cluster8_backbone" bandwidth="2250000000"
+			<backbone id="cluster8_backbone" bandwidth="376000000"
 				latency="5E-4" />
 		</AS>
 
@@ -3787,7 +3780,7 @@
 			<storage id="cluster9_Ram49" typeId="cluster9_ram" />
 			<storage id="cluster9_Ram50" typeId="cluster9_ram" />
 
-			<host id="cluster9_host10" power="4932000000" core="24">
+			<host id="cluster9_host10" power="121200000000">
 				<mount id="cluster9_Disk10" name="/home" />
 				<mount id="cluster9_Ram10" name="/slot" />
 			</host>
@@ -3796,7 +3789,7 @@
 			<host_link id="cluster9_host10" up="cluster9_l10_UP" down="cluster9_l10_DOWN" />
 			<!--11-20 -->
 
-			<host id="cluster9_host11" power="4932000000" core="24">
+			<host id="cluster9_host11" power="121200000000">
 				<mount id="cluster9_Disk11" name="/home" />
 				<mount id="cluster9_Ram11" name="/slot" />
 			</host>
@@ -3804,7 +3797,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster9_host11" up="cluster9_l11_UP" down="cluster9_l11_DOWN" />
 
-			<host id="cluster9_host12" power="4932000000" core="24">
+			<host id="cluster9_host12" power="121200000000">
 				<mount id="cluster9_Disk12" name="/home" />
 				<mount id="cluster9_Ram12" name="/slot" />
 			</host>
@@ -3812,7 +3805,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster9_host12" up="cluster9_l12_UP" down="cluster9_l12_DOWN" />
 
-			<host id="cluster9_host13" power="4932000000" core="24">
+			<host id="cluster9_host13" power="121200000000">
 				<mount id="cluster9_Disk13" name="/home" />
 				<mount id="cluster9_Ram13" name="/slot" />
 			</host>
@@ -3820,7 +3813,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster9_host13" up="cluster9_l13_UP" down="cluster9_l13_DOWN" />
 
-			<host id="cluster9_host14" power="4932000000" core="24">
+			<host id="cluster9_host14" power="121200000000">
 				<mount id="cluster9_Disk14" name="/home" />
 				<mount id="cluster9_Ram14" name="/slot" />
 			</host>
@@ -3828,7 +3821,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster9_host14" up="cluster9_l14_UP" down="cluster9_l14_DOWN" />
 
-			<host id="cluster9_host15" power="4932000000" core="24">
+			<host id="cluster9_host15" power="121200000000">
 				<mount id="cluster9_Disk15" name="/home" />
 				<mount id="cluster9_Ram15" name="/slot" />
 			</host>
@@ -3836,7 +3829,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster9_host15" up="cluster9_l15_UP" down="cluster9_l15_DOWN" />
 
-			<host id="cluster9_host16" power="4932000000" core="24">
+			<host id="cluster9_host16" power="121200000000">
 				<mount id="cluster9_Disk16" name="/home" />
 				<mount id="cluster9_Ram16" name="/slot" />
 			</host>
@@ -3844,7 +3837,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster9_host16" up="cluster9_l16_UP" down="cluster9_l16_DOWN" />
 
-			<host id="cluster9_host17" power="4932000000" core="24">
+			<host id="cluster9_host17" power="121200000000">
 				<mount id="cluster9_Disk17" name="/home" />
 				<mount id="cluster9_Ram17" name="/slot" />
 			</host>
@@ -3852,7 +3845,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster9_host17" up="cluster9_l17_UP" down="cluster9_l17_DOWN" />
 
-			<host id="cluster9_host18" power="4932000000" core="24">
+			<host id="cluster9_host18" power="121200000000">
 				<mount id="cluster9_Disk18" name="/home" />
 				<mount id="cluster9_Ram18" name="/slot" />
 			</host>
@@ -3860,7 +3853,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster9_host18" up="cluster9_l18_UP" down="cluster9_l18_DOWN" />
 
-			<host id="cluster9_host19" power="4932000000" core="24">
+			<host id="cluster9_host19" power="121200000000">
 				<mount id="cluster9_Disk19" name="/home" />
 				<mount id="cluster9_Ram19" name="/slot" />
 			</host>
@@ -3868,7 +3861,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster9_host19" up="cluster9_l19_UP" down="cluster9_l19_DOWN" />
 
-			<host id="cluster9_host20" power="4932000000" core="24">
+			<host id="cluster9_host20" power="121200000000">
 				<mount id="cluster9_Disk20" name="/home" />
 				<mount id="cluster9_Ram20" name="/slot" />
 			</host>
@@ -3877,7 +3870,7 @@
 			<host_link id="cluster9_host20" up="cluster9_l20_UP" down="cluster9_l20_DOWN" />
 
 			<!--21-30 -->
-			<host id="cluster9_host21" power="4932000000" core="24">
+			<host id="cluster9_host21" power="121200000000">
 				<mount id="cluster9_Disk21" name="/home" />
 				<mount id="cluster9_Ram21" name="/slot" />
 			</host>
@@ -3885,7 +3878,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster9_host21" up="cluster9_l21_UP" down="cluster9_l21_DOWN" />
 
-			<host id="cluster9_host22" power="4932000000" core="24">
+			<host id="cluster9_host22" power="121200000000">
 				<mount id="cluster9_Disk22" name="/home" />
 				<mount id="cluster9_Ram22" name="/slot" />
 			</host>
@@ -3893,7 +3886,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster9_host22" up="cluster9_l22_UP" down="cluster9_l22_DOWN" />
 
-			<host id="cluster9_host23" power="4932000000" core="24">
+			<host id="cluster9_host23" power="121200000000">
 				<mount id="cluster9_Disk23" name="/home" />
 				<mount id="cluster9_Ram23" name="/slot" />
 			</host>
@@ -3901,7 +3894,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster9_host23" up="cluster9_l23_UP" down="cluster9_l23_DOWN" />
 
-			<host id="cluster9_host24" power="4932000000" core="24">
+			<host id="cluster9_host24" power="121200000000">
 				<mount id="cluster9_Disk24" name="/home" />
 				<mount id="cluster9_Ram24" name="/slot" />
 			</host>
@@ -3909,7 +3902,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster9_host24" up="cluster9_l24_UP" down="cluster9_l24_DOWN" />
 
-			<host id="cluster9_host25" power="4932000000" core="24">
+			<host id="cluster9_host25" power="121200000000">
 				<mount id="cluster9_Disk25" name="/home" />
 				<mount id="cluster9_Ram25" name="/slot" />
 			</host>
@@ -3917,7 +3910,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster9_host25" up="cluster9_l25_UP" down="cluster9_l25_DOWN" />
 
-			<host id="cluster9_host26" power="4932000000" core="24">
+			<host id="cluster9_host26" power="121200000000">
 				<mount id="cluster9_Disk26" name="/home" />
 				<mount id="cluster9_Ram26" name="/slot" />
 			</host>
@@ -3925,7 +3918,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster9_host26" up="cluster9_l26_UP" down="cluster9_l26_DOWN" />
 
-			<host id="cluster9_host27" power="4932000000" core="24">
+			<host id="cluster9_host27" power="121200000000">
 				<mount id="cluster9_Disk27" name="/home" />
 				<mount id="cluster9_Ram27" name="/slot" />
 			</host>
@@ -3933,7 +3926,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster9_host27" up="cluster9_l27_UP" down="cluster9_l27_DOWN" />
 
-			<host id="cluster9_host28" power="4932000000" core="24">
+			<host id="cluster9_host28" power="121200000000">
 				<mount id="cluster9_Disk28" name="/home" />
 				<mount id="cluster9_Ram28" name="/slot" />
 			</host>
@@ -3941,7 +3934,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster9_host28" up="cluster9_l28_UP" down="cluster9_l28_DOWN" />
 
-			<host id="cluster9_host29" power="4932000000" core="24">
+			<host id="cluster9_host29" power="121200000000">
 				<mount id="cluster9_Disk29" name="/home" />
 				<mount id="cluster9_Ram29" name="/slot" />
 			</host>
@@ -3949,7 +3942,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster9_host29" up="cluster9_l29_UP" down="cluster9_l29_DOWN" />
 
-			<host id="cluster9_host30" power="4932000000" core="24">
+			<host id="cluster9_host30" power="121200000000">
 				<mount id="cluster9_Disk30" name="/home" />
 				<mount id="cluster9_Ram30" name="/slot" />
 			</host>
@@ -3958,7 +3951,7 @@
 			<host_link id="cluster9_host30" up="cluster9_l30_UP" down="cluster9_l30_DOWN" />
 
 			<!--31-40 -->
-			<host id="cluster9_host31" power="4932000000" core="24">
+			<host id="cluster9_host31" power="121200000000">
 				<mount id="cluster9_Disk31" name="/home" />
 				<mount id="cluster9_Ram31" name="/slot" />
 			</host>
@@ -3966,7 +3959,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster9_host31" up="cluster9_l31_UP" down="cluster9_l31_DOWN" />
 
-			<host id="cluster9_host32" power="4932000000" core="24">
+			<host id="cluster9_host32" power="121200000000">
 				<mount id="cluster9_Disk32" name="/home" />
 				<mount id="cluster9_Ram32" name="/slot" />
 			</host>
@@ -3974,7 +3967,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster9_host32" up="cluster9_l32_UP" down="cluster9_l32_DOWN" />
 
-			<host id="cluster9_host33" power="4932000000" core="24">
+			<host id="cluster9_host33" power="121200000000">
 				<mount id="cluster9_Disk33" name="/home" />
 				<mount id="cluster9_Ram33" name="/slot" />
 			</host>
@@ -3982,7 +3975,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster9_host33" up="cluster9_l33_UP" down="cluster9_l33_DOWN" />
 
-			<host id="cluster9_host34" power="4932000000" core="24">
+			<host id="cluster9_host34" power="121200000000">
 				<mount id="cluster9_Disk34" name="/home" />
 				<mount id="cluster9_Ram34" name="/slot" />
 			</host>
@@ -3990,7 +3983,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster9_host34" up="cluster9_l34_UP" down="cluster9_l34_DOWN" />
 
-			<host id="cluster9_host35" power="4932000000" core="24">
+			<host id="cluster9_host35" power="121200000000">
 				<mount id="cluster9_Disk35" name="/home" />
 				<mount id="cluster9_Ram35" name="/slot" />
 			</host>
@@ -3998,7 +3991,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster9_host35" up="cluster9_l35_UP" down="cluster9_l35_DOWN" />
 
-			<host id="cluster9_host36" power="4932000000" core="24">
+			<host id="cluster9_host36" power="121200000000">
 				<mount id="cluster9_Disk36" name="/home" />
 				<mount id="cluster9_Ram36" name="/slot" />
 			</host>
@@ -4006,7 +3999,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster9_host36" up="cluster9_l36_UP" down="cluster9_l36_DOWN" />
 
-			<host id="cluster9_host37" power="4932000000" core="24">
+			<host id="cluster9_host37" power="121200000000">
 				<mount id="cluster9_Disk37" name="/home" />
 				<mount id="cluster9_Ram37" name="/slot" />
 			</host>
@@ -4014,7 +4007,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster9_host37" up="cluster9_l37_UP" down="cluster9_l37_DOWN" />
 
-			<host id="cluster9_host38" power="4932000000" core="24">
+			<host id="cluster9_host38" power="121200000000">
 				<mount id="cluster9_Disk38" name="/home" />
 				<mount id="cluster9_Ram38" name="/slot" />
 			</host>
@@ -4022,7 +4015,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster9_host38" up="cluster9_l38_UP" down="cluster9_l38_DOWN" />
 
-			<host id="cluster9_host39" power="4932000000" core="24">
+			<host id="cluster9_host39" power="121200000000">
 				<mount id="cluster9_Disk39" name="/home" />
 				<mount id="cluster9_Ram39" name="/slot" />
 			</host>
@@ -4030,7 +4023,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster9_host39" up="cluster9_l39_UP" down="cluster9_l39_DOWN" />
 
-			<host id="cluster9_host40" power="4932000000" core="24">
+			<host id="cluster9_host40" power="121200000000">
 				<mount id="cluster9_Disk40" name="/home" />
 				<mount id="cluster9_Ram40" name="/slot" />
 			</host>
@@ -4040,7 +4033,7 @@
 
 
 			<!--41-50 -->
-			<host id="cluster9_host41" power="4932000000" core="24">
+			<host id="cluster9_host41" power="121200000000">
 				<mount id="cluster9_Disk41" name="/home" />
 				<mount id="cluster9_Ram41" name="/slot" />
 			</host>
@@ -4048,7 +4041,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster9_host41" up="cluster9_l41_UP" down="cluster9_l41_DOWN" />
 
-			<host id="cluster9_host42" power="4932000000" core="24">
+			<host id="cluster9_host42" power="121200000000">
 				<mount id="cluster9_Disk42" name="/home" />
 				<mount id="cluster9_Ram42" name="/slot" />
 			</host>
@@ -4056,7 +4049,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster9_host42" up="cluster9_l42_UP" down="cluster9_l42_DOWN" />
 
-			<host id="cluster9_host43" power="4932000000" core="24">
+			<host id="cluster9_host43" power="121200000000">
 				<mount id="cluster9_Disk43" name="/home" />
 				<mount id="cluster9_Ram43" name="/slot" />
 			</host>
@@ -4064,7 +4057,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster9_host43" up="cluster9_l43_UP" down="cluster9_l43_DOWN" />
 
-			<host id="cluster9_host44" power="4932000000" core="24">
+			<host id="cluster9_host44" power="121200000000">
 				<mount id="cluster9_Disk44" name="/home" />
 				<mount id="cluster9_Ram44" name="/slot" />
 			</host>
@@ -4072,7 +4065,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster9_host44" up="cluster9_l44_UP" down="cluster9_l44_DOWN" />
 
-			<host id="cluster9_host45" power="4932000000" core="24">
+			<host id="cluster9_host45" power="121200000000">
 				<mount id="cluster9_Disk45" name="/home" />
 				<mount id="cluster9_Ram45" name="/slot" />
 			</host>
@@ -4080,7 +4073,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster9_host45" up="cluster9_l45_UP" down="cluster9_l45_DOWN" />
 
-			<host id="cluster9_host46" power="4932000000" core="24">
+			<host id="cluster9_host46" power="121200000000">
 				<mount id="cluster9_Disk46" name="/home" />
 				<mount id="cluster9_Ram46" name="/slot" />
 			</host>
@@ -4088,7 +4081,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster9_host46" up="cluster9_l46_UP" down="cluster9_l46_DOWN" />
 
-			<host id="cluster9_host47" power="4932000000" core="24">
+			<host id="cluster9_host47" power="121200000000">
 				<mount id="cluster9_Disk47" name="/home" />
 				<mount id="cluster9_Ram47" name="/slot" />
 			</host>
@@ -4096,7 +4089,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster9_host47" up="cluster9_l47_UP" down="cluster9_l47_DOWN" />
 
-			<host id="cluster9_host48" power="4932000000" core="24">
+			<host id="cluster9_host48" power="121200000000">
 				<mount id="cluster9_Disk48" name="/home" />
 				<mount id="cluster9_Ram48" name="/slot" />
 			</host>
@@ -4104,7 +4097,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster9_host48" up="cluster9_l48_UP" down="cluster9_l48_DOWN" />
 
-			<host id="cluster9_host49" power="4932000000" core="24">
+			<host id="cluster9_host49" power="121200000000">
 				<mount id="cluster9_Disk49" name="/home" />
 				<mount id="cluster9_Ram49" name="/slot" />
 			</host>
@@ -4112,7 +4105,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster9_host49" up="cluster9_l49_UP" down="cluster9_l49_DOWN" />
 
-			<host id="cluster9_host50" power="4932000000" core="24">
+			<host id="cluster9_host50" power="121200000000">
 				<mount id="cluster9_Disk50" name="/home" />
 				<mount id="cluster9_Ram50" name="/slot" />
 			</host>
@@ -4120,7 +4113,7 @@
 				sharing_policy="FULLDUPLEX" />
 			<host_link id="cluster9_host50" up="cluster9_l50_UP" down="cluster9_l50_DOWN" />
 
-			<backbone id="cluster9_backbone" bandwidth="2250000000"
+			<backbone id="cluster9_backbone" bandwidth="376000000"
 				latency="5E-4" />
 		</AS>
 
