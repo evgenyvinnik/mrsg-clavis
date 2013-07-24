@@ -225,11 +225,11 @@ static void read_mr_config_file(const char* config_collection_file_name)
 					}
 					else if (strcmp(property, "ram_operations_map") == 0)
 					{
-						fscanf(config_file, "%ld", &configs[i].ram_operations_map);
+						fscanf(config_file, "%lld", &configs[i].ram_operations_map);
 					}
 					else if (strcmp(property, "disk_operations_map") == 0)
 					{
-						fscanf(config_file, "%ld", &configs[i].disk_operations_map);
+						fscanf(config_file, "%lld", &configs[i].disk_operations_map);
 					}
 					else if (strcmp(property, "map_output_bytes") == 0)
 					{
@@ -241,11 +241,11 @@ static void read_mr_config_file(const char* config_collection_file_name)
 					}
 					else if (strcmp(property, "ram_operations_reduce") == 0)
 					{
-						fscanf(config_file, "%ld", &configs[i].ram_operations_reduce);
+						fscanf(config_file, "%lld", &configs[i].ram_operations_reduce);
 					}
 					else if (strcmp(property, "disk_operations_reduce") == 0)
 					{
-						fscanf(config_file, "%ld", &configs[i].disk_operations_reduce);
+						fscanf(config_file, "%lld", &configs[i].disk_operations_reduce);
 					}
 					else
 					{
