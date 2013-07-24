@@ -75,12 +75,12 @@ struct config_s
 	unsigned long int vm_per_host;
 
 	double cpu_flops_map;
-	unsigned long int ram_operations_map;
-	unsigned long int disk_operations_map;
+	unsigned long long int ram_operations_map;
+	unsigned long long int disk_operations_map;
 	unsigned long long int map_output_bytes;
 	double cpu_flops_reduce;
-	unsigned long int ram_operations_reduce;
-	unsigned long int disk_operations_reduce;
+	unsigned long long int ram_operations_reduce;
+	unsigned long long int disk_operations_reduce;
 };
 
 typedef struct config_s* config_t;
