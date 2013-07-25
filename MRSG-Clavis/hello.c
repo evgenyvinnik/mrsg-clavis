@@ -1,3 +1,6 @@
+
+/* Modified by Evgeny Vinnik (evinnik@sfu.ca) on July 25th, 2013 for the project MRSG-Clavis.*/
+
 #include "common.h"
 #include "dfs.h"
 #include "mrsg.h"
