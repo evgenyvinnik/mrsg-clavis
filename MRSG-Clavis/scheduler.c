@@ -15,7 +15,6 @@
  You should have received a copy of the GNU General Public License
  along with MRSG-Clavis.  If not, see <http://www.gnu.org/licenses/>. */
 
-
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -42,9 +41,7 @@ static void free_global_mem(int configuration_id);
 static void cb1(void *s, size_t len, void *data);
 static void cb2(int c, void *data);
 
-#define PHYSICAL_MACHINES 8
-#define SCHEDULE_SLEEP_TIME 1000
-#define SCHEDULE_FILE "schedule.txt"
+#define SCHEDULE_SLEEP_TIME 500
 
 struct schedule
 {
@@ -62,8 +59,7 @@ int scheduler(int argc, char *argv[])
 {
 	srand(12345);
 	xbt_dynar_t hosts_dynar;
-	msg_host_t* system_hosts = xbt_new(msg_host_t,PHYSICAL_MACHINES);
-	char** system_hosts_names = xbt_new(char*,PHYSICAL_MACHINES);
+	unsigned long physical_machines, hosts_length;
 	msg_vm_t vm;
 	xbt_dynar_t vms;
 	msg_process_t process;
@@ -73,18 +69,34 @@ int scheduler(int argc, char *argv[])
 	unsigned int cursor;
 	int conf_count, host_count;
 
+	xbt_assert(argc >= 1, "scheduler function requires 1 argument - schedule file");
+
+
 	/* Retrieve the first hosts of the platform file */
 	hosts_dynar = MSG_hosts_as_dynar();
 	xbt_dynar_sort(hosts_dynar, hosts_ordering_function);
-	XBT_INFO("Number of available hosts %lu", xbt_dynar_length(hosts_dynar));
-	xbt_assert(xbt_dynar_length(hosts_dynar) >= PHYSICAL_MACHINES+1,
-	        "I need at least %i hosts in the platform file, but platform file contains only %ld hosts.", PHYSICAL_MACHINES+1, xbt_dynar_length(hosts_dynar));
 
-	for (ht = 0; ht < PHYSICAL_MACHINES; ht++)
+	//get the number hosts required by the simulation:
+	physical_machines = 0;
+	hosts_length = xbt_dynar_length(hosts_dynar)-1;
+	for (conf_count = 0; conf_count < configs_count; conf_count++)
+	{
+		physical_machines += configs[conf_count].worker_hosts_number;
+	}
+	XBT_INFO("Number of available hosts %lu", hosts_length);
+	xbt_assert(hosts_length >= physical_machines + 1, "I need at least %ld hosts in the platform file, but platform file contains only %lu hosts.",
+	        physical_machines + 1, hosts_length);
+
+	msg_host_t* system_hosts = xbt_new(msg_host_t,hosts_length);
+	char** system_hosts_names = xbt_new(char*,hosts_length);
+
+	for (ht = 0; ht < hosts_length; ht++)
 	{
 		system_hosts[ht] = xbt_dynar_get_as(hosts_dynar,ht+1,msg_host_t);
 		system_hosts_names[ht] = xbt_strdup(MSG_host_get_name(system_hosts[ht]));
+#ifdef VERBOSE
 		XBT_INFO("added %lu host %s", ht, system_hosts_names[ht]);
+#endif
 	}
 
 	host_count = 0;
@@ -168,7 +180,7 @@ int scheduler(int argc, char *argv[])
 		if (csv_init(&p, 0) != 0)
 			exit(EXIT_FAILURE);
 
-		fp = fopen(SCHEDULE_FILE, "rb");
+		fp = fopen(argv[0], "rb");
 		if (!fp)
 			exit(EXIT_FAILURE);
 		while ((bytes_read = fread(buf, 1, 1024, fp)) > 0)
@@ -354,6 +366,7 @@ static void cb2(int c, void *data)
 				XBT_INFO("Migrate VM %s to %s.", vm->name, MSG_host_get_name(sched->system_hosts[host_id]));
 				MSG_vm_migrate(vm, sched->system_hosts[host_id]);
 			}
+			//NOTE: this is a work around to solve some weird stuff with the sleep function
 			MSG_process_sleep(SCHEDULE_SLEEP_TIME);
 		}
 
