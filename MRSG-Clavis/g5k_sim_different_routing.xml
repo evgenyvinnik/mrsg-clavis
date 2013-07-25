@@ -542,30 +542,6 @@
 
 		</AS>
 
-		<!-- <link id="link1-2" bandwidth="22500000" latency="5E-3" /> <link id="link2-3" 
-			bandwidth="22500000" latency="5E-3" /> <link id="link3-4" bandwidth="22500000" 
-			latency="5E-3" /> <link id="link4-5" bandwidth="22500000" latency="5E-3" 
-			/> <link id="link5-6" bandwidth="22500000" latency="5E-3" /> <link id="link6-7" 
-			bandwidth="22500000" latency="5E-3" /> <link id="link7-8" bandwidth="22500000" 
-			latency="5E-3" /> <link id="link8-9" bandwidth="22500000" latency="5E-3" 
-			/> <link id="link9-1" bandwidth="22500000" latency="5E-3" /> <ASroute src="cluster1" 
-			dst="cluster2" gw_src="cluster1_router" gw_dst="cluster2_router"> <link_ctn 
-			id="link1-2" /> </ASroute> <ASroute src="cluster2" dst="cluster3" gw_src="cluster2_router" 
-			gw_dst="cluster3_router" symmetrical="YES"> <link_ctn id="link2-3" /> </ASroute> 
-			<ASroute src="cluster3" dst="cluster4" gw_src="cluster3_router" gw_dst="cluster4_router" 
-			symmetrical="YES"> <link_ctn id="link3-4" /> </ASroute> <ASroute src="cluster4" 
-			dst="cluster5" gw_src="cluster4_router" gw_dst="cluster5_router" symmetrical="YES"> 
-			<link_ctn id="link4-5" /> </ASroute> <ASroute src="cluster5" dst="cluster6" 
-			gw_src="cluster5_router" gw_dst="cluster6_router" symmetrical="YES"> <link_ctn 
-			id="link5-6" /> </ASroute> <ASroute src="cluster6" dst="cluster7" gw_src="cluster6_router" 
-			gw_dst="cluster7_router" symmetrical="YES"> <link_ctn id="link6-7" /> </ASroute> 
-			<ASroute src="cluster7" dst="cluster8" gw_src="cluster7_router" gw_dst="cluster8_router" 
-			symmetrical="YES"> <link_ctn id="link7-8" /> </ASroute> <ASroute src="cluster8" 
-			dst="cluster9" gw_src="cluster8_router" gw_dst="cluster9_router" symmetrical="YES"> 
-			<link_ctn id="link8-9" /> </ASroute> <ASroute src="cluster9" dst="cluster1" 
-			gw_src="cluster9_router" gw_dst="cluster1_router" symmetrical="YES"> <link_ctn 
-			id="link9-1" /> </ASroute> -->
-
 
 	</AS>
 </platform>
