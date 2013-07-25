@@ -1,3 +1,6 @@
+
+/* Modified by Evgeny Vinnik (evinnik@sfu.ca) on July 25th, 2013 for the project MRSG-Clavis.*/
+
 /* Copyright (c) 2012. MRSG Team. All rights reserved. */
 
 /* This file is part of MRSG.
