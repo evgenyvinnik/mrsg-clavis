@@ -32,11 +32,11 @@ XBT_LOG_NEW_DEFAULT_CATEGORY(msg_test, "MRSG");
 
 int scheduler(int argc, char *argv[]);
 
-static msg_error_t run_simulation();
+static msg_error_t run_simulation( const char* sched);
 
 static void read_mr_config_file();
 
-int MRSG_main(const char* plat, const char* conf)
+int MRSG_main(const char* plat, const char* conf, const char* sched)
 {
 	int argc = 8;
 	char* argv[] =
@@ -56,7 +56,7 @@ int MRSG_main(const char* plat, const char* conf)
 
 	MSG_create_environment(plat);
 
-	res = run_simulation(plat);
+	res = run_simulation(sched);
 
 	if (res == MSG_OK)
 		return 0;
@@ -74,7 +74,7 @@ int ordering_function(const void* a, const void* b)
 	return strcmp(name1, name2);
 }
 
-static msg_error_t run_simulation()
+static msg_error_t run_simulation( const char* sched)
 {
 	msg_error_t res = MSG_OK;
 	xbt_dynar_t hosts_dynar;
@@ -92,7 +92,7 @@ static msg_error_t run_simulation()
 
 	srand(12345);
 	//we start scheduler and a Map-Reduce job tracker (master) on host 0
-	MSG_process_create("scheduler", scheduler, NULL, master_host);
+	MSG_process_create_with_arguments("scheduler", scheduler, NULL, master_host, 1, &sched);
 	res = MSG_main();
 
 	XBT_INFO("The END!");

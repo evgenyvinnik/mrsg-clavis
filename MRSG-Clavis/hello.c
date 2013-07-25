@@ -44,10 +44,10 @@ double my_task_cost_function(enum phase_e phase, size_t tid, size_t wid, int con
 
 int main(int argc, char* argv[])
 {
-	if (argc < 3)
+	if (argc < 4)
 	{
-		XBT_INFO("Usage: %s platform_file MRSG_config_file\n", argv[0]);
-		XBT_INFO("example: %s g5k_sim.xml realistic.conf\n", argv[0]);
+		XBT_INFO("Usage: %s platform_file MRSG_Clavis_config_collection_file MRSG_Clavis_schedule_file\n", argv[0]);
+		XBT_INFO("example: %s g5k_sim.xml confcollection.txt schedule.csv\n", argv[0]);
 		exit(1);
 	}
 
@@ -59,7 +59,7 @@ int main(int argc, char* argv[])
 	MRSG_set_map_output_f(my_map_output_function);
 
 	/* Run the simulation. */
-	MRSG_main(argv[1], argv[2]);
+	MRSG_main(argv[1], argv[2], argv[3]);
 	return 0;
 }
 
