@@ -156,7 +156,7 @@ static void send_data(msg_process_t worker, msg_task_t msg, int configuration_id
 
 	if (message_is(msg, message_get_chunk))
 	{
-		//simulate disk access
+		//simulate disk access to retrieve the data
 		{
 			msg_file_t file = NULL;
 			void *ptr = NULL;
@@ -164,7 +164,7 @@ static void send_data(msg_process_t worker, msg_task_t msg, int configuration_id
 
 			file = MSG_file_open("/home", "./disk/disk.disk", "rw");
 
-			read = MSG_file_read(ptr, (size_t) configs[configuration_id].chunk_size, sizeof(char*), file);     // Read for 10Mo
+			read = MSG_file_read(ptr, (size_t) configs[configuration_id].chunk_size, sizeof(char*), file);
 
 #ifdef VERBOSE
 			XBT_INFO("\tDFS read    %8.1f on %s", read, file->name);
@@ -181,6 +181,26 @@ static void send_data(msg_process_t worker, msg_task_t msg, int configuration_id
 	else if (message_is(msg, message_get_inter_pairs))
 	{
 		data_size = (double) (jobs[configuration_id].map_output[my_id][ti->id] - ti->map_output_copied[my_id]);
+		//simulate disk access to retrieve the data
+		{
+			msg_file_t file = NULL;
+			void *ptr = NULL;
+			double read;
+
+			file = MSG_file_open("/home", "./disk/disk.disk", "rw");
+
+			read = MSG_file_read(ptr, (size_t) data_size, sizeof(char*), file);
+
+#ifdef VERBOSE
+			XBT_INFO("\tDFS read    %8.1f on %s", read, file->name);
+			s_msg_stat_t stat;
+			MSG_file_stat(file, &stat);
+			XBT_INFO("\tFile stat %s Size %.1f", file->name, stat.size);
+			MSG_file_free_stat(&stat);
+#endif
+			MSG_file_close(file);
+
+		}
 #ifdef VERBOSE
 		XBT_INFO("\tDATA-IP    %f mailbox %s my id %d from %s to %s", data_size, mailbox, my_id, MSG_host_get_name(MSG_process_get_host(worker)),
 				MSG_host_get_name(MSG_process_get_host(MSG_task_get_sender(msg))));
