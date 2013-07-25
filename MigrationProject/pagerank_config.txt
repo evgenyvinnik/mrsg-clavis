@@ -8,7 +8,7 @@ worker_hosts_number 2
 vm_per_host	2
 cpu_flops_map 2802717504000
 ram_operations_map 458993459200
-disk_operations_map 12004967296
+disk_operations_map 12604967296
 map_output_bytes 3554432
 cpu_flops_reduce 10013932800000
 ram_operations_reduce 458993459200
