@@ -21,4 +21,4 @@ To run the program, follow there steps:
 
  
 4) Execute the MRSG-Clavis example:
-	./MRSG-Clavis -platform g5k_sim.xml -config confcollection.txt -schedule schedule.csv
+	./MRSG-Clavis --platform g5k_sim.xml --config confcollection.txt --schedule schedule.csv
