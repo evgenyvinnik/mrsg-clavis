@@ -48,8 +48,8 @@ struct schedule
 	xbt_dynar_t vms_ids;
 	xbt_dynar_t hosts_ids;
 	int row_reading;
-	msg_host_t* system_hosts;
 	xbt_dynar_t vms;
+	xbt_dynar_t hosts_dynar;
 };
 
 /**
@@ -59,15 +59,16 @@ int scheduler(int argc, char *argv[])
 {
 	srand(12345);
 	xbt_dynar_t hosts_dynar;
+	xbt_dynar_t vms;
 	unsigned long physical_machines, hosts_length;
 	msg_vm_t vm;
-	xbt_dynar_t vms;
+	msg_host_t host;
 	msg_process_t process;
 	size_t wid;
 	char vmName[64];
-	unsigned long i, j, id, ht, vm_count, vm_count_local;
+	unsigned long i, j, id, host_count, vm_count, vm_count_local;
 	unsigned int cursor;
-	int conf_count, host_count;
+	int conf_count;
 
 	if(argc < 1)
 	{
@@ -89,18 +90,6 @@ int scheduler(int argc, char *argv[])
 	xbt_assert(hosts_length >= physical_machines + 1, "I need at least %ld hosts in the platform file, but platform file contains only %lu hosts.",
 	        physical_machines + 1, hosts_length);
 
-	msg_host_t* system_hosts = xbt_new(msg_host_t,hosts_length);
-	char** system_hosts_names = xbt_new(char*,hosts_length);
-
-	for (ht = 0; ht < hosts_length; ht++)
-	{
-		system_hosts[ht] = xbt_dynar_get_as(hosts_dynar,ht+1,msg_host_t);
-		system_hosts_names[ht] = xbt_strdup(MSG_host_get_name(system_hosts[ht]));
-#ifdef VERBOSE
-		XBT_INFO("added %lu host %s", ht, system_hosts_names[ht]);
-#endif
-	}
-
 	host_count = 0;
 	vm_count = 0;
 	for (conf_count = 0; conf_count < configs_count; conf_count++)
@@ -115,25 +104,25 @@ int scheduler(int argc, char *argv[])
 
 			for (j = 0; j < configs[conf_count].vm_per_host; j++)
 			{
-				snprintf(vmName, 64, "vm_%lu", vm_count);
+				snprintf(vmName, 64, "vm_%05lu", vm_count);
 				vm_count++;
 				vm_count_local++;
-
-				vm = MSG_vm_start(system_hosts[host_count], vmName, 2);
+				host = xbt_dynar_get_as(hosts_dynar, host_count+1,msg_host_t);
+				vm = MSG_vm_start(host, vmName, 2);
 
 				char**argv_process = xbt_new(char*,3);
 				argv_process[0] = bprintf("%d", wid);
 				argv_process[1] = bprintf("%d", conf_count);
 				argv_process[2] = NULL;
-				process = MSG_process_create_with_arguments("worker", worker, vm, system_hosts[host_count], 2, argv_process);
+				process = MSG_process_create_with_arguments("worker", worker, vm, host, 2, argv_process);
 				MSG_vm_bind(vm, process);
 
-				XBT_INFO("config %d created worker %zu in vm %s on host %s", conf_count, wid, vmName, system_hosts_names[host_count]);
+				XBT_INFO("config %d created worker %zu in vm %s on host %s", conf_count, wid, vmName, MSG_host_get_name(host));
 
 				wid++;
 				configs[conf_count].number_of_workers++;
 			}
-			configs[conf_count].grid_cpu_power += MSG_get_host_speed(system_hosts[host_count]);
+			configs[conf_count].grid_cpu_power += MSG_get_host_speed(host);
 			host_count++;
 		}
 
@@ -177,7 +166,7 @@ int scheduler(int argc, char *argv[])
 		c.row_reading = 0;
 		c.vms_ids = xbt_dynar_new(sizeof(int), NULL );
 		c.hosts_ids = xbt_dynar_new(sizeof(int), NULL );
-		c.system_hosts = system_hosts;
+		c.hosts_dynar = hosts_dynar;
 		c.vms = vms;
 
 		if (csv_init(&p, 0) != 0)
@@ -228,9 +217,6 @@ int scheduler(int argc, char *argv[])
 	{
 		free_global_mem(conf_count);
 	}
-
-	xbt_free_ref(&system_hosts_names);
-	xbt_free(system_hosts);
 
 	xbt_dynar_free(&hosts_dynar);
 	return 0;
@@ -360,14 +346,20 @@ static void cb2(int c, void *data)
 		{
 			while (!(xbt_dynar_is_empty(sched->vms_ids)))
 			{
-				msg_vm_t vm;
-
-				int vm_id = xbt_dynar_pop_as(sched->vms_ids, int);
 				int host_id = xbt_dynar_pop_as(sched->hosts_ids, int);
+				int vm_id = xbt_dynar_pop_as(sched->vms_ids, int);
+				msg_host_t host = xbt_dynar_get_as(sched->hosts_dynar, (long unsigned int)host_id+1,msg_host_t);
+				msg_vm_t vm = xbt_dynar_get_as(sched->vms,(long unsigned int)vm_id,msg_vm_t);
 
-				vm = xbt_dynar_get_as(sched->vms,(long unsigned int)vm_id,msg_vm_t);
-				XBT_INFO("Migrate VM %s to %s.", vm->name, MSG_host_get_name(sched->system_hosts[host_id]));
-				MSG_vm_migrate(vm, sched->system_hosts[host_id]);
+				if(vm->location == host)
+				{
+					XBT_INFO("VM %s is already running on host %s.", vm->name, MSG_host_get_name(host));
+				}
+				else
+				{
+					XBT_INFO("Migrate VM %s to %s.", vm->name, MSG_host_get_name(host));
+					MSG_vm_migrate(vm, host);
+				}
 			}
 			//NOTE: this is a work around to solve some weird stuff with the sleep function
 			MSG_process_sleep(SCHEDULE_SLEEP_TIME);
