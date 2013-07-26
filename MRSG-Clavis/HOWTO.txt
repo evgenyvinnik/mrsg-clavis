@@ -1,0 +1,124 @@
+// Created by Evgeny Vinnik (evinnik@sfu.ca) on July 26th 2013
+
+1. How to create MRSG-Clavis platform files
+	Platform file is an XML file that contains the description of the hardware on which simulation will be running.
+	Using dedicated tags one could specify computation power of a single host, number of hosts, speed of network, disks and ram.
+	Also it is possible to set parameters of network routing layout within a single rack (collection of hosts), and between the racks.
+	
+	The primary guide on how to create MRSG-Clavis platform files is SimGrid documentation: http://simgrid.gforge.inria.fr/simgrid/3.9/doc/platform.html
+	
+	MRSG-Clavis requires each host to be equipped with disk and ram, which makes platform description harder because one can't use <cluster> tag.
+	
+	Recommendation: when describing a platform it is useful to provide adequate values for all input parameters. 
+	Setting some parameter too high or too low would result in significant disproportions: 
+	for example, setting the CPU power too high and the disk speed too low will give the user ultra fast execution of tasks and very slow data reading from the disk.
+	In other words we may process billions of floating point operations in seconds and read several megabytes from disk for hours.
+
+
+2. How to create MRSG-Clavis configurations' collection file
+	MRSG-Clavis operates with the files with contain the list of the configurations we want to process.
+	Essentially, such collection file is just a normal text tile containing the names of MRSG-Clavis configuration files.
+	
+	Config collection file allows user to set several MapReduce task to run concurrently on a same hardware platform specified in the platform files.
+	Note that each MapReduce task would be not aware of others, yet it could run on the same host if scheduled in such a way.
+	
+	Make sure that when creating such config collection file to specify the names of each configuration file on a separate line.
+
+
+3. How to create MRSG-Clavis configuration  file
+	MRSG-Clavis configuration file format is an extension of the original configuration file for the MRSG project. You can learn more about MRSG by using this link (https://github.com/MRSG/MRSG)
+	
+	MRSG-Clavis configuration file specifies the following parameters for the MapReduce task simulation:
+	a) reduces 					(unsigned int)				- number of reduce jobs that MapReduce simulation should process.
+	b) chunk_size 				(double)					- size in MB of each chunk of data that would be read by Map from the DFS. User should specify it in megabytes, but in the simulator we will translate it into bytes.
+	c) input_chunks 			(unsigned int)				- number of input chunks that MapReduce simulation should process
+	d) dfs_replicas 			(unsigned int)				- replication factor of the DFS. the chunks of data would be
+	e) map_slots 				(unsigned int)				- number of map slots per VM
+	f) reduce_slots 			(unsigned int)				- number of reduce slots per VM
+	g) worker_hosts_number 		(unsigned long int)			- number of physical hosts on which the simulation would be deployed
+	h) vm_per_host 				(unsigned long int)			- number of virtual machines that would run on each physical host.
+	i) cpu_flops_map 			(double)					- number of floating point operations that CPU should spend processing single mapping task (single chunk)
+	j) ram_operations_map 		(unsigned long long int)	- amount of ram IO in bytes that is required by a single map task
+	k) disk_operations_map  	(unsigned long long int)	- amount of disk IO in bytes that is required by a single map task
+	l) map_output_bytes  		(unsigned long long int)	- number of bytes that each map task would emit to each reduce task during the shuffle stage
+	m) cpu_flops_reduce 		(double)					- number of floating point operations that CPU should spend processing single reducing task
+	n) ram_operations_reduce  	(unsigned long long int)	- amount of ram IO in bytes that is required by a single reduce task
+	o) disk_operations_reduce  	(unsigned long long int)	- amount of disk IO in bytes that is required by a single reduce task
+	
+	Unless specified otherwise the configuration will work with the following (fairly arbitrary) default parameters:
+		chunk_size = 67108864;
+		chunk_count = 0;
+		chunk_replicas = 3;
+		map_slots = 2;
+		number_of_reduces = 1;
+		reduce_slots = 2;
+		worker_hosts_number = 40;
+		vm_per_host = 2;
+	
+		cpu_flops_map = 100000000000;
+		ram_operations_map = 1000000;
+		disk_operations_map = 10000;
+		
+		map_output_bytes = 1073741824;
+		
+		cpu_flops_reduce = 500000000000;
+		ram_operations_reduce = 1000000;
+		disk_operations_reduce = 10000;
+
+	Note: to calculate how many virtual machines MapReduce simulation will launch one should multiply worker_hosts_number by vm_per_host. 
+	We are aware that this setting does not allow certain combinations: for example it is impossible to start 5 VMs on 2 hosts.
+	This latter setting however could be achieved via scheduling (read below).
+
+
+4. How to create MRSG-Clavis schedule file
+	MRSG-Clavis schedule file is a comma-separated values file with each two rows of it specifying the following:
+	a) Odd row (1, 3, 5...) IDs of the virtual machines (counting starts from 0), that we want to migrate during this scheduling step, separated by commas
+	b) Even row (2, 4, 6...) IDs of the physical hosts (counting starts from 0), where we want to migrate the virtual machines, separated by commas
+	
+	Each number in the odd row shows the ID of the virtual machine that we want to migrate, and the corresponding number in the even row is the ID of the host where we want VM to be migrated.
+	The number of elements in each pair of rows should be the same. Failure to satisfy this requirement would lead to skipping of this particular pair.
+	
+	Examples:
+	a) Schedule 1
+		0,1
+		0,0
+		0,1
+		1,0
+	   Description: in this schedule we start with migrating virtual machines 0 and 1 on host 0;
+	   Yet, if VMs already belong to this host no migration would happen.
+	   500 sec after we will migrate VM 0 to host 1, while the attempt to migrate VM 1 to host 0 would fail because VM1 was already migrated to host 0 before.
+	   
+	a) Schedule 2
+		0,1
+		0,0
+		0,1,2
+		1,0,3
+	   Description: this schedule is similar to previous one, except when we get to the second pair we are touching another VM is ID 2 and migrating it to host 3.
+	   The intention of this example to show that it is possible to though more VMs into the mix later on as the schedule goes on.
+	
+	Important:
+	a) number of possible hosts IDs is determined by the platform file on which the user wants the simulation to be deployed.
+	b) number of possible VM IDs is determined as a sum of all virtual machines among all configurations we are deploying concurrenly.
+	
+	Example: first configuration has 2 hosts and 3 VMs per hosts, therefore VM IDs would be 0, 1, 2, 3, 4, 5.
+	VMs 0, 1, 2 would be launched on host 0; and VMs 3, 4, 5 would be launched on host 1.
+	Second configuration has 2 hosts and 2 VMs per hosts, therefore VM IDs of the second MapReduce would be 6, 7, 8, 9.
+	VMs 6,7 would be launched on host 2; and VMs 8, 9 would be launched on host 3;
+	Note that we did not start counting the IDs for the second configuration from zero, instead continuing it from where the previous counter stopped.
+	
+	In the schedule we can't refer to the VMs with IDs greater than 9, because they do not exist;
+	but we can, for example, schedule VM 6 on host 100 if our platform file specified more than 100 hosts.
+
+	
+	Notes:
+	a) the schedule is being parsed using the LibCSV library functions (http://sourceforge.net/projects/libcsv/)
+	
+	b) currently the system would try to read the new schedule every 500 seconds,
+	this value is hard coded in the file scheduler.c (look for #define SCHEDULE_SLEEP_TIME 500).
+	We empirically found that this timespan as the most appropriate, we encourage people to experiment with this value to find the one that suits the need.
+	
+	c) current version MSRG-Clavis does not simulate the costs associated with the VM migration, simulator migrates VMs instantly.
+	
+	Once the schedule is completed the simulation would proceed without any scheduling decisions and VM migrations till its completion.
+		
+	Warning: failure to provide even number of rows in the schedule file might lead to instability.
