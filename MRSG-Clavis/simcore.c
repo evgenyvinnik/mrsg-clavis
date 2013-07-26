@@ -92,7 +92,14 @@ static msg_error_t run_simulation( const char* sched)
 
 	srand(12345);
 	//we start scheduler and a Map-Reduce job tracker (master) on host 0
-	MSG_process_create_with_arguments("scheduler", scheduler, NULL, master_host, 1, &sched);
+	if(sched == NULL)
+	{
+		MSG_process_create("scheduler", scheduler, NULL, master_host);
+	}
+	else
+	{
+		MSG_process_create_with_arguments("scheduler", scheduler, NULL, master_host, 1, &sched);
+	}
 	res = MSG_main();
 
 	XBT_INFO("The END!");
