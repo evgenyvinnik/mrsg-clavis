@@ -29,7 +29,7 @@ enum phase_e {
     REDUCE
 };
 
-int MRSG_main (const char* plat, const char* conf);
+int MRSG_main (const char* plat, const char* conf, const char* sched);
 
 void MRSG_set_task_cost_f ( double (*f)(enum phase_e phase, size_t tid, size_t wid, int configuration_id) );
 
