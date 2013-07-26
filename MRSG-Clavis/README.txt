@@ -1,3 +1,5 @@
+// Created by Evgeny Vinnik (evinnik@sfu.ca) on July 26th 2013
+
 MRSG-Clavis is a cloud data centre simulator based on MRSG (https://github.com/MRSG/MRSG) project and SimGrid (http://simgrid.gforge.inria.fr/) distributed systems simulator.
 It allows to simulate behaviour of multiple MapReduce applications concurrently running in the large data centre setting.
 
