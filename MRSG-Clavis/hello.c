@@ -54,9 +54,9 @@ double my_task_cost_function(enum phase_e phase, size_t tid, size_t wid, int con
  */
 void display_usage(const char* application)
 {
-	XBT_INFO("Usage: %s -platform [platform_file, required] -config [configuration_file, required] -schedule [schedule_file, optional]", application);
-	XBT_INFO("Example: %s -platform g5k_sim.xml -config confcollection.txt -schedule schedule.csv", application);
-	XBT_INFO("Short form is also supported: %s -p g5k_sim.xml -c confcollection.txt  -s schedule.csv", application);
+	printf("\n\nUsage: %s -platform [platform_file, required] -config [configuration_file, required] -schedule [schedule_file, optional]\n", application);
+	printf("\nExample: %s -platform g5k_sim.xml -config confcollection.txt -schedule schedule.csv\n", application);
+	printf("Short form is also supported: %s -p g5k_sim.xml -c confcollection.txt  -s schedule.csv\n", application);
 
 	exit(EXIT_FAILURE);
 }
@@ -97,25 +97,25 @@ int main(int argc, char* argv[])
 	//check that user specified the directory for the files
 	if (plat == NULL )
 	{
-		XBT_INFO("Platform file was not specified.");
+		printf("Platform file was not provided.\n");
 		display_usage(argv[0]);
 	}
 
 	if (conf == NULL )
 	{
-		XBT_INFO("Configuration file was not specified.");
+		printf("Configuration file was not provided.\n");
 		display_usage(argv[0]);
 	}
 
-	XBT_INFO("platform file %s", plat);
-	XBT_INFO("configuration file %s", conf);
+	printf("Platform file %s\n", plat);
+	printf("Configuration file %s\n", conf);
 	if (sched == NULL )
 	{
-		XBT_INFO("scheduling file is not provided");
+		printf("Scheduling file was not specified, simulation will proceed without VM scheduling.\n");
 	}
 	else
 	{
-		XBT_INFO("scheduling file %s", sched);
+		printf("Scheduling file %s", sched);
 	}
 
 	/* set the default DFS function. */
