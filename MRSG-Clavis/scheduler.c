@@ -69,8 +69,10 @@ int scheduler(int argc, char *argv[])
 	unsigned int cursor;
 	int conf_count, host_count;
 
-	xbt_assert(argc >= 1, "scheduler function requires 1 argument - schedule file");
-
+	if(argc == 1)
+	{
+		XBT_INFO("Scheduling file was not specified");
+	}
 
 	/* Retrieve the first hosts of the platform file */
 	hosts_dynar = MSG_hosts_as_dynar();
@@ -164,6 +166,7 @@ int scheduler(int argc, char *argv[])
 	}
 
 	//do scheduling here
+	if(argc >= 1)
 	{
 		struct csv_parser p;
 		FILE *fp;

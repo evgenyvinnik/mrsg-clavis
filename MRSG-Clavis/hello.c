@@ -1,9 +1,16 @@
-
 /* Modified by Evgeny Vinnik (evinnik@sfu.ca) on July 25th, 2013 for the project MRSG-Clavis.*/
 
 #include "common.h"
 #include "dfs.h"
 #include "mrsg.h"
+#include <getopt.h>
+
+static const struct option long_options[] =
+{
+{ "platform", required_argument, NULL, 'p' },
+{ "config", required_argument, NULL, 'c' },
+{ "schedule", optional_argument, NULL, 's' } };
+
 XBT_LOG_EXTERNAL_DEFAULT_CATEGORY(msg_test);
 
 /**
@@ -42,13 +49,73 @@ double my_task_cost_function(enum phase_e phase, size_t tid, size_t wid, int con
 	return 0;
 }
 
+/**
+ *  Display program usage, and exit.
+ */
+void display_usage(const char* application)
+{
+	XBT_INFO("Usage: %s -platform [platform_file, required] -config [configuration_file, required] -schedule [schedule_file, optional]", application);
+	XBT_INFO("Example: %s -platform g5k_sim.xml -config confcollection.txt -schedule schedule.csv", application);
+	XBT_INFO("Short form is also supported: %s -p g5k_sim.xml -c confcollection.txt  -s schedule.csv", application);
+
+	exit(EXIT_FAILURE);
+}
+
 int main(int argc, char* argv[])
 {
-	if (argc < 4)
+	int opt = 0;
+	int longIndex = 0;
+
+	//set default values for optional parameters
+	char* plat = NULL;
+	char* conf = NULL;
+	char* sched = NULL;
+
+	while ((opt = getopt_long_only(argc, argv, "p:c:s:h?", long_options, &longIndex)) != -1)
 	{
-		XBT_INFO("Usage: %s platform_file MRSG_Clavis_config_collection_file MRSG_Clavis_schedule_file\n", argv[0]);
-		XBT_INFO("example: %s g5k_sim.xml confcollection.txt schedule.csv\n", argv[0]);
-		exit(1);
+		switch (opt)
+		{
+		case 'p':
+			plat = optarg;
+			break;
+		case 'c':
+			conf = optarg;
+			break;
+		case 's':
+			sched = optarg;
+			break;
+
+		case 'h': /* fall-through is intentional */
+		case '?':
+		default:
+			display_usage(argv[0]);
+			break;
+		}
+
+	}
+
+	//check that user specified the directory for the files
+	if (plat == NULL )
+	{
+		XBT_INFO("Platform file was not specified.");
+		display_usage(argv[0]);
+	}
+
+	if (conf == NULL )
+	{
+		XBT_INFO("Configuration file was not specified.");
+		display_usage(argv[0]);
+	}
+
+	XBT_INFO("platform file %s", plat);
+	XBT_INFO("configuration file %s", conf);
+	if (sched == NULL )
+	{
+		XBT_INFO("scheduling file is not provided");
+	}
+	else
+	{
+		XBT_INFO("scheduling file %s", sched);
 	}
 
 	/* set the default DFS function. */
@@ -59,7 +126,7 @@ int main(int argc, char* argv[])
 	MRSG_set_map_output_f(my_map_output_function);
 
 	/* Run the simulation. */
-	MRSG_main(argv[1], argv[2], argv[3]);
+	MRSG_main(plat, conf, sched);
 	return 0;
 }
 
