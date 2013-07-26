@@ -9,7 +9,8 @@ static const struct option long_options[] =
 {
 { "platform", required_argument, NULL, 'p' },
 { "config", required_argument, NULL, 'c' },
-{ "schedule", optional_argument, NULL, 's' } };
+{ "schedule", required_argument, NULL, 's' },
+{0,           0,                 0,  0   } };
 
 XBT_LOG_EXTERNAL_DEFAULT_CATEGORY(msg_test);
 
@@ -54,8 +55,8 @@ double my_task_cost_function(enum phase_e phase, size_t tid, size_t wid, int con
  */
 void display_usage(const char* application)
 {
-	printf("\n\nUsage: %s -platform [platform_file, required] -config [configuration_file, required] -schedule [schedule_file, optional]\n", application);
-	printf("\nExample: %s -platform g5k_sim.xml -config confcollection.txt -schedule schedule.csv\n", application);
+	printf("\n\nUsage: %s --platform [platform_file, required] --config [configuration_file, required] --schedule [schedule_file, optional]\n", application);
+	printf("\nExample: %s --platform g5k_sim.xml --config confcollection.txt --schedule schedule.csv\n", application);
 	printf("Short form is also supported: %s -p g5k_sim.xml -c confcollection.txt  -s schedule.csv\n", application);
 
 	exit(EXIT_FAILURE);
@@ -115,7 +116,7 @@ int main(int argc, char* argv[])
 	}
 	else
 	{
-		printf("Scheduling file %s", sched);
+		printf("Scheduling file %s\n", sched);
 	}
 
 	/* set the default DFS function. */
