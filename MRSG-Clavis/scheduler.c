@@ -69,7 +69,7 @@ int scheduler(int argc, char *argv[])
 	unsigned int cursor;
 	int conf_count, host_count;
 
-	if(argc == 1)
+	if(argc < 1)
 	{
 		XBT_INFO("Scheduling file was not specified");
 	}
